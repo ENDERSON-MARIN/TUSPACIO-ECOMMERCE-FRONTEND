@@ -74,8 +74,8 @@ export default function DetailService() {
                     alignItems="flex-start"
                 >
                     <Grid xs={12}>
-                        <Typography variant="h5" gutterBottom>
-                            Elegí como cuidarte...
+                        <Typography variant="h5" gutterBottom color='primary'>
+                            Choose how to take care of yourself...
                         </Typography>
                     </Grid>
                     <Grid xs={3}>

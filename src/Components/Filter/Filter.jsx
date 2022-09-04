@@ -97,7 +97,12 @@ export default function Filter({setOrder}) {
     return (
         <Box
             bgcolor='white'
-            boxShadow= '0px 10px 8px 0px rgba(0,0,0,0.18)'
+            // boxShadow= '0px 10px 8px 0px rgba(0,0,0,0.18)'
+            position= 'fixed'
+            top= {60}
+            left= {0}
+            zIndex= {800}
+            width="100%"
         >
             <Grid
                 container
