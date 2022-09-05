@@ -14,7 +14,7 @@ import Favorite from '@material-ui/icons/Favorite';
 import NotFavorite from '@material-ui/icons/FavoriteBorder';
 import Placeholder from '../../assets/images/placeholder_home.png';
 import Box from '@material-ui/core/Box';
-import { addToWishlist, removeFromWishlist, addToCart, addNotification } from '../../actions';
+import { addToWishlist, removeFromWishlist, addToCart } from '../../actions';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 export default function HomeCards(props) {
@@ -29,13 +29,10 @@ export default function HomeCards(props) {
     dispatch(removeFromWishlist(props.products.id))
   }
   function handleCart(e) {
-    e.preventDefault()
-    if(!props.cart) {
-      dispatch(addNotification())
-      dispatch(addToCart(props.products))
-    }else {
-      alert('The product is already added to the cart')
-    }
+      e.preventDefault()
+      dispatch(addToCart(props.products.id))
+
+ 
   }
 
   return (
@@ -83,7 +80,7 @@ export default function HomeCards(props) {
             fontSize={15}> 
               <AttachMoneyIcon 
                 fontSize="small"  />  
-                USD {props.products.price}  
+                ${Math.ceil(props.products.price)}  
             </Box>
             </Typography>  
         </CardContent>

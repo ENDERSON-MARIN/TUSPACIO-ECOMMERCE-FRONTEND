@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import HomeCards from '../../Components/HomeCards/HomeCards';
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProducts } from '../../actions';
+import { getAllProducts} from '../../actions';
 import BasicPagination from '../BasicPagination/Pagination';
 import LandingPage from '../Landing/Landing';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,6 +38,8 @@ export default function SpacingGrid() {
   const FIRST_PRODUCT = LAST_PRODUCT - productsPerPage;
   const RENDERED_PRODUCTS = products.slice(FIRST_PRODUCT, LAST_PRODUCT);
 
+  
+
   useEffect(() => {
     dispatch(getAllProducts())
   }, [dispatch])
@@ -52,6 +54,8 @@ export default function SpacingGrid() {
   function productInCart(productID) {
     return cart.some(product => product.id === productID)
   }
+
+  
 
   return (
     <>

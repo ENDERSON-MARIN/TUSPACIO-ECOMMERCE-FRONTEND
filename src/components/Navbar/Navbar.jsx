@@ -44,6 +44,13 @@ export default function Navbar() {
   const data = useSelector((state) => state.products);
   const notification = useSelector((state) => state.notification);
 
+  const cart = useSelector((state) => state.cart);
+  let mapped= cart.map(item => item.quantity)
+  let total = mapped.map(c => parseFloat(c)).reduce((a, b) => a + b, 0) ;
+
+ 
+
+
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isAuthenticated) console.log(user);
@@ -126,7 +133,7 @@ export default function Navbar() {
             </Link>
             <Link to='/cart' id='link'>
                <IconButton aria-label="cart">
-              <StyledBadge badgeContent={notification} color= 'error'>
+              <StyledBadge badgeContent={total} color= 'error'>
               <ShoppingCartIcon className={classes.iconColors}/>
               </StyledBadge>
               </IconButton>

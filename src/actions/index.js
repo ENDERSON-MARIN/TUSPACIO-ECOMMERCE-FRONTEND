@@ -17,8 +17,10 @@ export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const SET_ADMIN_OPTION = 'SET_ADMIN_OPTION';
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
-export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';
+export const CLEAR_CART = 'CLEAR_CART';
+export const REMOVE_ONE = 'REMOVE_ONE';
+
+
 
 
 const API = 'http://localhost:3001/api';
@@ -202,7 +204,7 @@ export function removeFromWishlist(product) {
     return { type: REMOVE_FROM_WISHLIST, payload: product}
 }
 
-export function addToCart(product) {
+export function addToCart(product, color) {
     return { type: ADD_TO_CART, payload: product}
 }
 
@@ -218,12 +220,14 @@ export function setAdminOption(value){
     }
 }
 
-export function addNotification() {
-    return { type: ADD_NOTIFICATION }
+
+export function clearCart() {
+    return { type: CLEAR_CART }
 }
 
-export function deleteNotification() {
-    return { type: DELETE_NOTIFICATION }
+export function removeOne(product) {
+    return { type: REMOVE_ONE, payload: product}
 }
+
 
 
