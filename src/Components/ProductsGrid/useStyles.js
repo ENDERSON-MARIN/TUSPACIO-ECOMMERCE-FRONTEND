@@ -7,9 +7,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   btnAdd:{
-    marginTop: theme.spacing(1),
+    position: 'absolute',
+    marginTop: theme.spacing(61),
     marginBottom: theme.spacing(1),
-    marginLeft: '43%',
+    marginLeft: '5%',
     backgroundColor: '#257558',
     color: '#ffffff',
     '&:hover': {

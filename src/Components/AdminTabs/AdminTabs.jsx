@@ -13,7 +13,8 @@ import { setAdminOption } from '../../actions'
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1, 
+    flexGrow: 1,
+    marginTop: '3.2rem', 
   },
 });
 

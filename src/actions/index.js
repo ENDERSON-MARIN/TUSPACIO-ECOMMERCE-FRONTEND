@@ -19,6 +19,7 @@ export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const SET_ADMIN_OPTION = "SET_ADMIN_OPTION";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
 export const DELETE_NOTIFICATION = "DELETE_NOTIFICATION";
+export const SET_TOTAL_AMOUNT = 'SET_TOTAL_AMOUNT';
 
 // const API = 'http://localhost:3001/api';//API LOCAL
 
@@ -222,4 +223,11 @@ export function addNotification() {
 
 export function deleteNotification() {
   return { type: DELETE_NOTIFICATION };
+}
+
+export const setTotalAmount = (amount) => {
+    return {
+        type: SET_TOTAL_AMOUNT,
+        payload: amount
+    }
 }
