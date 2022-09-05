@@ -4,14 +4,9 @@ export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
 export const SET_CURRENT_HOME_PAGE = "SET_CURRENT_HOME_PAGE";
 export const GET_DETAIL = 'GET_DETAIL';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
-export const SEARCH_BY_CATEGORIE = 'SEARCH_BY_CATEGORIE';
 export const GET_ALL_BRANDS = 'GET_ALL_BRANDS';
-export const SEARCH_BY_BRAND = 'SEARCH_BY_BRAND';
-export const ORDER_BY_PRICE = 'ORDER_BY_PRICE';
-export const ORDER_BY_NAME = 'ORDER_BY_NAME';
 export const POST_PRODUCT = 'POST_PRODUCT';
 export const GET_NAME = 'GET NAME';
-export const ORDER_BY_RATING = 'ORDER_BY_RATING';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
 export const ADD_TO_CART = 'ADD_TO_CART';
@@ -19,7 +14,7 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const SET_ADMIN_OPTION = 'SET_ADMIN_OPTION';
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';
-
+export const ORDERS_FILTERS = 'ORDERS_FILTERS'
 
 const API = 'http://localhost:3001/api';
 
@@ -50,16 +45,30 @@ export function getAllBrands() {
     }
 }
 
-export function orderByAbc(order) {
+export function orderCombine(filters) {
+    const {alpha,brand,category,rating,price}=filters
+    let filtersArray = []
+    if (alpha) filtersArray.push(`?alpha=${alpha}`);
+    if (brand) filtersArray.push(`?brand=${brand}`);
+    if (category) filtersArray.push(`?category=${category}`);
+    if (rating) filtersArray.push(`?rating=${rating}`);
+    if (price) filtersArray.push(`?price=${price}`);
+    let order = ''
+    for (let i=0;i<filtersArray.length;i++) {
+        if (i===0) {order = filtersArray[i]}
+        else {order = order + '&' + filtersArray[i]}
+    }
     return async function(dispatch) {
         try {
-            let jsonAZ
-            if (order) jsonAZ = await axios.get(`${API}/products/ordername/?orderby=${order}`); 
-            // http://localhost:3001/api/products/ordername/?orderby=a-to-z
-            else jsonAZ = await axios.get(`${API}/products`);
+            let jsonOC;
+            if (alpha||brand||category||rating||price) {
+                jsonOC = await axios.get(`${API}/products/orderCombine/${order}`);
+            } else {
+                jsonOC = await axios.get(`${API}/products`); }
+            console.log(jsonOC)
             return dispatch({
-                type: ORDER_BY_NAME,
-                payload: jsonAZ.data
+                type: ORDERS_FILTERS,
+                payload: jsonOC.data
             });
         } catch(error){
             console.error(error);
@@ -79,54 +88,6 @@ export function getCategories() {
         .catch((error) => {
             console.log(error)
         })
-    }
-}
-
-export function filterByBrand(brand) {
-    return async function(dispatch) {
-    try {
-        var jsonB;
-        if (brand) jsonB = await axios.get(`${API}/products/brand/?brand=${brand}`); 
-        else jsonB = await axios.get(`${API}/products`);
-        return dispatch({
-            type: SEARCH_BY_BRAND,
-            payload: jsonB.data
-        });
-    } catch(error){
-        console.error(error);
-    }
-    }
-}
-
-export function filterByCategory(categorie) {
-    return async function(dispatch) {
-    try {
-        let jsonC
-        if (categorie) jsonC = await axios.get(`${API}/categorie/?categorie=${categorie}`); 
-        else jsonC = await axios.get(`${API}/products`);
-        return dispatch({
-            type: SEARCH_BY_CATEGORIE,
-            payload: jsonC.data
-        });
-    } catch(error){
-        console.error(error);
-    }
-    }
-}
-
-export function orderByPrice(order) {
-    return async function(dispatch) {
-    try {
-        let jsonOP
-        if (order) jsonOP = await axios.get(`${API}/products/price/?orderby=${order}`); 
-        else jsonOP = await axios.get(`${API}/products`);
-        return dispatch({
-            type: ORDER_BY_PRICE,
-            payload: jsonOP.data
-        });
-    } catch(error){
-        console.error(error);
-    }
     }
 }
 
@@ -178,22 +139,6 @@ export function postNewProduct(payload) {
 
 }
 
-export function OrderByRating(order) {
-    return async function(dispatch) {
-        try {
-            let jsonR
-            if (order) jsonR = await axios.get(`${API}/products/rating/?ratingBy=${order}`); 
-            else jsonR = await axios.get(`${API}/products`);
-            return dispatch({
-                type: ORDER_BY_RATING,
-                payload: jsonR.data
-            });
-        } catch(error) {
-            console.error(error);
-        }
-    }
-}
-
 export function addToWishlist(product) {
     return { type: ADD_TO_WISHLIST, payload: product}
 }
@@ -210,7 +155,6 @@ export function removeFromCart(product) {
     return { type: REMOVE_FROM_CART, payload: product}
 }
 
-
 export function setAdminOption(value){
     return {
         type: SET_ADMIN_OPTION,
@@ -225,5 +169,3 @@ export function addNotification() {
 export function deleteNotification() {
     return { type: DELETE_NOTIFICATION }
 }
-
-

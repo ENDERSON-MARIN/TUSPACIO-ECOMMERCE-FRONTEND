@@ -1,7 +1,6 @@
-import { GET_CATEGORIES, GET_ALL_PRODUCTS, SET_CURRENT_HOME_PAGE, GET_DETAIL, SEARCH_BY_CATEGORIE, 
-  GET_ALL_BRANDS, SEARCH_BY_BRAND, ORDER_BY_PRICE, ORDER_BY_NAME, POST_PRODUCT, GET_NAME, ORDER_BY_RATING, 
-
-  ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART, REMOVE_FROM_CART, SET_ADMIN_OPTION, ADD_NOTIFICATION, DELETE_NOTIFICATION} from "../actions";
+import { GET_CATEGORIES, GET_ALL_PRODUCTS, SET_CURRENT_HOME_PAGE, GET_DETAIL, ORDERS_FILTERS, 
+  GET_ALL_BRANDS, POST_PRODUCT, GET_NAME, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART,
+  REMOVE_FROM_CART, SET_ADMIN_OPTION, ADD_NOTIFICATION, DELETE_NOTIFICATION} from "../actions";
 
 
 const initialState = {
@@ -37,27 +36,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         brands: brands
       }
-    case SEARCH_BY_CATEGORIE:
-      return {
-        ...state,
-        products: action.payload
-      }
-    case SEARCH_BY_BRAND:
-      return {
-        ...state,
-        products: action.payload
-      }
-    case ORDER_BY_PRICE:
-      return {
-        ...state,
-        products: action.payload
-      }
-    case ORDER_BY_RATING:
-      return {
-        ...state,
-        products: action.payload
-      }
-    case ORDER_BY_NAME:
+    case ORDERS_FILTERS:
       return {
         ...state,
         products: action.payload
