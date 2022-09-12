@@ -1,3 +1,4 @@
+import { User } from "@auth0/auth0-react";
 import axios from "axios";
 
 export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
@@ -22,6 +23,8 @@ export const DELETE_NOTIFICATION = "DELETE_NOTIFICATION";
 export const ORDERS_FILTERS = "ORDERS_FILTERS";
 export const CLEAR_CART = "CLEAR_CART";
 export const REMOVE_ONE = "REMOVE_ONE";
+export const INFO_USER = 'INFO_USER';
+export const NEW_USER = 'NEW_USER';
 
 // const API = 'http://localhost:3001/api';//API LOCAL
 const API = "http://localhost:3001/api";
@@ -173,6 +176,36 @@ export function orderCombine(filters) {
       return dispatch({
         type: ORDERS_FILTERS,
         payload: jsonOC.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function newUser(user) {
+  
+  return async function (dispatch) {
+    try {
+      let postInfo = await axios.post(`${API}/login`, user);
+      return dispatch({
+        type: NEW_USER,
+        payload: postInfo.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function infoUser(id) {
+  
+  return async function (dispatch) {
+    try {
+      let getInfo = await axios.get(`${API}/login/${id}`);
+      return dispatch({
+        type: INFO_USER,
+        payload: getInfo.data,
       });
     } catch (error) {
       console.error(error);

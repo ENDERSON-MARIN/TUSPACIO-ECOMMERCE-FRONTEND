@@ -27,6 +27,7 @@ import {withStyles} from '@material-ui/core';
 import { getAllProducts } from '../../actions';
 import { useDispatch } from 'react-redux'
 import DrawerBox from '../Drawer/Drawer';
+import MyAccount from '../MyAccount/MyAccount';
 
 
 const StyledBadge = withStyles((theme) => ({

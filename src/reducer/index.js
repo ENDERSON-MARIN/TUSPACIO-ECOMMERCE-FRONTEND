@@ -21,6 +21,8 @@ import {
   ORDERS_FILTERS,
   CLEAR_CART,
   REMOVE_ONE,
+  NEW_USER,
+  INFO_USER,
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -57,6 +59,8 @@ const initialState = {
   cart: [],
   adminOption: 0,
   notification: 0,
+  user: {},
+  userId: 0,
 };
 
 function rootReducer(state = initialState, action) {
@@ -252,6 +256,16 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         cart: [],
+      };
+    case NEW_USER:
+    return {
+      ...state,
+      userId: action.payload,
+    };
+    case INFO_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     default:
       return state;
