@@ -21,8 +21,10 @@ import {
   ORDERS_FILTERS,
   CLEAR_CART,
   REMOVE_ONE,
+
   NEW_USER,
   INFO_USER,
+
   GET_ALL_ORDERS,
   GET_ORDER_BY_ID,
   UPDATE_ORDER_STATUS,
@@ -80,7 +82,9 @@ const initialState = {
   notification: 0,
   user: {},
   userId: 0,
+
   dashboardItem: 'Dashboard',
+
 };
 
 function rootReducer(state = initialState, action) {
