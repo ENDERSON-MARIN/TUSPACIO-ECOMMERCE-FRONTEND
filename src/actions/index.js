@@ -23,10 +23,20 @@ export const DELETE_NOTIFICATION = "DELETE_NOTIFICATION";
 export const ORDERS_FILTERS = "ORDERS_FILTERS";
 export const CLEAR_CART = "CLEAR_CART";
 export const REMOVE_ONE = "REMOVE_ONE";
+
 export const INFO_USER = 'INFO_USER';
 export const NEW_USER = 'NEW_USER';
 
 // const API = 'http://localhost:3001/api';//API LOCAL
+
+export const GET_ALL_ORDERS = "GET_ALL_ORDERS";
+export const GET_ORDER_BY_ID = "GET_ORDER_BY_ID";
+export const UPDATE_ORDER_STATUS = "UPDATE_ORDER_STATUS";
+export const CLEAN_ORDER_DETAIL = "CLEAN_ORDER_DETAIL";
+export const CREATE_CART = "CREATE_CART";
+export const SET_DASHBOARD_ITEM = "SET_DASHBOARD_ITEM";
+//API LOCAL
+
 const API = "http://localhost:3001/api";
 
 export function getAllProducts() {
@@ -183,6 +193,7 @@ export function orderCombine(filters) {
   };
 }
 
+
 export function newUser(user) {
   
   return async function (dispatch) {
@@ -191,12 +202,22 @@ export function newUser(user) {
       return dispatch({
         type: NEW_USER,
         payload: postInfo.data,
+
+export const getAllOrders = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`${API}/orders`);
+      return dispatch({
+        type: GET_ALL_ORDERS,
+        payload: json.data,
+
       });
     } catch (error) {
       console.error(error);
     }
   };
 }
+
 
 export function infoUser(id) {
   
@@ -206,9 +227,62 @@ export function infoUser(id) {
       return dispatch({
         type: INFO_USER,
         payload: getInfo.data,
+
+export const getOrderById = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`${API}/orders/${id}`);
+      console.log(json.data)
+      return dispatch({
+        type: GET_ORDER_BY_ID,
+        payload: json.data,
+
       });
     } catch (error) {
       console.error(error);
     }
   };
 }
+
+
+export function updateOrderStatus(id, status){
+  return async function (dispatch) {
+    try {
+      const json = await axios.patch(`${API}/order/${id}`, {status});
+      return dispatch({
+        type: UPDATE_ORDER_STATUS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+export const cleanOrderDetail = () => {
+  return {
+    type: CLEAN_ORDER_DETAIL,
+  };
+}
+
+export const createCart = (cart, user) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`${API}/orders`, { cart, user });
+      return dispatch({
+        type: CREATE_CART,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export const setDashboardItem = (item) => {
+  return {
+    type: SET_DASHBOARD_ITEM,
+    payload: item,
+  };
+}
+

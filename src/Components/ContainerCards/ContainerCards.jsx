@@ -10,14 +10,21 @@ export default function ContainerCards() {
     const [order, setOrder] = useState("")
        
     return(
+
         <>
            
+
+        <div className="gral-container">
+          
+
             <Filter 
                 setOrder={setOrder} 
                 />
             <Home order={order}/>
+
             {/* <MyAccount/> */}
         </>
+
     )
 };
 
