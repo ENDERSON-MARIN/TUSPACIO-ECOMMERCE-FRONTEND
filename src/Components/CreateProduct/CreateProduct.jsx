@@ -118,9 +118,7 @@ export default function CreateProduct() {
         rating: 0, //*
         product_type: "", //*
         stock: 0, //* no puede ser 0
-        tag_list: "",
         product_colors: [],
-        status: true,
         categories: [] //*
     });
     
@@ -213,7 +211,7 @@ export default function CreateProduct() {
                 setCategories(categories.filter(c => c !== category))
                 setErrors(validation({...input, categories: categories}))
             }
-        console.log(categories) 
+        // console.log(categories) 
     }
 
     function handlerDeleteColor(color) {
@@ -235,28 +233,26 @@ export default function CreateProduct() {
             // </Snackbar> 
             // </> 
         }
-        input.categories = categories;
+        input.categories = ["mascara"];
         input.product_colors = addColors;
         console.log(input)
         let result = dispatch(postNewProduct(input))
         console.log(result)
-        // setInput({
-        //     brand: "", 
-        //     name: "", 
-        //     price: 0, 
-        //     price_sign: "", 
-        //     currency: "", 
-        //     image_link: "", 
-        //     description: "",
-        //     rating: 0, 
-        //     product_type: "", 
-        //     stock: 0,
-        //     tag_list: "",
-        //     product_colors: [],
-        //     status: true,
-        //     categories: [] 
-        // });
-        // setAddColors([]);
+        setInput({
+            brand: "", 
+            name: "", 
+            price: 0, 
+            price_sign: "", 
+            currency: "", 
+            image_link: "", 
+            description: "",
+            rating: 0, 
+            product_type: "", 
+            stock: 0,
+            product_colors: [],
+            categories: [] 
+        });
+        setAddColors([]);
         return alert("Product created successfully!!")
     }
 
@@ -291,7 +287,7 @@ export default function CreateProduct() {
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Create </Button>
+                        > Load new product </Button>
                     </Grid>
                 </Grid>
                 <Box
