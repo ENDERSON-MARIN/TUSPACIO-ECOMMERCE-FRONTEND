@@ -247,8 +247,7 @@ export default function CreateProduct() {
             status: true,
             categories: [] 
         })
-        return <Alert severity="success">Product created successfully!!</Alert>
-        // navigate('/') // ver a que dirección me voy a ir luego de generar un nuevo producto
+        return alert("Product created successfully!!")
     }
 
     return (
