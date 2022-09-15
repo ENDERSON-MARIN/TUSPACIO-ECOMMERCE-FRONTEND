@@ -34,7 +34,7 @@ import {
   SET_GLOBAL_STATE,
   GET_ALL_USERS,
   DELETE_USER,
-
+  GET_PRODUCTYPES
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -87,6 +87,7 @@ const initialState = {
   infoUser: {},
   dashboardItem: 'Dashboard',
   users: [],
+  producTypes: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -352,7 +353,11 @@ function rootReducer(state = initialState, action) {
     case DELETE_USER:
       return {
         ...state,
-
+      }
+    case GET_PRODUCTYPES:
+      return {
+        ...state,
+        producTypes: action.payload
       }
     default:
       return state;

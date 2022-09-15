@@ -35,6 +35,7 @@ export const CREATE_USER = "CREATE_USER";
 export const SET_GLOBAL_STATE = "SET_GLOBAL_STATE";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
+export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 
 
 //API LOCAL
@@ -79,6 +80,22 @@ export function getCategories() {
         dispatch({
           type: GET_CATEGORIES,
           payload: c.data.allCategories,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function getProductTypes() {
+  return function (dispatch) {
+    return axios
+      .get(`${API}/products/productType`) 
+      .then((p) => {
+        dispatch({
+          type: GET_PRODUCTYPES,
+          payload: p.data,
         });
       })
       .catch((error) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCategories, postNewProduct } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, FormControl, FormHelperText, Grid, 
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 150,
+        minWidth: 100,
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -62,6 +62,8 @@ export default function CreateProduct() {
     const navigate = useNavigate();
     const classes = useStyles();
     const allCategories = useSelector((state) => state.categories);
+    const allProductTypes = useSelector((state) => state.producTypes);
+    const allBrands = useSelector((state) => state.brands);
     const [errors, setErrors] = useState({});
     const [colors, setColors] = useState({
         azul: 0,
@@ -71,6 +73,12 @@ export default function CreateProduct() {
     const [categories, setCategories] = useState([]);
     const [addColors, setAddColors] = useState([]);
     
+    useEffect ( () => {
+        dispatch(getCategories())
+        dispatch(getAllBrands())
+        dispatch(getProductTypes())
+    }, [dispatch] )
+
     let fColor = `#${parseInt(colors.rojo).toString(16)}${parseInt(colors.verde).toString(16)}${parseInt(colors.azul).toString(16)}`
     
     function handlerColors(colors) {
@@ -98,10 +106,6 @@ export default function CreateProduct() {
         // console.log('entre aqui?')
         setOpen(false);
     };
-
-    useEffect ( () => {
-        dispatch(getCategories())
-    }, [dispatch] )
 
     const [ input, setInput ] = useState({
         brand: "", //*
@@ -153,14 +157,16 @@ export default function CreateProduct() {
     }
 
     function handleChange(e) {
-        // console.log(e)
+        let valor = e.target.value
+        let nombre = e.target.name
+        if (nombre === "price" || nombre === "stock") valor = parseInt(valor)
         setInput({
             ...input,
-            [e.target.name] : e.target.value
+            [nombre] : valor
         })
         setErrors(validation({
             ...input,
-            [e.target.name] : e.target.value,
+            [nombre] : valor,
             categories: categories
         }))
     }
@@ -190,22 +196,24 @@ export default function CreateProduct() {
     };
 
     let handleCategories = (e) => {
-        // e.preventDefault();
+        let category = e.target.value.toString()
+        // console.log(category)
         if (!categories.length) {
-            setCategories([e.target.value])
-            setErrors(validation({...input, categories: [e.target.value]}))
-        } else if (!categories.includes(e.target.value)) {
+            setCategories([category])
+            setErrors(validation({...input, categories: [category]}))
+        } else if (!categories.includes(category)) {
             if (categories.length === 2) {
                 categories.pop()
-                setCategories([...categories, e.target.value]) 
+                setCategories([...categories, category]) 
                 setErrors(validation({...input, categories: categories}))    
             } 
-            setCategories([...categories, e.target.value])
+            setCategories([...categories, category])
             setErrors(validation({...input, categories: categories}))
-            } else if (categories.includes(e.target.value)) {
-                setCategories(categories.filter(c => c !== e.target.value))
+            } else if (categories.includes(category)) {
+                setCategories(categories.filter(c => c !== category))
                 setErrors(validation({...input, categories: categories}))
-            } 
+            }
+        console.log(categories) 
     }
 
     function handlerDeleteColor(color) {
@@ -227,26 +235,28 @@ export default function CreateProduct() {
             // </Snackbar> 
             // </> 
         }
-        
         input.categories = categories;
         input.product_colors = addColors;
-        dispatch(postNewProduct(input))
-        setInput({
-            brand: "", 
-            name: "", 
-            price: 0, 
-            price_sign: "", 
-            currency: "", 
-            image_link: "", 
-            description: "",
-            rating: 0, 
-            product_type: "", 
-            stock: 0,
-            tag_list: "",
-            product_colors: [],
-            status: true,
-            categories: [] 
-        })
+        console.log(input)
+        let result = dispatch(postNewProduct(input))
+        console.log(result)
+        // setInput({
+        //     brand: "", 
+        //     name: "", 
+        //     price: 0, 
+        //     price_sign: "", 
+        //     currency: "", 
+        //     image_link: "", 
+        //     description: "",
+        //     rating: 0, 
+        //     product_type: "", 
+        //     stock: 0,
+        //     tag_list: "",
+        //     product_colors: [],
+        //     status: true,
+        //     categories: [] 
+        // });
+        // setAddColors([]);
         return alert("Product created successfully!!")
     }
 
@@ -313,7 +323,23 @@ export default function CreateProduct() {
                     </div>
                     
                     <div key='divBrand'>
-                        <TextField
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Brand</InputLabel>
+                            <Select
+                                native
+                                className={classes.select}
+                                name="brand"
+                                value={input.brand}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allBrands.map( b =>
+                                <option value={`${b}`}>{`${b}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
+                        {/* <TextField
                             required
                             id="outlined-helperText"
                             name="brand"
@@ -322,7 +348,7 @@ export default function CreateProduct() {
                             onChange={(e) => handleChange(e)}
                             variant="filled"
                             className={classes.formControl}
-                        />
+                        /> */}
                         {
                             errors.brand && (
                                 <FormHelperText>{errors.brand}</FormHelperText>
@@ -513,7 +539,23 @@ export default function CreateProduct() {
                         </Box>
                     </Box>
                     <Box key='divStock'>
-                        <TextField
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Product Type</InputLabel>
+                            <Select
+                                native
+                                className={classes.select}
+                                name="product_type"
+                                value={input.product_type}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allProductTypes.map( pt =>
+                                <option value={`${pt.product_type}`}>{`${pt.product_type}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
+                        {/* <TextField
                             required
                             id="outlined-helperText"
                             name="product_type"
@@ -522,7 +564,7 @@ export default function CreateProduct() {
                             onChange={(e) => handleChange(e)}
                             variant="filled"
                             className={classes.formControl}
-                        />
+                        /> */}
                         {
                             errors.product_type && (
                                 <FormHelperText>{errors.product_type}</FormHelperText>
