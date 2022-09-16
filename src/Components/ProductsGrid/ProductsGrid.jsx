@@ -69,11 +69,11 @@ export default function ProductsGrid() {
         );
     }
   },
-  {
-    field: 'review',
-    headerName: 'Review',
-    width: 120,
-  },
+  // {
+  //   field: 'review',
+  //   headerName: 'Review',
+  //   width: 120,
+  // },
   {
     field: 'action',
     headerName: 'Action',
@@ -82,14 +82,14 @@ export default function ProductsGrid() {
     renderCell: (params) => {
         return (
           <div className="cellAction">
-
+{/* 
             <Button
               variant="contained"
               color="primary"
               endIcon={<PageviewIcon>send</PageviewIcon>}
               onClick={() => handleReview(params.row.id)}>
                 Post
-            </Button>
+            </Button> */}
 
             <Link to={`/${params.id}`}>
             <Button
