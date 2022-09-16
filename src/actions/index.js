@@ -35,10 +35,10 @@ export const CREATE_USER = "CREATE_USER";
 export const SET_GLOBAL_STATE = "SET_GLOBAL_STATE";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
-
+export const MAKE_ADMIN = "MAKE_ADMIN";
 
 //API
-const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+const API = /*"https://tuspacio.herokuapp.com/api" ||*/ "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -360,4 +360,18 @@ export const deleteUser = (id) => {
     }
   };
 
+}
+
+export const makeAdmin = (id, role) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.patch(`${API}/user/${id}`, role);
+      return dispatch({
+        type: MAKE_ADMIN,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }
