@@ -38,7 +38,7 @@ export const DELETE_USER = "DELETE_USER";
 
 
 //API
-const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+const API = "https://tuspacio.herokuapp.com/api"; //|| "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -73,9 +73,10 @@ export function getCategories() {
     return axios
       .get(`${API}/categories`)
       .then((c) => {
+        
         dispatch({
           type: GET_CATEGORIES,
-          payload: c.data.allCategories,
+          payload: c.data,
         });
       })
       .catch((error) => {
