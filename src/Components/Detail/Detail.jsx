@@ -32,11 +32,11 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 export default function RecipeReviewCard() {
  const { id } = useParams()
  const classes = useStyles();
- const [expanded, setExpanded] = React.useState(false);
+//  const [expanded, setExpanded] = React.useState(false);
 
- const handleExpandClick = () => {
-   setExpanded(!expanded);
- };
+//  const handleExpandClick = () => {
+//    setExpanded(!expanded);
+//  };
 
  const dispatch = useDispatch()
  const item = useSelector((state) => state.productDetail?.dbInfo)
@@ -45,6 +45,8 @@ export default function RecipeReviewCard() {
  const fav = useSelector((state) => state.favorites)
  const [count, setCount] = useState(1)
  const navigate = useNavigate();
+
+
  const [color,setColor] = useState('')
  const reviewsTotal = reviews?.length + 100
 
@@ -98,7 +100,9 @@ export default function RecipeReviewCard() {
                </Breadcrumbs>
                </div>
                <div className='image-list'>
+
                <img src={item.image_link  || defaultImage} className={`${item.stock} ${item.stock === 0 ? 'byn-small' : 'detail-img-small'}`}/> 
+
                </div>  
                
                
