@@ -75,11 +75,11 @@ export function getAllBrands() {
 export function getCategories() {
   return function (dispatch) {
     return axios
-      .get(`${API}/categories`) // http://localhost:3001/api/categories
+      .get(`${API}/categories`) 
       .then((c) => {
         dispatch({
           type: GET_CATEGORIES,
-          payload: c.data.allCategories,
+          payload: c.data, // .allCategories se saco por que se cambia la ruta
         });
       })
       .catch((error) => {

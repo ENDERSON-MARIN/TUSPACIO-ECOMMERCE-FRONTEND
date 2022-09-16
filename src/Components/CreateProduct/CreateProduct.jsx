@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllBrands, getCategories, postNewProduct, getProductTypes } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
-import { Box, Button, FormControl, FormHelperText, Grid, 
+import { Box, Button, Chip, FormControl, FormHelperText, Grid, 
 InputAdornment, InputLabel,makeStyles, Select, Slider, 
 Snackbar, TextField, Typography, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
         width: '216px'
     },
     rating: {
-        // display:"block",
-        // marginTop: "10px"
+        display:"block",
+        marginTop: "10px"
     },
     imageBox: {
         margin: 'auto',
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     colors: {
         margin: theme.spacing(1),
         width: '10px',
-    }
+    },
 }));
 
 
@@ -194,6 +194,11 @@ export default function CreateProduct() {
         }))
     };
 
+    function handleDelete(category) {
+        console.log(category)
+        setCategories(categories.filter(c => c !== category))
+    }
+
     let handleCategories = (e) => {
         let category = e.target.value.toString()
         // console.log(category)
@@ -202,15 +207,17 @@ export default function CreateProduct() {
             setErrors(validation({...input, categories: [category]}))
         } else if (!categories.includes(category)) {
             if (categories.length === 2) {
-                categories.pop()
-                setCategories([...categories, category]) 
-                setErrors(validation({...input, categories: categories}))    
+                return alert("Please delete one of the added categories to add a new one. Only a maximum of 2 categories per product is allowed")
+                // categories.pop()
+                // setCategories([...categories, category]) 
+                // setErrors(validation({...input, categories: categories}))    
             } 
             setCategories([...categories, category])
             setErrors(validation({...input, categories: categories}))
             } else if (categories.includes(category)) {
-                setCategories(categories.filter(c => c !== category))
-                setErrors(validation({...input, categories: categories}))
+                return alert("This category is already added")
+                // setCategories(categories.filter(c => c !== category))
+                // setErrors(validation({...input, categories: categories}))
             }
         // console.log(categories) 
     }
@@ -343,43 +350,63 @@ export default function CreateProduct() {
                         }
                     </div>
                     
-                    <div key='divStock'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            type="number"
-                            min={0}
-                            name="stock"
-                            label="Stock"
-                            value={input.stock}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
+                    <Box className='typeBox' key='typeBox'>
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Categories</InputLabel>
+                            <Select
+                                className={classes.select}
+                                native
+                                onChange={(e) => handleCategories(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allCategories.map( category =>
+                                <option value={`${category.name}`}>{`${category.name}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
+                        <Box>
+                            {
+                                categories.length 
+                                    ? categories.map( c =>
+                                        <Chip 
+                                            label={`${c}`}
+                                            value={`${c}`}
+                                            onDelete={() => handleDelete(`${c}`)} 
+                                            color="primary" /> 
+                                        )
+                                    : <></>
+                            }
+                            {
+                                errors.categories && (
+                                    <FormHelperText>{errors.categories}</FormHelperText> 
+                                )
+                            }
+                        </Box>
+                    </Box>
+                    <Box key='divStock'>
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Product Type</InputLabel>
+                            <Select
+                                native
+                                className={classes.select}
+                                name="product_type"
+                                value={input.product_type}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allProductTypes.map( pt =>
+                                <option value={`${pt.product_type}`}>{`${pt.product_type}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
                         {
-                            errors.stock && (
-                                <FormHelperText>{errors.stock}</FormHelperText>
+                            errors.product_type && (
+                                <FormHelperText>{errors.product_type}</FormHelperText>
                             )
                         }
-                    </div> 
-
-                    <div key='divDesc'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="description"
-                            label="Description"
-                            value={input.description}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
-                        {
-                            errors.description && (
-                                <FormHelperText>{errors.description}</FormHelperText>
-                            )
-                        }
-                    </div>
+                    </Box>  
                 </Box>
                 
                 <Box
@@ -412,6 +439,25 @@ export default function CreateProduct() {
                             )
                         }
                     </Box>
+                    <div key='divStock'>
+                        <TextField
+                            required
+                            id="outlined-helperText"
+                            type="number"
+                            min={0}
+                            name="stock"
+                            label="Stock"
+                            value={input.stock}
+                            onChange={(e) => handleChange(e)}
+                            variant="filled"
+                            className={classes.formControl}
+                        />
+                        {
+                            errors.stock && (
+                                <FormHelperText>{errors.stock}</FormHelperText>
+                            )
+                        }
+                    </div> 
                     {/* <Box key='divPriceSign'>
                         <TextField
                             required
@@ -487,6 +533,35 @@ export default function CreateProduct() {
                                 )
                         }
                     </Box>
+                </Box>
+                <Box
+                    position="relative"
+                    width='300px'
+                    // bgcolor={"rgba(156, 230, 235, 0.589)"}
+                    boxSizing='border-box'
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    mt={2}
+                    px={2}
+                >
+                    <Box className='typeBox' key='divDesc'>
+                        <TextField
+                            required
+                            id="outlined-helperText"
+                            name="description"
+                            label="Description"
+                            value={input.description}
+                            onChange={(e) => handleChange(e)}
+                            variant="filled"
+                            className={classes.formControl}
+                        />
+                        {
+                            errors.description && (
+                                <FormHelperText>{errors.description}</FormHelperText>
+                            )
+                        }
+                    </Box>
                     <Box className={classes.rating} key={`divRating`}>
                         <InputLabel htmlFor="filled-age-native-simple">Rating</InputLabel>
                         <Slider
@@ -502,98 +577,6 @@ export default function CreateProduct() {
                             onChange={handleChangeRating}
                         /> 
                     </Box>
-                </Box>
-                <Box
-                    position="relative"
-                    width='300px'
-                    // bgcolor={"rgba(156, 230, 235, 0.589)"}
-                    boxSizing='border-box'
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    mt={2}
-                    px={2}
-                >
-                    <Box className='typeBox' key='typeBox'>
-                        <FormControl variant="filled" className={classes.formControl}>
-                            <InputLabel htmlFor="filled-age-native-simple">Select Categories</InputLabel>
-                            <Select
-                                className={classes.select}
-                                native
-                                onChange={(e) => handleCategories(e)}
-                            >
-                                <option aria-label="None" value="" />
-                            {
-                                allCategories.map( category =>
-                                <option value={`${category.name}`}>{`${category.name}`}</option> )
-                            }
-                            </Select>
-                        </FormControl>
-                        <Box>
-                            {
-                                categories.length 
-                                    ? categories.map( c => 
-                                        <Typography variant="body2" gutterBottom>
-                                            <FormHelperText>{`${c}`}</FormHelperText>    
-                                        </Typography>
-                                        )
-                                    : <div></div>
-                            }
-                            {
-                                errors.categories && (
-                                    <FormHelperText>{errors.categories}</FormHelperText> 
-                                )
-                            }
-                        </Box>
-                    </Box>
-                    <Box key='divStock'>
-                        <FormControl variant="filled" className={classes.formControl}>
-                            <InputLabel htmlFor="filled-age-native-simple">Select Product Type</InputLabel>
-                            <Select
-                                native
-                                className={classes.select}
-                                name="product_type"
-                                value={input.product_type}
-                                onChange={(e) => handleChange(e)}
-                            >
-                                <option aria-label="None" value="" />
-                            {
-                                allProductTypes.map( pt =>
-                                <option value={`${pt.product_type}`}>{`${pt.product_type}`}</option> )
-                            }
-                            </Select>
-                        </FormControl>
-                        {/* <TextField
-                            required
-                            id="outlined-helperText"
-                            name="product_type"
-                            label="Product Type"
-                            value={input.product_type}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        /> */}
-                        {
-                            errors.product_type && (
-                                <FormHelperText>{errors.product_type}</FormHelperText>
-                            )
-                        }
-                    </Box> 
-                    {/* <Box className={classes.rating} key={`divRating`}>
-                        <InputLabel htmlFor="filled-age-native-simple">Rating</InputLabel>
-                        <Slider
-                            defaultValue={0}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks
-                            min={0}
-                            max={5}
-                            valueLabelDisplay="auto"
-                            value={parseInt(input.rating)}
-                            name="range"
-                            onChange={handleChangeRating}
-                        /> 
-                    </Box> */}
                 </Box>
                 <Box
                     display="flex"
@@ -612,7 +595,7 @@ export default function CreateProduct() {
                         bgcolor={fColor} 
                     />
                     <Button 
-                        className={clsx(classes.margin, classes.textField)}
+                        className={clsx(classes.margin, classes.textField, classes.colorButton)}
                         variant="contained" 
                         color="primary"
                         onClick={() => handlerColors(colors)}
