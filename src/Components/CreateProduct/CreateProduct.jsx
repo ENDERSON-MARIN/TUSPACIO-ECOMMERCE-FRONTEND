@@ -33,17 +33,18 @@ const useStyles = makeStyles((theme) => ({
         width: '216px'
     },
     rating: {
-        display:"block",
-        marginTop: "10px"
+        // display:"block",
+        // marginTop: "10px"
     },
     imageBox: {
         margin: 'auto',
+        position: 'relative'
     },
     select: {
         width: 250,
     },
     image: {
-        position: "absolute",
+        position: "relative",
         width: "150px",
         margin: "20px"
     },
@@ -111,8 +112,8 @@ export default function CreateProduct() {
         brand: "", //*
         name: "", //*
         price: 0, //*
-        price_sign: "", //*
-        currency: "", //*
+        price_sign: "$", //*
+        currency: "USD", //*
         image_link: "", //*
         description: "", //*
         rating: 0, //*
@@ -137,16 +138,16 @@ export default function CreateProduct() {
             errors.description = "Please insert the description of your product"; }
         if(!input.product_type || typeof input.product_type !== "string") {   
             errors.product_type = "Please insert the type of your product"; }
-        if(!input.price_sign || typeof input.price_sign !== "string") {   
-            errors.price_sign = "Please insert the price sign of your product"; }
-        if(!input.currency || typeof input.currency !== "string" || input.currency.length > 3) {   
-            errors.currency = "Please insert the currency of your product, just 3 letters of the country"; }
+        // if(!input.price_sign || typeof input.price_sign !== "string") {   
+        //     errors.price_sign = "Please insert the price sign of your product"; }
+        // if(!input.currency || typeof input.currency !== "string" || input.currency.length > 3) {   
+        //     errors.currency = "Please insert the currency of your product, just 3 letters of the country"; }
         if (!input.categories.length) {
             errors.categories = "Please select at least one category"; }
-        if (!input.price) {
-            errors.price = "The price cannot be null"; } 
-        if (!input.stock) {
-            errors.stock = "The price cannot be null"; }
+        if (!input.price || input.price < 0 ) {
+            errors.price = "The price cannot be null or negative"; } 
+        if (!input.stock || input.stock < 0) {
+            errors.stock = "The price cannot be null or negative"; }
         if (!input.rating) {
             errors.rating = "The rating cannot be null"; } 
         if (!input.image_link || typeof input.image_link !== "string" ) {
@@ -221,8 +222,8 @@ export default function CreateProduct() {
     function handleSubmit(e){
         // e.preventDefault();
         if (errors.name || errors.categories || errors.description ||
-            errors.currency || errors.image_link || errors.price || errors.brand 
-            || errors.price_sign || errors.stock || errors.rating || errors.product_type) {
+            errors.image_link || errors.price || errors.brand 
+            || errors.stock || errors.rating || errors.product_type) {
             return alert("Can't create a product. Missing data")
             // <>
             // { handleClick() }
@@ -242,8 +243,8 @@ export default function CreateProduct() {
             brand: "", 
             name: "", 
             price: 0, 
-            price_sign: "", 
-            currency: "", 
+            price_sign: "$", 
+            currency: "USD", 
             image_link: "", 
             description: "",
             rating: 0, 
@@ -335,16 +336,6 @@ export default function CreateProduct() {
                             }
                             </Select>
                         </FormControl>
-                        {/* <TextField
-                            required
-                            id="outlined-helperText"
-                            name="brand"
-                            label="Brand"
-                            value={input.brand}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        /> */}
                         {
                             errors.brand && (
                                 <FormHelperText>{errors.brand}</FormHelperText>
@@ -356,6 +347,8 @@ export default function CreateProduct() {
                         <TextField
                             required
                             id="outlined-helperText"
+                            type="number"
+                            min={0}
                             name="stock"
                             label="Stock"
                             value={input.stock}
@@ -402,6 +395,8 @@ export default function CreateProduct() {
                         <TextField
                             label="Price *"
                             id="filled-start-adornment"
+                            type="number"
+                            min={0}
                             name="price"
                             value={input.price}
                             onChange={(e) => handleChange(e)}
@@ -417,7 +412,7 @@ export default function CreateProduct() {
                             )
                         }
                     </Box>
-                    <Box key='divPriceSign'>
+                    {/* <Box key='divPriceSign'>
                         <TextField
                             required
                             id="outlined-helperText"
@@ -433,9 +428,9 @@ export default function CreateProduct() {
                                 <FormHelperText>{errors.price_sign}</FormHelperText>
                             )
                         }
-                    </Box>
+                    </Box> */}
 
-                    <Box key='divCurr'>
+                    {/* <Box key='divCurr'>
                         <TextField
                             required
                             id="outlined-helperText"
@@ -451,9 +446,23 @@ export default function CreateProduct() {
                                 <FormHelperText>{errors.currency}</FormHelperText>
                             )
                         }
-                    </Box>
-                    
-                    <Box key='divImg' className={classes.imageBox}>
+                    </Box> */}
+                   
+                </Box>
+                <Box
+                    // display="block"
+                    // position="relative"
+                    width='250px'
+                    height='250px'
+                    bgcolor={"rgba(156, 235, 162, 0.589)"}
+                    // p={4}
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    mt={2}
+                    marginX={3}
+                >
+                    <Box key='divImg'>
                         <TextField
                             required
                             id="outlined-helperText"
@@ -470,26 +479,29 @@ export default function CreateProduct() {
                             )
                         }
                     </Box>
-                </Box>
-                <Box
-                    // display="block"
-                    // position="relative"
-                    width='250px'
-                    height='250px'
-                    // bgcolor={"rgba(156, 235, 162, 0.589)"}
-                    p={4}
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    mt={2}
-                    marginX={3}
-                >
-                    <img src={input.image_link || LogoIMG} className={classes.image} alt="imagen de prueba" />
-                    {
-                        input.image_link && (
-                            <FormHelperText>Image preview</FormHelperText> 
-                        )
-                    }
+                    <Box className={classes.formControl}>
+                        <img src={input.image_link || LogoIMG} className={classes.image} alt="imagen de prueba" />
+                        {
+                            input.image_link && (
+                                <FormHelperText>Image preview</FormHelperText> 
+                                )
+                        }
+                    </Box>
+                    <Box className={classes.rating} key={`divRating`}>
+                        <InputLabel htmlFor="filled-age-native-simple">Rating</InputLabel>
+                        <Slider
+                            defaultValue={0}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks
+                            min={0}
+                            max={5}
+                            valueLabelDisplay="auto"
+                            value={parseInt(input.rating)}
+                            name="range"
+                            onChange={handleChangeRating}
+                        /> 
+                    </Box>
                 </Box>
                 <Box
                     position="relative"
@@ -567,7 +579,7 @@ export default function CreateProduct() {
                             )
                         }
                     </Box> 
-                    <Box className={classes.rating} key={`divRating`}>
+                    {/* <Box className={classes.rating} key={`divRating`}>
                         <InputLabel htmlFor="filled-age-native-simple">Rating</InputLabel>
                         <Slider
                             defaultValue={0}
@@ -581,7 +593,7 @@ export default function CreateProduct() {
                             name="range"
                             onChange={handleChangeRating}
                         /> 
-                    </Box>
+                    </Box> */}
                 </Box>
                 <Box
                     display="flex"
