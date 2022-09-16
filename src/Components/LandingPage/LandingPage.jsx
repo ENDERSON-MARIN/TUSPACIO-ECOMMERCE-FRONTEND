@@ -510,7 +510,7 @@ export default function Containe() {
         <Grid item xs={10}>
           <Box mb={4}>
             <Grid container justifyContent="center" >
-              {RENDERED_PRODUCTS.length === 0 ? <div className="load load--full-height"></div> 
+              {RENDERED_PRODUCTS.length === 0  ? <div className="loading loading--full-height"></div> 
               
                : RENDERED_PRODUCTS?.map((product, index) => (
                 <Grid key={index} item>
