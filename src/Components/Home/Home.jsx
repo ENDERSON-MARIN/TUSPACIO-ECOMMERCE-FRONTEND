@@ -49,7 +49,7 @@ export default function SpacingGrid(order) {
           {order && <LandingPage />}
         </Grid>
       </Grid> */}
-      <Box mt={7}>
+      <Box mt={17}>
         <Grid
           container
           direction="row"
@@ -57,23 +57,21 @@ export default function SpacingGrid(order) {
           alignItems="center"
         >
           <Grid item xs={10}>
-            <Box mt={9}>
-              <Grid container justifyContent="center" spacing={spacing}>
-              {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
-                RENDERED_PRODUCTS?.map((product, index) => (
-                  <Grid key={index} item>
-                    <HomeCards
-                      className={classes.paper}
-                      products={product}
-                      favorite={productIsFavorite(product.id)}
-                    />
-                  </Grid>
-                ))}
-                {products.length === 0 && productsCopy.length > 0 ?
-                <h2>No products found</h2> : null
-                }
-              </Grid>
-            </Box>
+            <Grid container justifyContent="center" spacing={spacing}>
+            {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
+              RENDERED_PRODUCTS?.map((product, index) => (
+                <Grid key={index} item>
+                  <HomeCards
+                    className={classes.paper}
+                    products={product}
+                    favorite={productIsFavorite(product.id)}
+                  />
+                </Grid>
+              ))}
+              {products.length === 0 && productsCopy.length > 0 ?
+              <h2>No products found</h2> : null
+              }
+            </Grid>
           </Grid>
         </Grid>
 

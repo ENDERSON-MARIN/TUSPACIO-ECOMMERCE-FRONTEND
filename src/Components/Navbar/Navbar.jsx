@@ -129,11 +129,17 @@ export default function Navbar() {
               className={classes.menuButton}
               color="inherit"
               aria-label="open drawer">
-              <MenuIcon />
+              <DrawerBox/>
+              <IconButton color="primary" onClick={() => handleRefresh()} >
+                <img
+                      className={classes.logoImg}
+                      src={LogoIMG}
+                      alt="logo img" />
+              </IconButton>
             </IconButton>
             {/* Logo */}
        
-            <DrawerBox />
+            {/* <DrawerBox /> */}
             <IconButton color="primary" onClick={() => handleRefresh()} >
 
                 <Box className={classes.logoBox}>
