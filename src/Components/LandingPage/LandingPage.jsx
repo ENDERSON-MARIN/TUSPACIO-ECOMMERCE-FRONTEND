@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 // import {Paper} from '@material-ui/core';
@@ -31,36 +31,37 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
+    top: '65px',
     maxWidth: "auto",
     flexGrow: 1,
     margin: 'auto',
     height: 'auto',
-    
   },
   button2: {
     backgroundColor: '#257558',
     color: '#fff',
     width: 150,
-},
-button3: {
-  backgroundColor: '#257558',
-  color: '#fff',
-  width: 250,
-},
+  },
+  button3: {
+    backgroundColor: '#257558',
+    color: '#fff',
+    width: 250,
+  },
   header: {
     display: 'flex',
     alignItems: 'center',
     height: 45,
-    textPrimary:'#ffffff',
+    textPrimary: '#ffffff',
     paddingLeft: theme.spacing(5),
     backgroundColor: 'transparent',
-  }, 
-  colors:{
+  },
+  colors: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-    textPrimary:'#ffffff',
+    textPrimary: '#ffffff',
   },
   img: {
 
@@ -69,34 +70,34 @@ button3: {
     width: '100%',
   },
   buttons: {
-    colorText: '#57a485', 
+    colorText: '#57a485',
   },
   title: {
     width: '80%',
     marginLeft: 20,
-    
+
   },
   title1: {
-    display:'flex',
+    display: 'flex',
     alignItems: 'center'
   },
   h1: {
     marginLeft: 15,
     marginRight: 5
-    
+
   },
   h2: {
     marginBottom: 30,
     marginTop: 0
-    
+
   },
   iso: {
     color: "#363636"
-    
+
   },
   welcome: {
-    fontSize:50
-    
+    fontSize: 50
+
   },
   brands: {
     width: '100%',
@@ -110,18 +111,18 @@ button3: {
   },
 
   descripContain: {
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'start',
-   marginTop: 100,
-   marginLeft: 20
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'start',
+    marginTop: 100,
+    marginLeft: 20
   },
   descripContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 50,
-   },
+  },
   h3: {
     marginLeft: 20,
     marginTop: 100
@@ -131,7 +132,7 @@ button3: {
     flexWrap: 'wrap',
     minWidth: 300,
     width: '100%',
-    
+
   },
   image: {
     position: 'relative',
@@ -277,7 +278,7 @@ button3: {
     paddingTop: 200
   },
   colortext: {
-    color:  "#257558",
+    color: "#257558",
   },
   down: {
     color: "#257558",
@@ -297,21 +298,21 @@ button3: {
 
 const itemData = [
   {
-      img: "https://i.im.ge/2022/09/12/OGJBI1.envios2.jpg",
-      title: "Entregamos a todo el pais,..."
+    img: "https://i.im.ge/2022/09/12/OGJBI1.envios2.jpg",
+    title: "Envios a todo el mundo"
   },
   {
     img: "https://i.im.ge/2022/09/12/1MIaNh.10.jpg",
-    title: "Entregamos a todo el pais,..."
-},
+    title: "porciento de descuento al inciar sesion"
+  },
   {
-      img: "https://i.im.ge/2022/09/12/OGnQdr.hogar.jpg",
-      title: "...inspiramos confianza a nuestros clientes,..."
+    img: "https://i.im.ge/2022/09/12/OGnQdr.hogar.jpg",
+    title: "descuentos de temporada"
   },
   {
     img: "https://i.im.ge/2022/09/12/1MI0Iq.SALE.jpg",
-    title: "...inspiramos confianza a nuestros clientes,..."
-},
+    title: "confort de clientes"
+  },
 
 
 ]
@@ -347,7 +348,7 @@ const images = [
     title: 'Pencil',
     width: '40%',
   },
-  
+
 ];
 
 
@@ -358,8 +359,8 @@ export default function Containe() {
   const maxSteps = itemData.length;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
-  const RENDERED_PRODUCTS = products.slice(155,163);
-  const [checked,setChecked] = useState(false)
+  const RENDERED_PRODUCTS = products.slice(155, 163);
+  const [checked, setChecked] = useState(false)
 
   // const handleNext = () => {
   //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -377,7 +378,7 @@ export default function Containe() {
   }, [dispatch]);
 
   useEffect(() => {
-     setChecked(true)
+    setChecked(true)
   }, []);
 
   return (
@@ -388,20 +389,20 @@ export default function Containe() {
         onChangeIndex={handleStepChange}
         enableMouseEvents
         animateHeight={true}
-        // containerStyle={}
+      // containerStyle={}
       >
-       
+
         {
           itemData.map((step, index) => (
             <div key={step.title}>
-              { Math.abs(activeStep - index) <= 2 
-                  ? <img className={classes.img} src={step.img} alt={step.title} />
-                  : null
+              {Math.abs(activeStep - index) <= 2
+                ? <img className={classes.img} src={step.img} alt={step.title} />
+                : null
               }
             </div>
           ))
         }
-        
+
       </AutoPlaySwipeableViews>
 
       <MobileStepper
@@ -410,12 +411,12 @@ export default function Containe() {
         position="static"
         variant="dots"
         activeStep={activeStep}
-      /> 
+      />
 
 
- 
 
-{/* 
+
+      {/* 
         <ButtonBase
           focusRipple
           className={classes.image2}
@@ -464,7 +465,7 @@ export default function Containe() {
         </ButtonBase> */}
 
 
-{/*     
+      {/*     
       <div className={classes.descriptionContainer}>
        <div className={classes.title}>
         <div className={classes.title1}> <h1 className={classes.welcome}>Welcome</h1> <img src={LogoIMG} alt="" width='50px' height='50px' className={classes.h1}/></div>
@@ -493,13 +494,13 @@ export default function Containe() {
 
 
 
-    <div className={classes.descripContainer}>
+      <div className={classes.descripContainer}>
         <h2 >
-        Featured Products
+          Featured Products
         </h2>
-        </div>
-     
-            <Grid
+      </div>
+
+      <Grid
         container
         direction="row"
         justifyContent="space-around"
@@ -508,82 +509,82 @@ export default function Containe() {
         <Grid item xs={10}>
           <Box mb={4}>
             <Grid container justifyContent="center" >
-              {RENDERED_PRODUCTS.length === 0  ? <div className="loading loading--full-height"></div> 
-              
-               : RENDERED_PRODUCTS?.map((product, index) => (
-                <Grid key={index} item>
-                  <LandingCards
-                    className={classes.paper}
-                    products={product}
-                  />
-                </Grid>
-              ))}
+              {RENDERED_PRODUCTS.length === 0 ? <div className="loading loading--full-height"></div>
 
-              
+                : RENDERED_PRODUCTS?.map((product, index) => (
+                  <Grid key={index} item>
+                    <LandingCards
+                      className={classes.paper}
+                      products={product}
+                    />
+                  </Grid>
+                ))}
+
+
             </Grid>
           </Box>
-           </Grid>
-          </Grid>
-            
-            <div className={classes.all}>
-            <Link to='/home'>
-            <Button
-              variant="contained"
-              className={classes.button3}
-              startIcon={<VisibilityIcon />}
-              size='large'
-             >
-             see more
-            </Button>
-            </Link>
-            </div>
+        </Grid>
+      </Grid>
+
+      <div className={classes.all}>
+        <Link to='/home'>
+          <Button
+            variant="contained"
+            className={classes.button3}
+            startIcon={<VisibilityIcon />}
+            size='large'
+          >
+            see more
+          </Button>
+        </Link>
+      </div>
 
 
-        <div className={classes.descripContain}>
-        <h2 > 
-        Achieve your best you in TuSpacio.<br/>
-        Because looking and feeling good belong together.
+      <div className={classes.descripContain}>
+        <h2 >
+          Achieve your best you in TuSpacio.<br />
+          Because looking and feeling good belong together.
         </h2>
-        </div>
-            <div className={classes.rootImg}>
-          {images.map((image) => (
-        <ButtonBase
-          focusRipple
-          key={image.title}
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          style={{
-            width: image.width,
-          }}
-        >
-          <span
-            className={classes.imageSrc}
+      </div>
+      <div className={classes.rootImg}>
+        {images.map((image) => (
+          <ButtonBase
+            focusRipple
+            key={image.title}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
             style={{
-              backgroundImage: `url(${image.url})`,
+              width: image.width,
             }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="h5"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {image.title}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
-        </ButtonBase>
-      ))}
-        </div>
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${image.url})`,
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="h5"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {image.title}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </ButtonBase>
+        ))}
+      </div>
 
-            <div>
-              <img src={brands} alt="" className={classes.brands}/>
-            </div>
+      <div>
+        <img src={brands} alt="" className={classes.brands} />
+      </div>
 
-        </div>
+    </div>
 
-    
+
   );
 }

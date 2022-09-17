@@ -49,53 +49,54 @@ export default function SpacingGrid(order) {
           {order && <LandingPage />}
         </Grid>
       </Grid> */}
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Grid item xs={10}>
-          <Box mt={9}>
-            <Grid container justifyContent="center" spacing={spacing}>
-            {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
-              RENDERED_PRODUCTS?.map((product, index) => (
-                <Grid key={index} item>
-                  <HomeCards
-                    className={classes.paper}
-                    products={product}
-                    favorite={productIsFavorite(product.id)}
-                  />
-                </Grid>
-              ))}
-              {products.length === 0 && productsCopy.length > 0 ?
-              <h2>No products found</h2> : null
-              }
-            </Grid>
-          </Box>
+      <Box mt={7}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-around"
+          alignItems="center"
+        >
+          <Grid item xs={10}>
+            <Box mt={9}>
+              <Grid container justifyContent="center" spacing={spacing}>
+              {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
+                RENDERED_PRODUCTS?.map((product, index) => (
+                  <Grid key={index} item>
+                    <HomeCards
+                      className={classes.paper}
+                      products={product}
+                      favorite={productIsFavorite(product.id)}
+                    />
+                  </Grid>
+                ))}
+                {products.length === 0 && productsCopy.length > 0 ?
+                <h2>No products found</h2> : null
+                }
+              </Grid>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
 
-      <BasicPagination
-        className={classes.centering}
-        currentPage={currentPage}
-        productsPerPage={productsPerPage}
-        totalProducts={products.length}
-        onChange={handleChange}
-      />
+        <BasicPagination
+          className={classes.centering}
+          currentPage={currentPage}
+          productsPerPage={productsPerPage}
+          totalProducts={products.length}
+          onChange={handleChange}
+        />
 
-      <div className="divwsp">
-        <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">
-          <img
-            src="https://i.ibb.co/Th1XCXz/Dise-o-sin-t-tulo-1.png"
-            alt="..."
-          />
-        </a>
-      </div>
-      <div>
-        <Contenido />
-      </div>
-      
+        <div className="divwsp">
+          <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">
+            <img
+              src="https://i.ibb.co/Th1XCXz/Dise-o-sin-t-tulo-1.png"
+              alt="..."
+            />
+          </a>
+        </div>
+        <div>
+          <Contenido />
+        </div>
+      </Box>
     </>
   );
 }

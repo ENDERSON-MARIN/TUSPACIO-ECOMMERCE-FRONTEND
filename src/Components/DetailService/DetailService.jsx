@@ -65,6 +65,7 @@ export default function DetailService() {
                 display='flex'
                 FlexWarp='wrap'
                 flex-direction='row'
+                mt={5}
                 p={5}
             >
                 <Grid
