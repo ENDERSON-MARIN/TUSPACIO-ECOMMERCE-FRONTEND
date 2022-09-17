@@ -38,7 +38,7 @@ export const DELETE_USER = "DELETE_USER";
 export const MAKE_ADMIN = "MAKE_ADMIN";
 
 //API
-const API = /*"https://tuspacio.herokuapp.com/api" ||*/ "http://localhost:3001/api";
+const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {

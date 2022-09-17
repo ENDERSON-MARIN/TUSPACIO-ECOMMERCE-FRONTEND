@@ -41,7 +41,7 @@ export default function OrdersGrid() {
         params.value === 'completed' ? classes.completed : 
         params.value === 'cancelled' ? classes.cancelled : null
       )
-    }
+    },
   },
   {
     field: 'customer',
@@ -132,7 +132,14 @@ export default function OrdersGrid() {
           onCellEditCommit={(params) => {
             console.log(params);
             dispatch(updateOrderStatus(params.id, params.value));
-          }}/>
+          }}
+          sx={{
+            '& .MuiDataGrid-cell:hover': {
+              backgroundColor: '#ff0000',
+              color: '#fff',
+            }
+          }}
+          />
       </div>
     </Box>
   );
