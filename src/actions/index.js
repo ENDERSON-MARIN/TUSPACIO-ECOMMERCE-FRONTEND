@@ -35,6 +35,8 @@ export const CREATE_USER = "CREATE_USER";
 export const SET_GLOBAL_STATE = "SET_GLOBAL_STATE";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
+export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
+export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
 
 //API
@@ -389,6 +391,19 @@ export const deleteUser = (id) => {
 
 }
 
+export const addNewCategory = (payload) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`${API}/categories`, payload);
+      return dispatch({
+        type: CREATE_CATEGORY,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 export const makeAdmin = (id, role) => {
   return async function (dispatch) {
     try {
@@ -401,4 +416,3 @@ export const makeAdmin = (id, role) => {
       console.error(error);
     }
   };
-}

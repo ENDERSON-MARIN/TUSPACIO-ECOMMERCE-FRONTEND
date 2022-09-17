@@ -7,7 +7,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { getAllProducts } from '../../actions';
+import { getAllProducts, setDashboardItem } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -142,7 +142,7 @@ export default function ProductsGrid() {
         variant="contained"
         className={classes.btnAdd}
         startIcon={<AddShoppingCartIcon />}
-        onClick={() => navigate('/create')}>
+        onClick={() => dispatch(setDashboardItem("CreateProducts"))}>
           Add New Product
       </Button>
       <div style={{ height: 631, width: '100%', backgroundColor: '#fff'}}>

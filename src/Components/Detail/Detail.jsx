@@ -1,18 +1,18 @@
-import React, {useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {useParams} from "react-router-dom"
-import {getDetail, addToCart, addToWishlist, removeFromWishlist, setGlobalEstate} from '../../actions/index'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from "react-router-dom"
+import { getDetail, addToCart, addToWishlist, removeFromWishlist, setGlobalEstate } from '../../actions/index'
 import { useEffect } from 'react'
 import defaultImage from "../../assets/images/not_found.png"
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import ReactImageMagnify from 'react-image-magnify';
+// import ReactImageMagnify from 'react-image-magnify';
 import useStyles from './useStyles'
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -27,12 +27,16 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 
-
+function handleFavorite(e) {
+  !fav.includes(e) ?
+    dispatch(addToWishlist(e)) :
+    dispatch(removeFromWishlist(e.id))
+}
 
 export default function RecipeReviewCard() {
  const { id } = useParams()
  const classes = useStyles();
-//  const [expanded, setExpanded] = React.useState(false);
+ //  const [expanded, setExpanded] = React.useState(false);
 
 //  const handleExpandClick = () => {
 //    setExpanded(!expanded);
@@ -66,14 +70,19 @@ export default function RecipeReviewCard() {
      }
  }
 
- function handleFavorite(e) {
-   !fav.includes(e)?
-   dispatch(addToWishlist(e)) :
-   dispatch(removeFromWishlist(e.id))
- }
+  function handleBrand(brand) {
+    setFilters({
+      "alpha": "",
+      "category": "",
+      "price": "",
+      "brand": brand,
+      "rating": ""
+    })
+    navigate('/home')
+  }
 
   const handleColor = (e) => {
-   setColor(e)
+    setColor(e)
   }
 
   const handleReview = (id) => {
@@ -116,6 +125,7 @@ export default function RecipeReviewCard() {
                        width: 800,
                        height: 800,
                    }
+
                }} /> */}
 
                

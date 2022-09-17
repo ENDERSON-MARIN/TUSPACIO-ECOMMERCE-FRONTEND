@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     top: 0,
     left: 0,
-    zIndex: 750,
+    zIndex: 800,
     width:"100%",
   },
   menuButton: {

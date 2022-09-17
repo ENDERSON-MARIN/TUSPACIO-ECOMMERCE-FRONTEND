@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCategories, postNewProduct } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, setDashboardItem } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
-import { Box, Button, FormControl, FormHelperText, Grid, 
-InputAdornment, InputLabel,makeStyles, Select, Slider, 
-Snackbar, TextField, Typography, withStyles } from '@material-ui/core';
+import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
+    Grow, InputAdornment, InputLabel,makeStyles, Select, Slider, 
+    TextField, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
-// import { Alert } from '@material-ui/lab';
 import MuiAlert from '@material-ui/lab/Alert';
+import AddIcon from '@material-ui/icons/Add';
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function Alert(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,10 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 150,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
+        width: "150px",
     },
     margin: {
         margin: theme.spacing(1),
@@ -38,12 +35,13 @@ const useStyles = makeStyles((theme) => ({
     },
     imageBox: {
         margin: 'auto',
+        position: 'relative'
     },
     select: {
         width: 250,
     },
     image: {
-        position: "absolute",
+        position: "relative",
         width: "150px",
         margin: "20px"
     },
@@ -53,7 +51,10 @@ const useStyles = makeStyles((theme) => ({
     colors: {
         margin: theme.spacing(1),
         width: '10px',
-    }
+    },
+    fab: {
+        margin: theme.spacing(1),
+    },
 }));
 
 
@@ -62,7 +63,14 @@ export default function CreateProduct() {
     const navigate = useNavigate();
     const classes = useStyles();
     const allCategories = useSelector((state) => state.categories);
+    const allProductTypes = useSelector((state) => state.producTypes);
+    const allBrands = useSelector((state) => state.brands);
     const [errors, setErrors] = useState({});
+    const [newCateg,setNewCateg] = useState({
+        add: false,
+        value: "",
+        selectValue: ""
+    })
     const [colors, setColors] = useState({
         azul: 0,
         rojo: 0,
@@ -71,6 +79,12 @@ export default function CreateProduct() {
     const [categories, setCategories] = useState([]);
     const [addColors, setAddColors] = useState([]);
     
+    useEffect ( () => {
+        dispatch(getCategories())
+        dispatch(getAllBrands())
+        dispatch(getProductTypes())
+    }, [dispatch] )
+
     let fColor = `#${parseInt(colors.rojo).toString(16)}${parseInt(colors.verde).toString(16)}${parseInt(colors.azul).toString(16)}`
     
     function handlerColors(colors) {
@@ -99,24 +113,18 @@ export default function CreateProduct() {
         setOpen(false);
     };
 
-    useEffect ( () => {
-        dispatch(getCategories())
-    }, [dispatch] )
-
     const [ input, setInput ] = useState({
         brand: "", //*
         name: "", //*
         price: 0, //*
-        price_sign: "", //*
-        currency: "", //*
+        price_sign: "$", //*
+        currency: "USD", //*
         image_link: "", //*
         description: "", //*
         rating: 0, //*
         product_type: "", //*
         stock: 0, //* no puede ser 0
-        tag_list: "",
         product_colors: [],
-        status: true,
         categories: [] //*
     });
     
@@ -135,16 +143,16 @@ export default function CreateProduct() {
             errors.description = "Please insert the description of your product"; }
         if(!input.product_type || typeof input.product_type !== "string") {   
             errors.product_type = "Please insert the type of your product"; }
-        if(!input.price_sign || typeof input.price_sign !== "string") {   
-            errors.price_sign = "Please insert the price sign of your product"; }
-        if(!input.currency || typeof input.currency !== "string" || input.currency.length > 3) {   
-            errors.currency = "Please insert the currency of your product, just 3 letters of the country"; }
+        // if(!input.price_sign || typeof input.price_sign !== "string") {   
+        //     errors.price_sign = "Please insert the price sign of your product"; }
+        // if(!input.currency || typeof input.currency !== "string" || input.currency.length > 3) {   
+        //     errors.currency = "Please insert the currency of your product, just 3 letters of the country"; }
         if (!input.categories.length) {
             errors.categories = "Please select at least one category"; }
-        if (!input.price) {
-            errors.price = "The price cannot be null"; } 
-        if (!input.stock) {
-            errors.stock = "The price cannot be null"; }
+        if (!input.price || input.price < 0 ) {
+            errors.price = "The price cannot be null or negative"; } 
+        if (!input.stock || input.stock < 0) {
+            errors.stock = "The price cannot be null or negative"; }
         if (!input.rating) {
             errors.rating = "The rating cannot be null"; } 
         if (!input.image_link || typeof input.image_link !== "string" ) {
@@ -153,14 +161,16 @@ export default function CreateProduct() {
     }
 
     function handleChange(e) {
-        // console.log(e)
+        let valor = e.target.value
+        let nombre = e.target.name
+        if (nombre === "price" || nombre === "stock") valor = parseInt(valor)
         setInput({
             ...input,
-            [e.target.name] : e.target.value
+            [nombre] : valor
         })
         setErrors(validation({
             ...input,
-            [e.target.name] : e.target.value,
+            [nombre] : valor,
             categories: categories
         }))
     }
@@ -189,23 +199,40 @@ export default function CreateProduct() {
         }))
     };
 
+    function handleDelete(category) {
+        console.log(category)
+        setCategories(categories.filter(c => c !== category))
+    }
+
+    function handelAddNewCategory() {
+        let newCategory = newCateg.value;
+        dispatch(addNewCategory({name: newCategory}))
+        handleCategories({target: {value: newCategory}})
+        setNewCateg({add: false, value: "", selectValue: ""})
+    }
+
     let handleCategories = (e) => {
-        // e.preventDefault();
+        let category = e.target.value.toString()
+        setNewCateg({...newCateg, selectValue: category, add: false})
+        if (category === "add") return setNewCateg({...newCateg, add: true});
         if (!categories.length) {
-            setCategories([e.target.value])
-            setErrors(validation({...input, categories: [e.target.value]}))
-        } else if (!categories.includes(e.target.value)) {
+            setCategories([category])
+            setErrors(validation({...input, categories: [category]}))
+        } else if (!categories.includes(category)) {
             if (categories.length === 2) {
-                categories.pop()
-                setCategories([...categories, e.target.value]) 
-                setErrors(validation({...input, categories: categories}))    
+                return alert("Please delete one of the added categories to add a new one. Only a maximum of 2 categories per product is allowed")
+                // categories.pop()
+                // setCategories([...categories, category]) 
+                // setErrors(validation({...input, categories: categories}))    
             } 
-            setCategories([...categories, e.target.value])
+            setCategories([...categories, category])
             setErrors(validation({...input, categories: categories}))
-            } else if (categories.includes(e.target.value)) {
-                setCategories(categories.filter(c => c !== e.target.value))
-                setErrors(validation({...input, categories: categories}))
-            } 
+            } else if (categories.includes(category)) {
+                return alert("This category is already added")
+                // setCategories(categories.filter(c => c !== category))
+                // setErrors(validation({...input, categories: categories}))
+            }
+        // console.log(categories) 
     }
 
     function handlerDeleteColor(color) {
@@ -215,8 +242,8 @@ export default function CreateProduct() {
     function handleSubmit(e){
         // e.preventDefault();
         if (errors.name || errors.categories || errors.description ||
-            errors.currency || errors.image_link || errors.price || errors.brand 
-            || errors.price_sign || errors.stock || errors.rating || errors.product_type) {
+            errors.image_link || errors.price || errors.brand 
+            || errors.stock || errors.rating || errors.product_type) {
             return alert("Can't create a product. Missing data")
             // <>
             // { handleClick() }
@@ -227,28 +254,27 @@ export default function CreateProduct() {
             // </Snackbar> 
             // </> 
         }
-        
         input.categories = categories;
-        input.product_colors = addColors;
-        dispatch(postNewProduct(input))
+        input.product_colors = addColors.map(c => {return {hex_value: c}});
+        console.log(input)
+        let result = dispatch(postNewProduct(input))
+        console.log(result)
         setInput({
             brand: "", 
             name: "", 
             price: 0, 
-            price_sign: "", 
-            currency: "", 
+            price_sign: "$", 
+            currency: "USD", 
             image_link: "", 
             description: "",
             rating: 0, 
             product_type: "", 
             stock: 0,
-            tag_list: "",
             product_colors: [],
-            status: true,
             categories: [] 
-        })
-        return <Alert severity="success">Product created successfully!!</Alert>
-        // navigate('/') // ver a que dirección me voy a ir luego de generar un nuevo producto
+        });
+        setAddColors([]);
+        return alert("Product created successfully!!")
     }
 
     return (
@@ -273,16 +299,11 @@ export default function CreateProduct() {
                         alignItems="flex-start"
                         py={1}
                     >
-                        {/* <Button 
-                            variant="contained" 
-                            color="primary"
-                            onClick={() => navigate('/home')}
-                        > Home </Button> */}
                         <Button 
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Create </Button>
+                        > Load new product </Button>
                     </Grid>
                 </Grid>
                 <Box
@@ -314,16 +335,22 @@ export default function CreateProduct() {
                     </div>
                     
                     <div key='divBrand'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="brand"
-                            label="Brand"
-                            value={input.brand}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Brand</InputLabel>
+                            <Select
+                                native
+                                className={classes.select}
+                                name="brand"
+                                value={input.brand}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allBrands.map( b =>
+                                <option value={`${b}`}>{`${b}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
                         {
                             errors.brand && (
                                 <FormHelperText>{errors.brand}</FormHelperText>
@@ -331,43 +358,61 @@ export default function CreateProduct() {
                         }
                     </div>
                     
-                    <div key='divStock'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="stock"
-                            label="Stock"
-                            value={input.stock}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
-                        {
-                            errors.stock && (
-                                <FormHelperText>{errors.stock}</FormHelperText>
-                            )
-                        }
-                    </div> 
-
-                    <div key='divDesc'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="description"
-                            label="Description"
-                            value={input.description}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
-                        {
-                            errors.description && (
-                                <FormHelperText>{errors.description}</FormHelperText>
-                            )
-                        }
-                    </div>
+                    <Box className='typeBox' key='typeBox'>
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Categories</InputLabel>
+                            <Select
+                                className={classes.select}
+                                native
+                                value={newCateg.selectValue}
+                                onChange={(e) => handleCategories(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allCategories.map( category =>
+                                <option value={`${category.name}`}>{`${category.name}`}</option> )
+                            }
+                                <option value="add">Add new category...</option>
+                            </Select>
+                        </FormControl>
+                        <Box>
+                            {
+                                categories.length 
+                                    ? categories.map( c =>
+                                        <Chip 
+                                            label={`${c}`}
+                                            value={`${c}`}
+                                            onDelete={() => handleDelete(`${c}`)} 
+                                            color="primary" /> 
+                                        )
+                                    : <></>
+                            }
+                            {
+                                errors.categories && (
+                                    <FormHelperText>{errors.categories}</FormHelperText> 
+                                )
+                            }
+                        </Box>
+                    </Box>
+                    {
+                        newCateg.add &&
+                        <Grow in={newCateg.add}>
+                            <Box key='newCategory' className={classes.newCategory}>
+                                <TextField
+                                    id="outlined-helperText"
+                                    name="newCategory"
+                                    label="Name new category"
+                                    value={newCateg.value}
+                                    onChange={(e) => setNewCateg({...newCateg, value: e.target.value})}
+                                    variant="filled"
+                                />
+                                <Fab size="small" color="primary" aria-label="add" className={classes.fab}>
+                                    <AddIcon onClick={() => handelAddNewCategory()}/>
+                                </Fab>
+                            </Box>
+                        </Grow>
+                    }  
                 </Box>
-                
                 <Box
                     // bgcolor={"rgba(156, 177, 235, 0.589)"}
                     width='250px'
@@ -381,6 +426,8 @@ export default function CreateProduct() {
                         <TextField
                             label="Price *"
                             id="filled-start-adornment"
+                            type="number"
+                            min={0}
                             name="price"
                             value={input.price}
                             onChange={(e) => handleChange(e)}
@@ -396,43 +443,63 @@ export default function CreateProduct() {
                             )
                         }
                     </Box>
-                    <Box key='divPriceSign'>
+                    <div key='divStock'>
                         <TextField
                             required
                             id="outlined-helperText"
-                            name="price_sign"
-                            label="Price Sign"
-                            value={input.price_sign}
+                            type="number"
+                            min={0}
+                            name="stock"
+                            label="Stock"
+                            value={input.stock}
                             onChange={(e) => handleChange(e)}
                             variant="filled"
                             className={classes.formControl}
                         />
                         {
-                            errors.price_sign && (
-                                <FormHelperText>{errors.price_sign}</FormHelperText>
+                            errors.stock && (
+                                <FormHelperText>{errors.stock}</FormHelperText>
                             )
                         }
-                    </Box>
-
-                    <Box key='divCurr'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="currency"
-                            label="Currency"
-                            value={input.currency}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
+                    </div>
+                    <Box key='divStock'>
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Product Type</InputLabel>
+                            <Select
+                                native
+                                className={classes.select}
+                                name="product_type"
+                                value={input.product_type}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allProductTypes.map( pt =>
+                                <option value={`${pt.product_type}`}>{`${pt.product_type}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
                         {
-                            errors.currency && (
-                                <FormHelperText>{errors.currency}</FormHelperText>
+                            errors.product_type && (
+                                <FormHelperText>{errors.product_type}</FormHelperText>
                             )
                         }
-                    </Box>
-                    
-                    <Box key='divImg' className={classes.imageBox}>
+                    </Box>                  
+                </Box>
+                <Box
+                    // display="block"
+                    // position="relative"
+                    width='250px'
+                    height='250px'
+                    // bgcolor={"rgba(156, 235, 162, 0.589)"}
+                    // p={4}
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    mt={2}
+                    marginX={3}
+                >
+                    <Box key='divImg'>
                         <TextField
                             required
                             id="outlined-helperText"
@@ -449,26 +516,14 @@ export default function CreateProduct() {
                             )
                         }
                     </Box>
-                </Box>
-                <Box
-                    // display="block"
-                    // position="relative"
-                    width='250px'
-                    height='250px'
-                    // bgcolor={"rgba(156, 235, 162, 0.589)"}
-                    p={4}
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    mt={2}
-                    marginX={3}
-                >
-                    <img src={input.image_link || LogoIMG} className={classes.image} alt="imagen de prueba" />
-                    {
-                        input.image_link && (
-                            <FormHelperText>Image preview</FormHelperText> 
-                        )
-                    }
+                    <Box className={classes.formControl}>
+                        <img src={input.image_link || LogoIMG} className={classes.image} alt="imagen de prueba" />
+                        {/* {
+                            input.image_link && (
+                                <FormHelperText>Image preview</FormHelperText> 
+                                )
+                        } */}
+                    </Box>
                 </Box>
                 <Box
                     position="relative"
@@ -481,55 +536,23 @@ export default function CreateProduct() {
                     mt={2}
                     px={2}
                 >
-                    <Box className='typeBox' key='typeBox'>
-                        <FormControl variant="filled" className={classes.formControl}>
-                            <InputLabel htmlFor="filled-age-native-simple">Select Categories</InputLabel>
-                            <Select
-                                className={classes.select}
-                                native
-                                onChange={(e) => handleCategories(e)}
-                            >
-                                <option aria-label="None" value="" />
-                            {
-                                allCategories.map( category =>
-                                <option value={`${category.name}`}>{`${category.name}`}</option> )
-                            }
-                            </Select>
-                        </FormControl>
-                        <Box>
-                            {
-                                categories.length 
-                                    ? categories.map( c => 
-                                        <Typography variant="body2" gutterBottom>
-                                            <FormHelperText>{`${c}`}</FormHelperText>    
-                                        </Typography>
-                                        )
-                                    : <div></div>
-                            }
-                            {
-                                errors.categories && (
-                                    <FormHelperText>{errors.categories}</FormHelperText> 
-                                )
-                            }
-                        </Box>
-                    </Box>
-                    <Box key='divStock'>
+                    <Box className='typeBox' key='divDesc'>
                         <TextField
                             required
                             id="outlined-helperText"
-                            name="product_type"
-                            label="Product Type"
-                            value={input.product_type}
+                            name="description"
+                            label="Description"
+                            value={input.description}
                             onChange={(e) => handleChange(e)}
                             variant="filled"
                             className={classes.formControl}
                         />
                         {
-                            errors.product_type && (
-                                <FormHelperText>{errors.product_type}</FormHelperText>
+                            errors.description && (
+                                <FormHelperText>{errors.description}</FormHelperText>
                             )
                         }
-                    </Box> 
+                    </Box>
                     <Box className={classes.rating} key={`divRating`}>
                         <InputLabel htmlFor="filled-age-native-simple">Rating</InputLabel>
                         <Slider
@@ -563,7 +586,7 @@ export default function CreateProduct() {
                         bgcolor={fColor} 
                     />
                     <Button 
-                        className={clsx(classes.margin, classes.textField)}
+                        className={clsx(classes.margin, classes.textField, classes.colorButton)}
                         variant="contained" 
                         color="primary"
                         onClick={() => handlerColors(colors)}

@@ -49,14 +49,6 @@ export default function SpacingGrid(order) {
           {order && <LandingPage />}
         </Grid>
       </Grid> */}
-
-      <BasicPagination
-        className={classes.centering}
-        currentPage={currentPage}
-        productsPerPage={productsPerPage}
-        totalProducts={products.length}
-        onChange={handleChange}
-      />
       <Grid
         container
         direction="row"
@@ -64,7 +56,7 @@ export default function SpacingGrid(order) {
         alignItems="center"
       >
         <Grid item xs={10}>
-          <Box mb={4}>
+          <Box mt={9}>
             <Grid container justifyContent="center" spacing={spacing}>
             {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
               RENDERED_PRODUCTS?.map((product, index) => (
@@ -84,6 +76,14 @@ export default function SpacingGrid(order) {
         </Grid>
       </Grid>
 
+      <BasicPagination
+        className={classes.centering}
+        currentPage={currentPage}
+        productsPerPage={productsPerPage}
+        totalProducts={products.length}
+        onChange={handleChange}
+      />
+
       <div className="divwsp">
         <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">
           <img
@@ -92,7 +92,6 @@ export default function SpacingGrid(order) {
           />
         </a>
       </div>
-
       <div>
         <Contenido />
       </div>

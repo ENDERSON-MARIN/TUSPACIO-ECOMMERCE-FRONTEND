@@ -25,20 +25,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Filter({setOrder}) {
+export default function Filter({setOrder, filters, setFilters}) {
     const navigate = useNavigate()
     let categories = useSelector((state) => state.categories)
     let brands = useSelector((state) => state.brands)
     const classes = useStyles();
-    const [filters, setFilters] = useState({
-        "alpha": "",
-        "category": "",
-        "price": "",
-        "brand": "",
-        "rating": ""
-    })
-
+    
     const dispatch = useDispatch();
+
+    const {alpha,category,price,brand,rating} = filters;
     
     useEffect ( () => {
          dispatch(categories = getCategories(filters.brand))
@@ -64,10 +59,12 @@ export default function Filter({setOrder}) {
         })
     }
 
+    if (alpha || category || price || brand || rating) dispatch(orderCombine({...filters}))
+    
     return (
         <Box
             bgcolor='white'
-            // boxShadow= '0px 10px 8px 0px rgba(0,0,0,0.18)'
+            boxShadow= '0px 5px 8px 0px rgba(37,117,88,0.18)'
             position= 'fixed'
             top= {60}
             left= {0}
