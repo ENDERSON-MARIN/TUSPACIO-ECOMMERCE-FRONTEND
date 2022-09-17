@@ -32,6 +32,7 @@ import {setDashboardItem} from '../../actions'
 import OrdersGrid from '../OrdersGrid/OrdersGrid';
 import UsersGrid from '../UsersGrid/UsersGrid';
 import ProductsGrid from '../ProductsGrid/ProductsGrid';
+import CreateProduct from '../CreateProduct/CreateProduct';
 
 function Copyright() {
   return (
@@ -161,6 +162,8 @@ export default function Dashboard() {
             <UsersGrid /> :
             dashboardItem === 'Products' ?
             <ProductsGrid /> :
+            dashboardItem === 'CreateProducts' ?
+            <CreateProduct /> :
             dashboardItem === 'Notifications' ?
             <h1>Notifications</h1> :
             dashboardItem === 'Reports' ?

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, setDashboardItem } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
@@ -255,7 +255,7 @@ export default function CreateProduct() {
             // </> 
         }
         input.categories = categories;
-        input.product_colors = addColors;
+        input.product_colors = addColors.map(c => {return {hex_value: c}});
         console.log(input)
         let result = dispatch(postNewProduct(input))
         console.log(result)
@@ -299,11 +299,6 @@ export default function CreateProduct() {
                         alignItems="flex-start"
                         py={1}
                     >
-                        {/* <Button 
-                            variant="contained" 
-                            color="primary"
-                            onClick={() => navigate('/home')}
-                        > Home </Button> */}
                         <Button 
                             variant="contained" 
                             color="primary" 
@@ -523,11 +518,11 @@ export default function CreateProduct() {
                     </Box>
                     <Box className={classes.formControl}>
                         <img src={input.image_link || LogoIMG} className={classes.image} alt="imagen de prueba" />
-                        {
+                        {/* {
                             input.image_link && (
                                 <FormHelperText>Image preview</FormHelperText> 
                                 )
-                        }
+                        } */}
                     </Box>
                 </Box>
                 <Box

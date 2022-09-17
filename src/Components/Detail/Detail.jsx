@@ -36,14 +36,18 @@ export default function RecipeReviewCard({setFilters}) {
   // })
 
   const dispatch = useDispatch()
-  const item = useSelector((state) => state.productDetail)
+  const {dbInfo, reviews} = useSelector((state) => state.productDetail)
   const cart = useSelector((state) => state.cart)
   const fav = useSelector((state) => state.favorites)
   //  const [count, setCount] = useState(1)
 
+  const item = dbInfo;
+  
+  console.log(item)
+
   const [color, setColor] = useState('')
 
-  const image = item.image_link
+  const image = item?.image_link
 
   useEffect(() => {
     setFilters({
