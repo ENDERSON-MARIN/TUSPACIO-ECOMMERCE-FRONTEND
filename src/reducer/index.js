@@ -34,7 +34,8 @@ import {
   SET_GLOBAL_STATE,
   GET_ALL_USERS,
   DELETE_USER,
-  GET_PRODUCTYPES
+  GET_PRODUCTYPES,
+  CREATE_CATEGORY
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -358,6 +359,10 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         producTypes: action.payload
+      } 
+    case CREATE_CATEGORY:
+      return {
+        ...state,
       }
     default:
       return state;

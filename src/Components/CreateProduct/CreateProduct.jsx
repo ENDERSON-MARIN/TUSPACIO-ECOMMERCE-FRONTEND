@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
-import { Box, Button, Chip, FormControl, FormHelperText, Grid, 
-InputAdornment, InputLabel,makeStyles, Select, Slider, 
-Snackbar, TextField, Typography, withStyles } from '@material-ui/core';
+import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
+    Grow, InputAdornment, InputLabel,makeStyles, Select, Slider, 
+    TextField, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
-// import { Alert } from '@material-ui/lab';
 import MuiAlert from '@material-ui/lab/Alert';
+import AddIcon from '@material-ui/icons/Add';
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function Alert(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,9 +24,6 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         width: "150px",
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
     },
     margin: {
         margin: theme.spacing(1),
@@ -55,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         width: '10px',
     },
+    fab: {
+        margin: theme.spacing(1),
+    },
 }));
 
 
@@ -66,7 +66,11 @@ export default function CreateProduct() {
     const allProductTypes = useSelector((state) => state.producTypes);
     const allBrands = useSelector((state) => state.brands);
     const [errors, setErrors] = useState({});
-    const [newCateg,setNewCateg] = useState(false)
+    const [newCateg,setNewCateg] = useState({
+        add: false,
+        value: "",
+        selectValue: ""
+    })
     const [colors, setColors] = useState({
         azul: 0,
         rojo: 0,
@@ -200,9 +204,17 @@ export default function CreateProduct() {
         setCategories(categories.filter(c => c !== category))
     }
 
+    function handelAddNewCategory() {
+        let newCategory = newCateg.value;
+        dispatch(addNewCategory({name: newCategory}))
+        handleCategories({target: {value: newCategory}})
+        setNewCateg({add: false, value: "", selectValue: ""})
+    }
+
     let handleCategories = (e) => {
         let category = e.target.value.toString()
-        if (category === "add") return setNewCateg(true);
+        setNewCateg({...newCateg, selectValue: category, add: false})
+        if (category === "add") return setNewCateg({...newCateg, add: true});
         if (!categories.length) {
             setCategories([category])
             setErrors(validation({...input, categories: [category]}))
@@ -357,6 +369,7 @@ export default function CreateProduct() {
                             <Select
                                 className={classes.select}
                                 native
+                                value={newCateg.selectValue}
                                 onChange={(e) => handleCategories(e)}
                             >
                                 <option aria-label="None" value="" />
@@ -386,9 +399,25 @@ export default function CreateProduct() {
                             }
                         </Box>
                     </Box>
-                      
+                    {
+                        newCateg.add &&
+                        <Grow in={newCateg.add}>
+                            <Box key='newCategory' className={classes.newCategory}>
+                                <TextField
+                                    id="outlined-helperText"
+                                    name="newCategory"
+                                    label="Name new category"
+                                    value={newCateg.value}
+                                    onChange={(e) => setNewCateg({...newCateg, value: e.target.value})}
+                                    variant="filled"
+                                />
+                                <Fab size="small" color="primary" aria-label="add" className={classes.fab}>
+                                    <AddIcon onClick={() => handelAddNewCategory()}/>
+                                </Fab>
+                            </Box>
+                        </Grow>
+                    }  
                 </Box>
-                
                 <Box
                     // bgcolor={"rgba(156, 177, 235, 0.589)"}
                     width='250px'
@@ -460,43 +489,7 @@ export default function CreateProduct() {
                                 <FormHelperText>{errors.product_type}</FormHelperText>
                             )
                         }
-                    </Box>
-                    {/* <Box key='divPriceSign'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="price_sign"
-                            label="Price Sign"
-                            value={input.price_sign}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
-                        {
-                            errors.price_sign && (
-                                <FormHelperText>{errors.price_sign}</FormHelperText>
-                            )
-                        }
-                    </Box> */}
-
-                    {/* <Box key='divCurr'>
-                        <TextField
-                            required
-                            id="outlined-helperText"
-                            name="currency"
-                            label="Currency"
-                            value={input.currency}
-                            onChange={(e) => handleChange(e)}
-                            variant="filled"
-                            className={classes.formControl}
-                        />
-                        {
-                            errors.currency && (
-                                <FormHelperText>{errors.currency}</FormHelperText>
-                            )
-                        }
-                    </Box> */}
-                   
+                    </Box>                  
                 </Box>
                 <Box
                     // display="block"
