@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Filter({setOrder}) {
     const navigate = useNavigate()
-    const categories = useSelector((state) => state.categories)
-    const brands = useSelector((state) => state.brands)
+    let categories = useSelector((state) => state.categories)
+    let brands = useSelector((state) => state.brands)
     const classes = useStyles();
     const [filters, setFilters] = useState({
         "alpha": "",
@@ -41,9 +41,9 @@ export default function Filter({setOrder}) {
     const dispatch = useDispatch();
     
     useEffect ( () => {
-        dispatch(getCategories())
-        dispatch(getAllBrands())
-    }, [dispatch] )
+         dispatch(categories = getCategories(filters.brand))
+         dispatch(brands = getAllBrands(filters.category))
+    }, [filters.brand, filters.category] )
     
     function handlefilter(e) {
         e.preventDefault();
