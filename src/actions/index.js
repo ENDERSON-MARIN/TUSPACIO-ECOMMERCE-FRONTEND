@@ -54,7 +54,20 @@ export function getAllProducts() {
   };
 }
 
-export function getAllBrands() {
+export function getAllBrands(categorie) {
+  if (categorie) {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/products/brand?categorie=${categorie}`);
+        return dispatch({
+          type: GET_ALL_BRANDS,
+          payload: json.data,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  } else {
   return async function (dispatch) {
     try {
       var json = await axios.get(`/products/brand`);
@@ -67,21 +80,35 @@ export function getAllBrands() {
     }
   };
 }
+}
 
-export function getCategories() {
-  return function (dispatch) {
-    return axios
-      .get(`/categories`) // http://localhost:3001/api/categories
-      .then((c) => {
-        dispatch({
+export function getCategories(brand) {
+  if (brand) {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/categories?brand=${brand}`);
+        return dispatch({
           type: GET_CATEGORIES,
-          payload: c.data.allCategories,
+          payload: json.data,
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  } else {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/categories`);
+        return dispatch({
+          type: GET_CATEGORIES,
+          payload: json.data,
+
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }
 }
 
 export function setCurrentHomePage(page) {
