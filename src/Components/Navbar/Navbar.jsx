@@ -124,13 +124,13 @@ export default function Navbar() {
           <Toolbar>
 
             {/* Hamburguesa */}
-            <IconButton
+            {/* <IconButton
               edge="start"
               className={classes.menuButton}
               color="inherit"
               aria-label="open drawer">
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
             {/* Logo */}
        
             <DrawerBox />

@@ -91,7 +91,9 @@ export function getCategories(brand) {
         var json = await axios.get(`${API}/categories?brand=${brand}`);
         return dispatch({
           type: GET_CATEGORIES,
+
           payload: json.data,
+
         });
       } catch (error) {
         console.error(error);

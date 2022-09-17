@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './useStyles'
+import img from '../../assets/images/wish.png'
+
 
 function Wishlist() {
   const classes = useStyles();
@@ -12,16 +14,13 @@ function Wishlist() {
   return (
 
     <div className='gral-container'>
-      {favorites.length === 0 ? (
-
-        <Box
-          textAlign="center"
-          marginBottom="20px" 
-          marginTop="100px"
-          fontWeight="fontWeightBold"
-          fontSize={30}>
-            No products in your wishlist
-        </Box>) : 
+      {favorites.length === 0 ? 
+        <div className={classes.alert}>
+        <img src={img} alt="Empty Cart" />
+        
+       <h4>Your WishList is Empty -- <strong> <a href="/home" id='a'>Go Shop Now!</a> </strong></h4> 
+      </div>
+        : 
         (
         <div>
           <Box 

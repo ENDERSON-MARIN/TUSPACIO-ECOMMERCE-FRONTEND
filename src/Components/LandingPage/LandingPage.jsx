@@ -114,7 +114,8 @@ button3: {
    alignItems: 'center',
    justifyContent: 'start',
    marginTop: 100,
-   marginLeft: 20
+   marginLeft: 20,
+   marginRight:20
   },
   descripContainer: {
     display: 'flex',
