@@ -60,7 +60,7 @@ export function getAllBrands(categorie) {
   if (categorie) {
     return async function (dispatch) {
       try {
-        var json = await axios.get(`/products/brand?categorie=${categorie}`);
+        var json = await axios.get(`${API}/products/brand?categorie=${categorie}`);
         return dispatch({
           type: GET_ALL_BRANDS,
           payload: json.data,
@@ -88,7 +88,7 @@ export function getCategories(brand) {
   if (brand) {
     return async function (dispatch) {
       try {
-        var json = await axios.get(`/categories?brand=${brand}`);
+        var json = await axios.get(`${API}/categories?brand=${brand}`);
         return dispatch({
           type: GET_CATEGORIES,
           payload: json.data,
@@ -100,7 +100,7 @@ export function getCategories(brand) {
   } else {
     return async function (dispatch) {
       try {
-        var json = await axios.get(`/categories`);
+        var json = await axios.get(`${API}/categories`);
         return dispatch({
           type: GET_CATEGORIES,
           payload: json.data,

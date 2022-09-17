@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { getDetail, addToCart, addToWishlist, removeFromWishlist, setGlobalEstate } from '../../actions/index'
 import { useEffect } from 'react'
 import defaultImage from "../../assets/images/not_found.png"
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-// import { Link } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -24,8 +23,9 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { Link } from '@material-ui/core'
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard({setFilters}) {
   const { id } = useParams()
   const classes = useStyles();
   //  const [expanded, setExpanded] = React.useState(false);
@@ -33,6 +33,13 @@ export default function RecipeReviewCard() {
   //  const handleExpandClick = () => {
   //    setExpanded(!expanded);
   //  };
+  // setFilters({
+  //   "alpha": "",
+  //   "category": "",
+  //   "price": "",
+  //   "brand": "",
+  //   "rating": ""
+  // })
 
   const dispatch = useDispatch()
   const {dbInfo, reviews} = useSelector((state) => state.productDetail)
@@ -51,6 +58,13 @@ export default function RecipeReviewCard() {
   useEffect(() => {
     dispatch(setGlobalEstate())
     dispatch(getDetail(id))
+    setFilters({
+      "alpha": "",
+      "category": "",
+      "price": "",
+      "brand": "",
+      "rating": ""
+    })
   }, [dispatch])
 
   function handleFavorite(e) {
@@ -68,16 +82,27 @@ export default function RecipeReviewCard() {
     }
   }
 
-  // function handleBrand(brand) {
-  //   setFilters({
-  //     "alpha": "",
-  //     "category": "",
-  //     "price": "",
-  //     "brand": brand,
-  //     "rating": ""
-  //   })
-  //   navigate('/home')
-  // }
+  function handleBrand(brand) {
+    setFilters({
+      "alpha": "",
+      "category": "",
+      "price": "",
+      "brand": brand,
+      "rating": ""
+    })
+    navigate('/home')
+  }
+
+  function handleCatgory(category) {
+    setFilters({
+      "alpha": "",
+      "category": category,
+      "price": "",
+      "brand": "",
+      "rating": ""
+    })
+    navigate('/home')
+  }
 
   const handleColor = (e) => {
     setColor(e)
@@ -97,12 +122,19 @@ export default function RecipeReviewCard() {
         <div className='detail' key={item.id}>
           <div className='breadcrums'>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link to="/home" >
+              <Link color="primary" href="/home">
                 Products
               </Link>
-
-
-              <Typography color="textPrimary">{item.categories?.map(e => e.name)}</Typography>
+              <Link color="primary" onClick={() => handleBrand(item.brand)}>
+                {item.brand}
+              </Link>
+              { 
+                item.categories.map(c =>
+                  <Link color="primary" onClick={() => handleCatgory(c.name)}>
+                    {c.name}
+                  </Link>
+                  )
+              }
               <Typography color="textPrimary">{item.name}</Typography>
             </Breadcrumbs>
           </div>
