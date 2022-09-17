@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostReview() {
     const { id } = useParams();
-    const item = useSelector((state) => state.productDetail)
+    const item = useSelector((state) => state.productDetail?.dbInfo)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
@@ -120,8 +120,9 @@ export default function PostReview() {
             text: "",
             score: 0,
         })
-        navigate('/')
+        navigate(`/${item.id}`)
     }
+
 
     return (
         <div className={classes.container}>
@@ -155,8 +156,10 @@ export default function PostReview() {
                    
                     <div className={classes.item}>
                     <h4>You are Reviewing:</h4>
-                    <Typography color="textPrimary">{item.name}</Typography>
-                    <img src={item.image_link || defaultImage} alt="imagen detalle" width='250px' height='250px' className={classes.image}/> 
+
+                    <Typography color="textPrimary">{item?.name}</Typography>
+                    <img src={item?.image_link || defaultImage} width='250px' height='250px' className={classes.image}/> 
+
                     </div>
                         
 

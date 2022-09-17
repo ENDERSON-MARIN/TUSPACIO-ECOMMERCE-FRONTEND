@@ -41,12 +41,20 @@ const SearchBar = ({ placeholder, data }) => {
     
   }
 
-  console.log(wordEntered)
+  const _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(getName(wordEntered))
+      setFilteredData([])
+      setWordEntered('')
+    }
+  }
+
+  
 
   return (
     <div className='search'>
       <div className='searchInputs'>
-        <input type="text" placeholder={placeholder} value={wordEntered} onChange={handleFilter} />
+        <input type="text" placeholder={placeholder} value={wordEntered} onChange={handleFilter} onKeyDown={(e) => _handleKeyDown(e)}/>
         <div className='searchIcon'>
           
               <SearchIcon id='searchBtn' onClick={handleSearch}/> 

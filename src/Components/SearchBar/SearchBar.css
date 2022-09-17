@@ -77,6 +77,10 @@ a:hover {
 
 #searchBtn {
   width: 25px;
+  cursor: pointer;
+  filter: invert(100%) sepia(98%) saturate(9%) hue-rotate(166deg) brightness(104%) contrast(104%);
+
+
 }
 
 #noProduct {

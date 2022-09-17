@@ -16,6 +16,7 @@ export default function SpacingGrid(order) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
+  const productsCopy = useSelector((state) => state.productsCopy);
   const favorites = useSelector((state) => state.favorites);
   // const cart = useSelector((state) => state.cart);
 
@@ -65,7 +66,7 @@ export default function SpacingGrid(order) {
         <Grid item xs={10}>
           <Box mb={4}>
             <Grid container justifyContent="center" spacing={spacing}>
-            {RENDERED_PRODUCTS.length === 0 ? <div className="load load--full-height"></div> :
+            {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
               RENDERED_PRODUCTS?.map((product, index) => (
                 <Grid key={index} item>
                   <HomeCards
@@ -75,6 +76,9 @@ export default function SpacingGrid(order) {
                   />
                 </Grid>
               ))}
+              {products.length === 0 && productsCopy.length > 0 ?
+              <h2>No products found</h2> : null
+              }
             </Grid>
           </Box>
         </Grid>
@@ -92,6 +96,7 @@ export default function SpacingGrid(order) {
       <div>
         <Contenido />
       </div>
+      
     </>
   );
 }

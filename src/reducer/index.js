@@ -34,6 +34,7 @@ import {
   SET_GLOBAL_STATE,
   GET_ALL_USERS,
   DELETE_USER,
+  MAKE_ADMIN,
 
 } from "../actions";
 
@@ -352,7 +353,10 @@ function rootReducer(state = initialState, action) {
     case DELETE_USER:
       return {
         ...state,
-
+      }
+    case MAKE_ADMIN:
+      return {
+        ...state,
       }
     default:
       return state;

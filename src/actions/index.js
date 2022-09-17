@@ -35,15 +35,15 @@ export const CREATE_USER = "CREATE_USER";
 export const SET_GLOBAL_STATE = "SET_GLOBAL_STATE";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
+export const MAKE_ADMIN = "MAKE_ADMIN";
 
-
-//API LOCAL
-const API = "http://localhost:3001/api";
+//API
+const API = /*"https://tuspacio.herokuapp.com/api" ||*/ "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/products`);
+      var json = await axios.get(`${API}/products`);
       return dispatch({
         type: GET_ALL_PRODUCTS,
         payload: json.data,
@@ -70,7 +70,7 @@ export function getAllBrands(categorie) {
   } else {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/products/brand`);
+      var json = await axios.get(`${API}/products/brand`);
       return dispatch({
         type: GET_ALL_BRANDS,
         payload: json.data,
@@ -121,7 +121,7 @@ export function setCurrentHomePage(page) {
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/product/${id}`);
+      var json = await axios.get(`${API}/product/${id}`);
       return dispatch({
         type: GET_DETAIL,
         payload: json.data,
@@ -135,7 +135,7 @@ export function getDetail(id) {
 export function getName(name) {
   return async function (dispatch) {
     try {
-      var json = await axios.get("/products/search/?name=" + name);
+      var json = await axios.get(`${API}/products/search/?name=${name}`);
       return dispatch({
         type: GET_NAME,
         payload: json.data,
@@ -159,7 +159,7 @@ export function postNewProduct(payload) {
 
 export function postReview(payload) {
   return function (dispatch) {
-    const newReviewResult = axios.post(`/products/reviews`, payload);
+    const newReviewResult = axios.post(`${API}/products/reviews`, payload);
     dispatch({
       type: POST_REVIEW,
       payload,
@@ -171,7 +171,7 @@ export function postReview(payload) {
 export function updateRating(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/products/reviews/productId/${id}`);
+      var json = await axios.get(`${API}/products/reviews/productId/${id}`);
       return dispatch({
         type: UPDATE_RATING,
         payload: json.data,
@@ -354,7 +354,6 @@ export const createUser = (payload) => {
   };
 }
 
-
 export function setGlobalEstate () {
   return {
   type: SET_GLOBAL_STATE,
@@ -388,4 +387,18 @@ export const deleteUser = (id) => {
     }
   };
 
+}
+
+export const makeAdmin = (id, role) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.patch(`${API}/user/${id}`, role);
+      return dispatch({
+        type: MAKE_ADMIN,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }

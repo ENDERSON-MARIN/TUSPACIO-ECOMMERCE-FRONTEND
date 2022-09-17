@@ -14,6 +14,19 @@ import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import ReactImageMagnify from 'react-image-magnify';
 import useStyles from './useStyles'
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MoodIcon from '@material-ui/icons/Mood';
+import MoodBadIcon from '@material-ui/icons/MoodBad';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { useNavigate } from 'react-router-dom';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+
+
 
 
 export default function RecipeReviewCard() {
@@ -26,14 +39,16 @@ export default function RecipeReviewCard() {
 //  };
 
  const dispatch = useDispatch()
- const item = useSelector((state) => state.productDetail)
+ const item = useSelector((state) => state.productDetail?.dbInfo)
+ const reviews = useSelector((state) => state.productDetail?.reviews)
  const cart = useSelector((state) => state.cart)
  const fav = useSelector((state) => state.favorites)
-//  const [count, setCount] = useState(1)
+ const [count, setCount] = useState(1)
+ const navigate = useNavigate();
+
 
  const [color,setColor] = useState('')
-
- const image = item.image_link
+ const reviewsTotal = reviews?.length + 100
 
  
 
@@ -61,6 +76,12 @@ export default function RecipeReviewCard() {
    setColor(e)
   }
 
+  const handleReview = (id) => {
+    navigate(`/reviews/${id}`);
+  };
+
+ 
+
  return (
             <div>
 
@@ -80,8 +101,7 @@ export default function RecipeReviewCard() {
                </div>
                <div className='image-list'>
 
-               <img src={item.image_link || defaultImage} className={`${item.stock} ${item.stock === 0 ? 'byn-small' : 'detail-img-small'}`}/> 
-
+               <img src={item.image_link  || defaultImage} className={`${item.stock} ${item.stock === 0 ? 'byn-small' : 'detail-img-small'}`}/> 
 
                </div>  
                
@@ -158,9 +178,54 @@ export default function RecipeReviewCard() {
                        
                    </div>
                    
-               </div>
-           </div> : <div className="loading loading--full-height"></div> 
+               </div> 
+                      
+              </div>
+
+           : <div className="loading loading--full-height"></div> 
            }
+                    <div className={classes.ratingBtn}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      endIcon={<TrendingUpIcon/>}
+                      onClick={() => handleReview(item.id)}>
+                        Rate this item
+                    </Button>
+                    </div>
+                    <Divider variant="middle"  component="h1" />
+                    {item?
+                    <div className={classes.ratingCont}>
+                       <h3>Product Reviews</h3>
+                       <h1>{item.rating}</h1>
+                       <Box component="fieldset" borderColor="transparent" m={0} p={0} >
+                       <Rating name="read-only" value={item.rating} readOnly precision={0.1} size="large" zIndex={-1}/>
+                       </Box>
+                        
+
+                       <p>{reviewsTotal}</p>
+                      
+                      <List className={classes.reviewsList}>
+
+                      {reviews?.map(review => 
+
+                      <ListItem>
+                      <Button 
+                      size="small" 
+                      >
+                      {review.score < 3 ? 
+                        <ThumbDownIcon className={classes.iconRed}/> : 
+                        <ThumbUpIcon className={classes.iconGreen}/>} 
+                       </Button>
+                        <ListItemText primary={review.title} secondary={review.text} />
+                        <Rating name="read-only" value={review.score} readOnly precision={0.1} size="medium" zIndex={-1}/>
+                        <Divider variant="middle"  component="li" />
+                      </ListItem>
+
+                        )}
+                     
+                    </List>
+                    </div> : null  }
            </div>
  );
 }
