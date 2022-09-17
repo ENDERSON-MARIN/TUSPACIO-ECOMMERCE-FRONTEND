@@ -5,28 +5,43 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0),
       borderColor: '#257558',
       color: '#257558',
-      width: 250
+      width: 'auto',
+      
+
     },
     button2: {
         margin: theme.spacing(5),
         backgroundColor: '#257558',
         color: '#fff',
-        width: 250,
+        width: 'auto',
     },
     table: {
-      minWidth: 700,
       width: '80%',
-      marginLeft: 'auto',
-      marginRight: 'auto',
       marginTop: 50,
+      marginLeft:'auto',
+      marginRight:'auto'
       
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120,
+      maxWidth: 120,
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
+    },
+    alert: {
+      width: '50%',
+      marginTop: 80,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginLeft:'auto',
+      marginRight: 'auto',
+
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+      
     },
   }));
 

@@ -75,7 +75,7 @@ export function getCategories() {
       .then((c) => {
         dispatch({
           type: GET_CATEGORIES,
-          payload: c.data.allCategories,
+          payload: c.data,
         });
       })
       .catch((error) => {

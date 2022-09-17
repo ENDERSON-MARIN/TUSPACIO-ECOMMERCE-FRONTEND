@@ -16,6 +16,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useStyles from './useStyles';
 import { StyledTableCell, StyledTableRow } from './withStyles';
 import axios from 'axios';
+import { useState } from 'react';
+import img from '../../assets/images/emptyCart.png'
+
+
+
+
  
 const Cart = () => {
   const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
@@ -23,6 +29,7 @@ const Cart = () => {
   const cartProducts = useSelector((state) => state.cart)
   const classes = useStyles();
   const { user, isAuthenticated } = useAuth0();
+  const [empty, setEmpty] = useState('')
 
   function handleDelete(e){
     dispatch(removeFromCart(e))
@@ -61,17 +68,20 @@ const Cart = () => {
       alert("Please login to checkout")
     }
   }
+
+
+
       
     return (
     < div className='gral-container'>
-    { cartProducts.length === 0 ? <Box
-          textAlign="center"
-          marginBottom="20px" 
-          marginTop="100px"
-          fontWeight="fontWeightBold"
-          fontSize={30}>
-            Your Cart is Empty
-        </Box> : 
+    { cartProducts.length === 0 ? 
+
+    <div className={classes.alert}>
+        <img src={img} alt="Empty Cart" />
+        
+       <h4>Your Cart is Empty -- <strong> <a href="/home" id='a'>Go Shop Now!</a> </strong></h4> 
+    </div>
+    : 
         <div >
     <TableContainer component={Paper}  className={classes.root}>
       <Table className={classes.table} aria-label="customized table">
@@ -93,9 +103,11 @@ const Cart = () => {
               <StyledTableCell align="right">{row.name}</StyledTableCell>
               <StyledTableCell align="right">$ {Math.ceil(row.price) * row.quantity}</StyledTableCell>
               <StyledTableCell align="right">
+                <div className='change'>
               <button className='count' onClick={() => handleDecrement(row.id)}>-</button>
               <span id = 'span'>{row.quantity}</span>
               <button className='count' onClick={() => handleIncrement(row.id)}>+</button>
+              </div>
               </StyledTableCell>
               <StyledTableCell align="right">
               <Button 

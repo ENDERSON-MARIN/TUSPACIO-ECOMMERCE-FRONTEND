@@ -117,7 +117,7 @@ export default function Filter({setOrder}) {
                         >
                             <option aria-label="None" value="" />
                             {
-                                categories.length &&
+                                categories?.length &&
                                 categories.map( c => <option value={`${c.name}`}>{`${c.name.toUpperCase()}`}</option> )
                             }
                         </Select>

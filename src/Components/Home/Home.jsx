@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import HomeCards from "../../Components/HomeCards/HomeCards";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../actions";
+import { getAllOrders, getAllProducts } from "../../actions";
 import BasicPagination from "../BasicPagination/Pagination";
 // import LandingPage from "../Landing/Landing";
 import { Box } from "@material-ui/core";
 import useStyles from "./useStyles";
+import img from '../../assets/images/noProduct.png'
+
 
 import Contenido from "../Chatbot/Chatbot";
 import "./Home.css";
@@ -29,6 +31,7 @@ export default function SpacingGrid(order) {
 
   useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(getAllOrders())
   }, [dispatch]);
 
   const handleChange = (event) => {
@@ -77,7 +80,13 @@ export default function SpacingGrid(order) {
                 </Grid>
               ))}
               {products.length === 0 && productsCopy.length > 0 ?
-              <h2>No products found</h2> : null
+              <div className={classes.alert}>
+              <img src={img} alt="Empty Cart" />
+              
+             <h4>Sorry, No Product Found-- <strong> <a href="/home" id='a'>Go Home!</a> </strong></h4> 
+              </div>
+              
+              : null
               }
             </Grid>
           </Box>

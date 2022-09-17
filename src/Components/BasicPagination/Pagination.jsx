@@ -45,7 +45,7 @@ export default function BasicPagination(
         count={pages.length}
         shape="rounded" 
         variant="outlined"
-        size="large" 
+        size="medium" 
         color="primary"
         onChange = {(event,page)=>handlePageClick(page)}
         hideNextButton={false}
