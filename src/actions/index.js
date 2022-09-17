@@ -37,12 +37,10 @@ export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
 export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
+export const MAKE_ADMIN = "MAKE_ADMIN";
 
-//API LOCAL
-// const API = "http://localhost:3001/api";
-
-//API DEPLOYADA
-const API = "https://tuspacio.herokuapp.com/api"
+//API
+const API = /*"https://tuspacio.herokuapp.com/api" ||*/ "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -58,7 +56,20 @@ export function getAllProducts() {
   };
 }
 
-export function getAllBrands() {
+export function getAllBrands(categorie) {
+  if (categorie) {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/products/brand?categorie=${categorie}`);
+        return dispatch({
+          type: GET_ALL_BRANDS,
+          payload: json.data,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  } else {
   return async function (dispatch) {
     try {
       var json = await axios.get(`${API}/products/brand`);
@@ -71,37 +82,35 @@ export function getAllBrands() {
     }
   };
 }
-
-export function getCategories() {
-  return function (dispatch) {
-    return axios
-      .get(`${API}/categories`) 
-      .then((c) => {
-        dispatch({
-          type: GET_CATEGORIES,
-          payload: c.data, // .allCategories se saco por que se cambia la ruta
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 }
 
-export function getProductTypes() {
-  return function (dispatch) {
-    return axios
-      .get(`${API}/products/productType`) 
-      .then((p) => {
-        dispatch({
-          type: GET_PRODUCTYPES,
-          payload: p.data,
+export function getCategories(brand) {
+  if (brand) {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/categories?brand=${brand}`);
+        return dispatch({
+          type: GET_CATEGORIES,
+          payload: json.data,
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  } else {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/categories`);
+        return dispatch({
+          type: GET_CATEGORIES,
+          payload: json.data,
+
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }
 }
 
 export function setCurrentHomePage(page) {
@@ -347,7 +356,6 @@ export const createUser = (payload) => {
   };
 }
 
-
 export function setGlobalEstate () {
   return {
   type: SET_GLOBAL_STATE,
@@ -395,4 +403,16 @@ export const addNewCategory = (payload) => {
       console.error(error);
     }
   };
-}
+
+export const makeAdmin = (id, role) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.patch(`${API}/user/${id}`, role);
+      return dispatch({
+        type: MAKE_ADMIN,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };

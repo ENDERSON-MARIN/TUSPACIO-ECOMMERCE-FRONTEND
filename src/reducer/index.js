@@ -36,6 +36,7 @@ import {
   DELETE_USER,
   GET_PRODUCTYPES,
   CREATE_CATEGORY
+  MAKE_ADMIN,
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -361,6 +362,10 @@ function rootReducer(state = initialState, action) {
         producTypes: action.payload
       } 
     case CREATE_CATEGORY:
+      return {
+        ...state,
+      }
+    case MAKE_ADMIN:
       return {
         ...state,
       }

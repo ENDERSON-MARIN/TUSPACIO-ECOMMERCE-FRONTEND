@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Filter({setOrder, filters, setFilters}) {
     const navigate = useNavigate()
-    const categories = useSelector((state) => state.categories)
-    const brands = useSelector((state) => state.brands)
+    let categories = useSelector((state) => state.categories)
+    let brands = useSelector((state) => state.brands)
     const classes = useStyles();
     
     const dispatch = useDispatch();
@@ -36,9 +36,9 @@ export default function Filter({setOrder, filters, setFilters}) {
     const {alpha,category,price,brand,rating} = filters;
     
     useEffect ( () => {
-        dispatch(getCategories())
-        dispatch(getAllBrands())
-    }, [dispatch] )
+         dispatch(categories = getCategories(filters.brand))
+         dispatch(brands = getAllBrands(filters.category))
+    }, [filters.brand, filters.category] )
     
     function handlefilter(e) {
         e.preventDefault();
