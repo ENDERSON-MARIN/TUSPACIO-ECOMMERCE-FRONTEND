@@ -35,7 +35,7 @@ import {
   GET_ALL_USERS,
   DELETE_USER,
   GET_PRODUCTYPES,
-  CREATE_CATEGORY
+  CREATE_CATEGORY,
   MAKE_ADMIN,
 } from "../actions";
 

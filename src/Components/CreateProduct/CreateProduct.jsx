@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, setDashboardItem } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 

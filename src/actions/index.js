@@ -40,7 +40,7 @@ export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
 
 //API
-const API = /*"https://tuspacio.herokuapp.com/api" ||*/ "http://localhost:3001/api";
+const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -403,6 +403,7 @@ export const addNewCategory = (payload) => {
       console.error(error);
     }
   };
+}
 
 export const makeAdmin = (id, role) => {
   return async function (dispatch) {
@@ -415,4 +416,21 @@ export const makeAdmin = (id, role) => {
     } catch (error) {
       console.error(error);
     }
+  }
+};
+
+export function getProductTypes() {
+  return function (dispatch) {
+    return axios
+      .get(`${API}/products/productType`) 
+      .then((p) => {
+        dispatch({
+          type: GET_PRODUCTYPES,
+          payload: p.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+}
