@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 100,
+        width: "150px",
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -66,6 +66,7 @@ export default function CreateProduct() {
     const allProductTypes = useSelector((state) => state.producTypes);
     const allBrands = useSelector((state) => state.brands);
     const [errors, setErrors] = useState({});
+    const [newCateg,setNewCateg] = useState(false)
     const [colors, setColors] = useState({
         azul: 0,
         rojo: 0,
@@ -201,7 +202,7 @@ export default function CreateProduct() {
 
     let handleCategories = (e) => {
         let category = e.target.value.toString()
-        // console.log(category)
+        if (category === "add") return setNewCateg(true);
         if (!categories.length) {
             setCategories([category])
             setErrors(validation({...input, categories: [category]}))
@@ -241,7 +242,7 @@ export default function CreateProduct() {
             // </Snackbar> 
             // </> 
         }
-        input.categories = ["mascara"];
+        input.categories = categories;
         input.product_colors = addColors;
         console.log(input)
         let result = dispatch(postNewProduct(input))
@@ -363,6 +364,7 @@ export default function CreateProduct() {
                                 allCategories.map( category =>
                                 <option value={`${category.name}`}>{`${category.name}`}</option> )
                             }
+                                <option value="add">Add new category...</option>
                             </Select>
                         </FormControl>
                         <Box>
@@ -384,29 +386,7 @@ export default function CreateProduct() {
                             }
                         </Box>
                     </Box>
-                    <Box key='divStock'>
-                        <FormControl variant="filled" className={classes.formControl}>
-                            <InputLabel htmlFor="filled-age-native-simple">Select Product Type</InputLabel>
-                            <Select
-                                native
-                                className={classes.select}
-                                name="product_type"
-                                value={input.product_type}
-                                onChange={(e) => handleChange(e)}
-                            >
-                                <option aria-label="None" value="" />
-                            {
-                                allProductTypes.map( pt =>
-                                <option value={`${pt.product_type}`}>{`${pt.product_type}`}</option> )
-                            }
-                            </Select>
-                        </FormControl>
-                        {
-                            errors.product_type && (
-                                <FormHelperText>{errors.product_type}</FormHelperText>
-                            )
-                        }
-                    </Box>  
+                      
                 </Box>
                 
                 <Box
@@ -457,7 +437,30 @@ export default function CreateProduct() {
                                 <FormHelperText>{errors.stock}</FormHelperText>
                             )
                         }
-                    </div> 
+                    </div>
+                    <Box key='divStock'>
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel htmlFor="filled-age-native-simple">Select Product Type</InputLabel>
+                            <Select
+                                native
+                                className={classes.select}
+                                name="product_type"
+                                value={input.product_type}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <option aria-label="None" value="" />
+                            {
+                                allProductTypes.map( pt =>
+                                <option value={`${pt.product_type}`}>{`${pt.product_type}`}</option> )
+                            }
+                            </Select>
+                        </FormControl>
+                        {
+                            errors.product_type && (
+                                <FormHelperText>{errors.product_type}</FormHelperText>
+                            )
+                        }
+                    </Box>
                     {/* <Box key='divPriceSign'>
                         <TextField
                             required
@@ -500,7 +503,7 @@ export default function CreateProduct() {
                     // position="relative"
                     width='250px'
                     height='250px'
-                    bgcolor={"rgba(156, 235, 162, 0.589)"}
+                    // bgcolor={"rgba(156, 235, 162, 0.589)"}
                     // p={4}
                     direction="column"
                     justifyContent="center"
