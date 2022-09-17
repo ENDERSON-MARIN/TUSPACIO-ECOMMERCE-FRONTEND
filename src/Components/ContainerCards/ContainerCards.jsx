@@ -5,15 +5,17 @@ import Home from '../../Components/Home/Home';
 import Filter from "../Filter/Filter";
 // import PersistentDrawerLeft from '../Drawer/Drawer'
 
-export default function ContainerCards() {
+export default function ContainerCards({filters, setFilters}) {
     
     const [order, setOrder] = useState("")
-       
+           
     return(
         <div className="gral-container">
             {/*<PersistentDrawerLeft />*/}
             <Filter 
-                setOrder={setOrder} 
+                setOrder={setOrder}
+                filters={filters}
+                setFilters={setFilters} 
             />
             <Home order={order}/>
         </div>

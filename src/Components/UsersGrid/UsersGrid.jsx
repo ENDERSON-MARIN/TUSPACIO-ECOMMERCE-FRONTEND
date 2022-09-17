@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,33 +9,35 @@ import useStyles from './useStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-import axios from 'axios';
-import { getAllUsers, deleteUser } from '../../actions';
+//import axios from 'axios';
+import { getAllUsers, deleteUser, makeAdmin } from '../../actions';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 export default function UsersGrid() {
   const classes = useStyles();
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
+  const [tempRole, setTempRole] = useState(1);
+  const [tempDelete, setTempDelete] = useState(1);
 
   useEffect(() => {
     dispatch(getAllUsers());
-  }, [dispatch]);
+  }, [dispatch, ]);
   
-  //actualizar render cuando se elimina un usuario
   useEffect(() => {
     dispatch(getAllUsers());
-  }, [dispatch, users]);
+  }, [dispatch, tempRole]);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch, tempDelete]);
+
+  
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 40,},
-    {
-    field: 'sid',
-    headerName: 'SID',
-    type: 'image',
-    width: 300,
-    editable: false,
-  },
+  { field: 'role', headerName: 'Role', width: 70,},
   {
     field: 'nickname',
     headerName: 'Nickname',
@@ -45,14 +47,14 @@ export default function UsersGrid() {
   {
     field: 'name',
     headerName: 'Name',
-    width: 200,
+    width: 170,
     editable: false,
   },
   {
     field: 'email',
     headerName: 'E-mail',
     type: 'email',
-    width: 200,
+    width: 250,
     editable: false,
   },
   {
@@ -68,6 +70,7 @@ export default function UsersGrid() {
               className={classes.deleteBtn}
               startIcon={<DeleteIcon />}
               onClick={() => {
+                setTempDelete(tempDelete + 1);
                 dispatch(deleteUser(params.row.id))
                 notifyUserDeleted()}}>
                 Delete
@@ -77,22 +80,45 @@ export default function UsersGrid() {
         );
     }
   },
-   {
+  {
     field: 'password',
     headerName: 'Password',
-    width: 150,
+    width: 130,
     sortable: false,
     renderCell: (params) => {
         return (
           <div className="cellAction">
             <Button
               variant="contained"
-              color=""
               className={classes.resetBtn}
               startIcon={<RotateLeftIcon />}
-              onClick={() => {
-                axios.post('http://localhost:3001/api/users/reset')}}>
-                Reset
+              onClick={() => {}}
+            >
+              Reset
+            </Button>
+            <ToastContainer />
+          </div>
+        );
+    }
+  },
+  {
+    field: 'admin',
+    headerName: 'Admin',
+    width: 130,
+    sortable: false,
+    renderCell: (params) => {
+      console.log(params)
+        return (
+          <div className="cellAction">
+            <Button
+              variant="contained"
+              className={classes.makeBtn}
+              startIcon={<SupervisorAccountIcon />}
+              onClick={() => { 
+                setTempRole(tempRole + 1);
+                dispatch(makeAdmin(params.row.id, params.row.role)) 
+              }}>
+                {params.row.role === 'User' ? 'Make' : 'Cancel'}
             </Button>
             <ToastContainer />
           </div>
@@ -106,7 +132,7 @@ export default function UsersGrid() {
   const rows = ActiveUsers.map((user) => {
       return {
         id: user.id,
-        sid: user.sid? user.sid : 'No SID',
+        role: user.rol_id === 2 ? "Admin" : "User",
         nickname: user.nickname,
         name: user.name,
         age: user.age,
@@ -135,8 +161,6 @@ export default function UsersGrid() {
     draggable: true,
     progress: undefined,
   });*/
-
-  console.log(ActiveUsers)
 
   return (
     <div>

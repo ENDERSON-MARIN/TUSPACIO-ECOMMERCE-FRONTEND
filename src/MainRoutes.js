@@ -18,8 +18,18 @@ import CreateUser from './Components/CreateUser/CreateUser.jsx';
 import LandingPage from './Components/LandingPage/LandingPage';
 import CheckoutSuccess from './Components/Checkout/CheckoutSuccess';
 import PostReview from './Components/PostReview/PostReview';
+import { useState } from 'react';
 
 function MainRoutes() {
+
+  const [filters, setFilters] = useState({
+    "alpha": "",
+    "category": "",
+    "price": "",
+    "brand": "",
+    "rating": ""
+  })
+
   return (
     <Box>  
       {/*<ThemeProvider theme={theme}>*/}
@@ -29,8 +39,8 @@ function MainRoutes() {
       >
         <Routes >
           <Route path="/" element={ <LandingPage /> } /> 
-          <Route path="/home" exact element={ <ContainerCards /> } /> 
-          <Route path="/:id" exact element={ <Detail /> } />
+          <Route path="/home" exact element={ <ContainerCards filters={filters} setFilters={setFilters}/> } /> 
+          <Route path="/:id" exact element={ <Detail setFilters={setFilters}/> } />
           <Route path="/service" element={ <DetailService /> } />
           <Route path="/createUser" element={ <CreateUser /> } />
           <Route path="/create" element={ <CreateProduct /> } />
