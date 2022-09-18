@@ -394,10 +394,10 @@ export const deleteUser = (id) => {
 
 }
 
-export const addNewCategory = (payload) => {
+export const addNewCategory = (category) => {
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/categories`, payload);
+      const json = await axios.post(`${API}/categories`, category);
       return dispatch({
         type: CREATE_CATEGORY,
         payload: json.data,

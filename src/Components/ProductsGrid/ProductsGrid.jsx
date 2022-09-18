@@ -8,7 +8,8 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { getAllProducts, setDashboardItem } from '../../actions';
+import { getAllProducts, setDashboardItem, 
+  addNewCategory } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
@@ -122,7 +123,6 @@ export default function ProductsGrid() {
     }
   });
 
-
   const navigate = useNavigate();
 
   const handleView = (id) => {
@@ -139,11 +139,29 @@ export default function ProductsGrid() {
 
   const handleCreateCategory = (e) => {
     e.preventDefault();
-    return !category ? notifyEmptyCategory() : null //dispatch(createCategory(category))
+    if(!category){
+      notifyEmptyCategory()
+    } else{
+      dispatch(addNewCategory(category));
+      setCategory('');
+      e.target.value = '';
+      notifyCategoryCreated()
+    }
   }
 
   const notifyEmptyCategory= () => 
   toast.error('Please enter a category name.', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
+  const notifyCategoryCreated= () => 
+  toast.success('Category was created!', {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: true,
@@ -168,6 +186,7 @@ export default function ProductsGrid() {
         <form>
           <TextField 
             id="category" 
+            value={category}
             type="text" 
             placeholder="Add new category" 
             onChange={(e) => setCategory(e.target.value)}
