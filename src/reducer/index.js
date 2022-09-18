@@ -91,7 +91,7 @@ const initialState = {
   dashboardItem: 'Dashboard',
   users: [],
   producTypes: [],
-  ordersUser: {}
+  ordersUser: []
 };
 
 function rootReducer(state = initialState, action) {

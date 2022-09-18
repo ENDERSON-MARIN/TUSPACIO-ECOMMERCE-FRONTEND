@@ -441,7 +441,6 @@ export function getOrdersUser(id) {
     return axios
       .get(`${API}/orders/user/${id}`) 
       .then((o) => {
-        console.log(`entre aqui y tengo ${o}`)
         dispatch({
           type: GET_ORDERS_USER,
           payload: o.data,

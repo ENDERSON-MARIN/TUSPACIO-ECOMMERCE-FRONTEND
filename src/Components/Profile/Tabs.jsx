@@ -9,6 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersUser } from '../../actions';
+import { Chip, Link } from '@material-ui/core';
+// import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
+import DoneIcon from '@material-ui/icons/Done';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -47,44 +52,68 @@ const useStyles = makeStyles({
 });
 
 export default function CustomizedTables({ id }) {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles();
     const ordersUser = useSelector(state => state.ordersUser);
-    console.log(id)
-    
-    // useEffect(() => {
-    //     dispatch(getOrdersUser(id))
-    // }, [dispatch])
+        
+    useEffect(() => {
+        dispatch(getOrdersUser(id))
+    }, [])
 
-
+    let rows2 = ordersUser.map(o => o.orderProducts.map(p => { return {
+        date: o.updatedAt, id: p.id, img: p.image_link, name: p.name, price: p.price, quantity: p.quantity
+    }})).flat()
+    console.log(rows2)
+    console.log(ordersUser)
     return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell>Product</StyledTableCell>
-                        <StyledTableCell align="right">Name</StyledTableCell>
-                        <StyledTableCell align="right">Price</StyledTableCell>
-                        <StyledTableCell align="right">Quantity</StyledTableCell>
-                        <StyledTableCell align="right">Date</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.img}
-                        >
-                            {/* <img src={row.image_link} /> */}
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.name}</StyledTableCell>
-                            <StyledTableCell align="right">{row.price}</StyledTableCell>
-                            <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                            <StyledTableCell align="right">{row.date}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            {
+                ordersUser.length 
+                ?   <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align="center">Date</StyledTableCell>
+                                    <StyledTableCell align="center">Product</StyledTableCell>
+                                    <StyledTableCell align="center">Name</StyledTableCell>
+                                    <StyledTableCell align="center">Unit Price</StyledTableCell>
+                                    <StyledTableCell align="center">Purchased amount</StyledTableCell>
+                                    <StyledTableCell align="center">Ranked</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows2.map((row) => (
+                                    <StyledTableRow key={row.id}
+                                    >
+                                        <StyledTableCell align="center">{row.date}</StyledTableCell>
+                                        <StyledTableCell align="center" component="th" scope="row">
+                                            <Link onClick={() => navigate(`/${row.id}`)}>
+                                               <img src={row.img} alt={`img-${row.id}`} width="50px"/>
+                                            </Link>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">{row.name}</StyledTableCell>
+                                        <StyledTableCell align="center">{`$ ${row.price}`}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.quantity}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <Chip
+                                                variant="outlined"
+                                                size="small"
+                                                icon={<FaceIcon />}
+                                                label="Ranked!!"
+                                                clickable
+                                                color="primary"
+                                                // onDelete={handleDelete}
+                                                // deleteIcon={<DoneIcon />}
+                                            />
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                :   <StyledTableCell align='left'>Section where you can see your future purchases</StyledTableCell>
+            }
+        </>
     );
 }

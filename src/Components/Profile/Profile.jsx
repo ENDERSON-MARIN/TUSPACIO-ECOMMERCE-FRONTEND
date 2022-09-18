@@ -10,11 +10,15 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
+import Login from '../Login/Login';
 // import TableRow from '@material-ui/core/TableRow';
 import PopUp from './PopUp'
 import { IconButton } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
+import { postUser } from '../../actions';
+import { useNavigate } from 'react-router-dom';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -71,20 +75,27 @@ const useStyles = makeStyles((theme) => ({
 
 
 // ---- Hardcodeo del objeto de Auth0 -- > User & isAthenticate, para la renderización de la primer parte---- //
-// const user = {
-//     name: 'Carolina Castillo Andrada',
-//     email: 'carolinacastilloandrad@gmail.com',
-//     nickname: 'Carolina',
-//     password: '*********',
-//     address: 'Avellaneda 679',
-// }
+
 
 
 export default function Profile() {
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
+    const navigate = useNavigate()
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
-    const user = useSelector(state => state.infoUser[0]);
+    // const user = useSelector(state => state.infoUser[0]);
+    const user = {
+        id: 1,
+        name: 'Tu Spacio',
+        email: 'tuspaciopg@gmail.com',
+        nickname: 'TuSpacio',
+        password: '*********',
+        address: 'Av. Siempre Viva 123',
+    }
+
+    // const { isAuthenticated } = useAuth0();
+
+    // if (!isAuthenticated) return navigate('/home')
 
     return (
         <div className={classes.root}>
@@ -148,7 +159,8 @@ export default function Profile() {
                     </Grid>
                     <Grid item xs={12}>
                         <Box className={classes.box}>
-                            <CustomizedTables id={user.id}/>
+                            <CustomizedTables id={"google-oauth2|113743980042929626345"}/>  
+                            {/* user.sid es el valor que va en id -- solo se esta probando*/}
                         </Box>
                     </Grid>
                     <PopUp
