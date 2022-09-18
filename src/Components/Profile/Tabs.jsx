@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersUser } from '../../actions';
-import { Chip, Link } from '@material-ui/core';
+import { Badge, Chip, IconButton, Link } from '@material-ui/core';
 // import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
@@ -66,6 +66,7 @@ export default function CustomizedTables({ id }) {
     }})).flat()
     console.log(rows2)
     console.log(ordersUser)
+
     return (
         <>
             {
@@ -86,11 +87,11 @@ export default function CustomizedTables({ id }) {
                                 {rows2.map((row) => (
                                     <StyledTableRow key={row.id}
                                     >
-                                        <StyledTableCell align="center">{row.date}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.date.slice(0,10)}</StyledTableCell>
                                         <StyledTableCell align="center" component="th" scope="row">
-                                            <Link onClick={() => navigate(`/${row.id}`)}>
-                                               <img src={row.img} alt={`img-${row.id}`} width="50px"/>
-                                            </Link>
+                                            <IconButton color="primary" onClick={() => navigate(`/${row.id}`)}>
+                                                <img src={row.img} alt={`img-${row.id}`} width="50px"/>
+                                            </IconButton>
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.name}</StyledTableCell>
                                         <StyledTableCell align="center">{`$ ${row.price}`}</StyledTableCell>
@@ -103,6 +104,7 @@ export default function CustomizedTables({ id }) {
                                                 label="Ranked!!"
                                                 clickable
                                                 color="primary"
+                                                onClick={() => navigate(`/reviews/${row.id}`)}
                                                 // onDelete={handleDelete}
                                                 // deleteIcon={<DoneIcon />}
                                             />

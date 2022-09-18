@@ -224,7 +224,7 @@ export default function RecipeReviewCard({setFilters}) {
 
         : <div className="loading loading--full-height"></div>
       }
-      <div className={classes.ratingBtn}>
+      {/* <div className={classes.ratingBtn}>
         <Button
           variant="contained"
           color="primary"
@@ -232,7 +232,7 @@ export default function RecipeReviewCard({setFilters}) {
           onClick={() => handleReview(item.id)}>
           Rate this item
         </Button>
-      </div>
+      </div> */}
       <Divider variant="middle" component="h1" />
       {item ?
         <div className={classes.ratingCont}>

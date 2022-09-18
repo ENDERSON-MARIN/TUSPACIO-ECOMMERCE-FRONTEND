@@ -35,6 +35,8 @@ const StyledTableCell = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
         paddingTop: 65,
         paddingBottom: 40
     },
@@ -83,7 +85,7 @@ export default function Profile() {
     const navigate = useNavigate()
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
-    // const user = useSelector(state => state.infoUser[0]);
+    // const user = useSelector(state => state.infoUser[]);
     const user = {
         id: 1,
         name: 'Tu Spacio',
