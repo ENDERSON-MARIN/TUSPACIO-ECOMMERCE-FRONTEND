@@ -37,6 +37,7 @@ import {
   GET_PRODUCTYPES,
   CREATE_CATEGORY,
   MAKE_ADMIN,
+  GET_LATEST_ORDERS,
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -89,7 +90,8 @@ const initialState = {
   infoUser: {},
   dashboardItem: 'Dashboard',
   users: [],
-  producTypes: []
+  producTypes: [],
+  latestOrders: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -368,6 +370,11 @@ function rootReducer(state = initialState, action) {
     case MAKE_ADMIN:
       return {
         ...state,
+      }
+    case GET_LATEST_ORDERS:
+      return {
+        ...state,
+        latestOrders: action.payload
       }
     default:
       return state;

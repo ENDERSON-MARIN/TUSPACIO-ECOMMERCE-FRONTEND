@@ -38,6 +38,7 @@ export const DELETE_USER = "DELETE_USER";
 export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
+export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
 
 //API
 const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
@@ -434,5 +435,19 @@ export function getProductTypes() {
       .catch((error) => {
         console.log(error);
       });
+  };
+}
+
+export const getLatestOrders = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`${API}/orders/dashboard`);
+      return dispatch({
+        type: GET_LATEST_ORDERS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 }
