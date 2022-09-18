@@ -6,14 +6,8 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-  btnAdd:{
-    marginBottom: theme.spacing(3),
-    marginLeft: '43%',
-    backgroundColor: '#257558',
-    color: '#ffffff',
-    '&:hover': {
-      backgroundColor: '#37af84'
-    },
+  btnAdd: {
+
   },
    btnDelete:{
     backgroundColor: '#ff0000',
@@ -22,6 +16,16 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#ff4d4d'
     },
   },
+  controls:{
+    marginBottom: theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  btnCategory: {
+    marginLeft: theme.spacing(3),
+  }
 }));
 
 export default useStyles;
