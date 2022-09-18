@@ -38,6 +38,7 @@ export const DELETE_USER = "DELETE_USER";
 export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
+export const GET_ORDERS_USER = "GET_ORDERS_USER";
 
 //API
 const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
@@ -427,6 +428,23 @@ export function getProductTypes() {
         dispatch({
           type: GET_PRODUCTYPES,
           payload: p.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function getOrdersUser(id) {
+  return function (dispatch) {
+    return axios
+      .get(`${API}/orders/user/${id}`) 
+      .then((o) => {
+        console.log(`entre aqui y tengo ${o}`)
+        dispatch({
+          type: GET_ORDERS_USER,
+          payload: o.data,
         });
       })
       .catch((error) => {

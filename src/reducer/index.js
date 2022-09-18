@@ -37,6 +37,7 @@ import {
   GET_PRODUCTYPES,
   CREATE_CATEGORY,
   MAKE_ADMIN,
+  GET_ORDERS_USER
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -89,7 +90,8 @@ const initialState = {
   infoUser: {},
   dashboardItem: 'Dashboard',
   users: [],
-  producTypes: []
+  producTypes: [],
+  ordersUser: {}
 };
 
 function rootReducer(state = initialState, action) {
@@ -311,7 +313,7 @@ function rootReducer(state = initialState, action) {
     case POST_USER:
       return {
         ...state,
-        //infoUser: action.payload,
+        infoUser: action.payload,
       };
     case GET_ALL_ORDERS:
       return {
@@ -369,6 +371,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
       }
+    case GET_ORDERS_USER:
+    return {
+      ...state,
+      ordersUser: action.payload
+    } 
     default:
       return state;
   }
