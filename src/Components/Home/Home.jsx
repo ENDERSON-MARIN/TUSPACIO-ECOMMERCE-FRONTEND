@@ -88,6 +88,7 @@ export default function SpacingGrid(order) {
               
             </Grid>
           </Grid>
+        </Grid>
           <BasicPagination
           className={classes.centering}
           currentPage={currentPage}
@@ -95,7 +96,6 @@ export default function SpacingGrid(order) {
           totalProducts={products.length}
           onChange={handleChange}
         />
-        </Grid>
 
         
 
