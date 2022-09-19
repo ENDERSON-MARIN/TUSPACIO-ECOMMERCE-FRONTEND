@@ -38,12 +38,12 @@ export const DELETE_USER = "DELETE_USER";
 
 
 //API
-const API = "https://tuspacio.herokuapp.com/api"; //|| "http://localhost:3001/api";
+// const API = "https://tuspacio.herokuapp.com/api"; //|| "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products`);
+      var json = await axios.get(`/products`);
       return dispatch({
         type: GET_ALL_PRODUCTS,
         payload: json.data,
@@ -57,7 +57,7 @@ export function getAllProducts() {
 export function getAllBrands() {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products/brand`);
+      var json = await axios.get(`/products/brand`);
       return dispatch({
         type: GET_ALL_BRANDS,
         payload: json.data,
@@ -71,7 +71,7 @@ export function getAllBrands() {
 export function getCategories() {
   return function (dispatch) {
     return axios
-      .get(`${API}/categories`)
+      .get(`/categories`)
       .then((c) => {
         
         dispatch({
@@ -95,7 +95,7 @@ export function setCurrentHomePage(page) {
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/product/${id}`);
+      var json = await axios.get(`/product/${id}`);
       return dispatch({
         type: GET_DETAIL,
         payload: json.data,
@@ -109,7 +109,7 @@ export function getDetail(id) {
 export function getName(name) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products/search/?name=${name}`);
+      var json = await axios.get(`/products/search/?name=${name}`);
       return dispatch({
         type: GET_NAME,
         payload: json.data,
@@ -122,7 +122,7 @@ export function getName(name) {
 
 export function postNewProduct(payload) {
   return function (dispatch) {
-    const newProdResult = axios.post(`${API}/products`, payload);
+    const newProdResult = axios.post(`/products`, payload);
     dispatch({
       type: POST_PRODUCT,
       payload,
@@ -133,7 +133,7 @@ export function postNewProduct(payload) {
 
 export function postReview(payload) {
   return function (dispatch) {
-    const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+    const newReviewResult = axios.post(`/products/reviews`, payload);
     dispatch({
       type: POST_REVIEW,
       payload,
@@ -145,7 +145,7 @@ export function postReview(payload) {
 export function updateRating(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products/reviews/productId/${id}`);
+      var json = await axios.get(`/products/reviews/productId/${id}`);
       return dispatch({
         type: UPDATE_RATING,
         payload: json.data,
@@ -207,9 +207,9 @@ export function orderCombine(filters) {
     try {
       let jsonOC;
       if (alpha || brand || category || rating || price) {
-        jsonOC = await axios.get(`${API}/products/orderCombine${order}`);
+        jsonOC = await axios.get(`/products/orderCombine${order}`);
       } else {
-        jsonOC = await axios.get(`${API}/products`);
+        jsonOC = await axios.get(`/products`);
       }
       console.log(jsonOC);
       return dispatch({
@@ -233,7 +233,7 @@ export function postUser(user) {
   }
   return async function (dispatch) {
     try {
-      const newUser = await axios.post(`${API}/users`, infoUser);
+      const newUser = await axios.post(`/users`, infoUser);
       return dispatch({
         type: POST_USER,
         payload: newUser.data
@@ -247,7 +247,7 @@ export function postUser(user) {
 export const getAllOrders = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/orders`);
+      const json = await axios.get(`/orders`);
       return dispatch({
         type: GET_ALL_ORDERS,
         payload: json.data,
@@ -261,7 +261,7 @@ export const getAllOrders = () => {
 export const getOrderById = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/orders/${id}`);
+      const json = await axios.get(`/orders/${id}`);
       console.log(json.data)
       return dispatch({
         type: GET_ORDER_BY_ID,
@@ -276,7 +276,7 @@ export const getOrderById = (id) => {
 export function updateOrderStatus(id, status){
   return async function (dispatch) {
     try {
-      const json = await axios.patch(`${API}/order/${id}`, {status});
+      const json = await axios.patch(`/order/${id}`, {status});
       return dispatch({
         type: UPDATE_ORDER_STATUS,
         payload: json.data,
@@ -296,7 +296,7 @@ export const cleanOrderDetail = () => {
 export const createCart = (cart, user) => {
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/orders`, { cart, user });
+      const json = await axios.post(`/orders`, { cart, user });
       return dispatch({
         type: CREATE_CART,
         payload: json.data,
@@ -317,7 +317,7 @@ export const setDashboardItem = (item) => {
 export const createUser = (payload) => {
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/users`, payload);
+      const json = await axios.post(`/users`, payload);
       return dispatch({
         type: CREATE_USER,
         payload: json.data,
@@ -337,7 +337,7 @@ export function setGlobalEstate () {
 export const getAllUsers = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/users`);
+      const json = await axios.get(`/users`);
       return dispatch({
         type: GET_ALL_USERS,
         payload: json.data,
@@ -351,7 +351,7 @@ export const getAllUsers = () => {
 export const deleteUser = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`${API}/users/${id}`);
+      const json = await axios.delete(`/users/${id}`);
       return dispatch({
         type: DELETE_USER,
         payload: json.data,

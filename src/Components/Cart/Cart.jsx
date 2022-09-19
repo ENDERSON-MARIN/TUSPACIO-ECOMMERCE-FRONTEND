@@ -48,7 +48,7 @@ const Cart = () => {
   const handleCheckout = (cartProducts) => {
     if (isAuthenticated) {
       dispatch(createCart(cartProducts, user.sub))
-      axios.post(`${API}/checkout`, {
+      axios.post(`/checkout`, {
         cartProducts,
         id: user.sub,
       }).then((res) => {
