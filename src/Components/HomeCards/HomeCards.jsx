@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-// import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
@@ -13,7 +12,6 @@ import Favorite from '@material-ui/icons/Favorite';
 import NotFavorite from '@material-ui/icons/FavoriteBorder';
 import Box from '@material-ui/core/Box';
 import { addToWishlist, removeFromWishlist, addToCart} from '../../actions';
-// import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import CardMedia from '@material-ui/core/CardMedia';
 import Placeholder from '../../assets/images/placeholder_home.png';
 import Rating from '@material-ui/lab/Rating';
@@ -31,7 +29,9 @@ export default function HomeCards(props) {
   }
   function handleCart(e) {
     e.preventDefault()
-    dispatch(addToCart(props.products.id))
+    !props.cart ?
+    dispatch(addToCart(props.products.id)) : 
+    alert('The product is already added')
 
 }
 

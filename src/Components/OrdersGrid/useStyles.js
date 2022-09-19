@@ -16,16 +16,45 @@ const useStyles = makeStyles((theme) => ({
   },
   processing:{
     color: '#FFAC1C',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#c8e6c9',
+      cursor: 'pointer',
+      border: '1px dotted #000',
+    },
+
   },
   completed:{
     color: '#0F8C02',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#c8e6c9',
+      cursor: 'pointer',
+      border: '1px dotted #000',
+    },
   },
   cancelled:{
     color: '#DF0C0C',
     fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#c8e6c9',
+      cursor: 'pointer',
+      border: '1px dotted #000',
+    },
   },
+  created:{
+    '&:hover': {
+      backgroundColor: '#c8e6c9',
+      cursor: 'pointer',
+      border: '1px dotted #000',
+    },
+  },
+  statusColumn:{
+    '&:hover': {
+      backgroundColor: '#ff0000',
+      color: '#fff',
+      cursor: 'pointer'},
+  }
 }));
 
 export default useStyles;

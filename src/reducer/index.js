@@ -34,11 +34,13 @@ import {
   SET_GLOBAL_STATE,
   GET_ALL_USERS,
   DELETE_USER,
+  UPDATE_STOCK,
   GET_PRODUCTYPES,
   CREATE_CATEGORY,
   MAKE_ADMIN,
   GET_ORDERS_USER,
   CHANGES_USER
+  GET_LATEST_ORDERS,
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -93,6 +95,7 @@ const initialState = {
   users: [],
   producTypes: [],
   ordersUser: []
+  latestOrders: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -249,7 +252,7 @@ function rootReducer(state = initialState, action) {
       return newState;
     }
     case ADD_TO_CART: {
-      let newItem = state.products.find(
+      let newItem = state.products?.find(
         (product) => product.id === action.payload
       );
       let itemsCart = state.cart?.find((item) => item.id === newItem.id); // busco si ya esta en el carrito y lo guardo
@@ -257,7 +260,7 @@ function rootReducer(state = initialState, action) {
       if (itemsCart) {
         itemsCart = {
           ...state,
-          cart: state.cart.map((i) =>
+          cart: state.cart?.map((i) =>
             i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
           ),
         };
@@ -379,7 +382,6 @@ function rootReducer(state = initialState, action) {
       ordersUser: action.payload
     }
     case CHANGES_USER:
-      console.log('entre en el reducer')
       return {
         ...state,
         infoUser: {
@@ -388,6 +390,15 @@ function rootReducer(state = initialState, action) {
           address: action.payload.address
         }
       }
+    case GET_LATEST_ORDERS:
+      return {
+        ...state,
+        latestOrders: action.payload
+      }
+    case UPDATE_STOCK:
+      return {
+        ...state,
+        }
     default:
       return state;
   }

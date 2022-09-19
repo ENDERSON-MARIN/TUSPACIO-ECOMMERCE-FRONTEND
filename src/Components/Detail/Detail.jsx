@@ -25,35 +25,40 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { Link } from '@material-ui/core'
 
-export default function RecipeReviewCard({setFilters}) {
+export default function RecipeReviewCard({ setFilters }) {
   const { id } = useParams()
   const classes = useStyles();
-  //  const [expanded, setExpanded] = React.useState(false);
-
-  //  const handleExpandClick = () => {
-  //    setExpanded(!expanded);
-  //  };
-  // setFilters({
-  //   "alpha": "",
-  //   "category": "",
-  //   "price": "",
-  //   "brand": "",
-  //   "rating": ""
-  // })
-
   const dispatch = useDispatch()
-  const {dbInfo, reviews} = useSelector((state) => state.productDetail)
   const cart = useSelector((state) => state.cart)
   const fav = useSelector((state) => state.favorites)
   const [count, setCount] = useState(1)
   const navigate = useNavigate();
-
-  const item = dbInfo 
-  console.log(item)
+  const item = useSelector((state) => state.productDetail?.dbInfo)
+  const reviews = useSelector((state) => state.productDetail?.reviews)
+  const orders = useSelector((state) => state.orders)
   const [color, setColor] = useState('')
+
   const reviewsTotal = reviews?.length + 100
 
+  useEffect(() => {
+    dispatch(setGlobalEstate())
+    dispatch(getDetail(id))
+  }, [dispatch])
 
+  function handleCart(e) {
+    if (!cart.includes(e)) {
+      dispatch(addToCart(e))
+    }
+    else {
+      alert('The product is already added to the cart')
+    }
+  }
+
+  function handleFavorite(e) {
+    !fav.includes(e) ?
+      dispatch(addToWishlist(e)) :
+      dispatch(removeFromWishlist(e.id))
+  }
 
   useEffect(() => {
     dispatch(setGlobalEstate())
@@ -67,20 +72,6 @@ export default function RecipeReviewCard({setFilters}) {
     })
   }, [dispatch])
 
-  function handleFavorite(e) {
-    !fav.includes(e) ?
-      dispatch(addToWishlist(e)) :
-      dispatch(removeFromWishlist(e.id))
-  }
-
-  function handleCart(e) {
-    if (!cart.includes(e)) {
-      dispatch(addToCart(e))
-    }
-    else {
-      alert('The product is already added to the cart')
-    }
-  }
 
   function handleBrand(brand) {
     setFilters({
@@ -103,6 +94,7 @@ export default function RecipeReviewCard({setFilters}) {
     })
     navigate('/home')
   }
+
 
   const handleColor = (e) => {
     setColor(e)
@@ -128,12 +120,12 @@ export default function RecipeReviewCard({setFilters}) {
               <Link color="primary" onClick={() => handleBrand(item.brand)}>
                 {item.brand}
               </Link>
-              { 
+              {
                 item.categories.map(c =>
                   <Link color="primary" onClick={() => handleCatgory(c.name)}>
                     {c.name}
                   </Link>
-                  )
+                )
               }
               <Typography color="textPrimary">{item.name}</Typography>
             </Breadcrumbs>

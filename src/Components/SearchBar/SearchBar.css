@@ -1,6 +1,12 @@
 
+.search{
+  margin-left: auto;
+  margin-right: auto;
+  
+}
 .searchInputs {
   display: flex;
+
 }
 
 
@@ -13,8 +19,10 @@
   font-size: 18px;
   padding: 15px;
   height: 40px;
-  width: 300px;
+  width: 'auto';
   z-index: 1000;
+  width: 300px;
+  
 }
 
 .searchIcon {
@@ -86,6 +94,7 @@ a:hover {
 #noProduct {
   margin-left: 10px;
 }
+
 
 
 

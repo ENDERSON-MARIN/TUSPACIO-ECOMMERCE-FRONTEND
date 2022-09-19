@@ -40,6 +40,8 @@ export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
 export const GET_ORDERS_USER = "GET_ORDERS_USER";
 export const CHANGES_USER = "CHANGES_USER";
+export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
+export const UPDATE_STOCK = "UPDATE_STOCK";
 
 //API
 const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
@@ -93,7 +95,9 @@ export function getCategories(brand) {
         var json = await axios.get(`${API}/categories?brand=${brand}`);
         return dispatch({
           type: GET_CATEGORIES,
+
           payload: json.data,
+
         });
       } catch (error) {
         console.error(error);
@@ -411,10 +415,20 @@ export const deleteUser = (id) => {
 
 }
 
-export const addNewCategory = (payload) => {
+
+
+
+export function updateStock(id, stock){
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/categories`, payload);
+      const json = await axios.put(`${API}/controlstock/${id}/?stock=${stock}`);
+      return dispatch({
+        type: UPDATE_STOCK,
+
+export const addNewCategory = (category) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`${API}/categories`, category);
       return dispatch({
         type: CREATE_CATEGORY,
         payload: json.data,
@@ -437,6 +451,7 @@ export const makeAdmin = (id, role) => {
       console.error(error);
     }
   }
+
 };
 
 export function getProductTypes() {
@@ -486,4 +501,18 @@ export function putUserChanges(user) {
       console.log(error);
     }
  }
+}
+
+export const getLatestOrders = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`${API}/orders/dashboard`);
+      return dispatch({
+        type: GET_LATEST_ORDERS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }

@@ -35,7 +35,8 @@
     max-width: 600px;
     min-width: 290px; 
     width: 100%;
-    margin-left: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
     
 }
 
@@ -147,31 +148,26 @@ section .cart {
 }
 
 
-.amount .count {
+.count {
     width: 25px;
     height: 25px;
-    border: 1px solid #257558;
     outline: none;
-    color: #257558;
     background: transparent;
     cursor: pointer;
    
 }
 
 .total {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    width: auto;
     display: flex;
     align-items:center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 
 
 .total h3 {
-    margin-right: 50px;
-    margin-left: 50px;
+
     color: crimson;
 
 }
@@ -258,17 +254,14 @@ section .cart {
     width: 50px;
 }
 
-#span {
-    color: crimson;
-    padding: 0 14px;
-    height: 25px;
-}
+
 
 
 
 .gral-container {
     min-height: 100vh;
     height: auto;
+   
 }
 
 .loading {
@@ -342,4 +335,65 @@ section .cart {
     filter: gray; /* IE6-9 */
     filter: grayscale(1); /* W3C */
   
+}
+
+#a {
+    text-decoration: none;
+    color: #257558;
+}
+#ref {
+    text-decoration: none;
+    color: #257558;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.change {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+#span {
+    color: crimson;
+    padding: 0 14px;
+    height: 25px;
+}
+
+  /*********** MEDIA QUERIES (MEDIUM DEVICES ************/
+  @media screen and (max-width: 1180px) {
+    .byn-small {
+        display: none;
+    }
+    .detail-img-small {
+        display: none;
+    }
+    .change {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+    }
+    
+
+
+
+}
+
+/*********** MEDIA QUERIES (SMALL DEVICES ************/
+@media screen and (max-width: 740px) {
+    .byn-small {
+        display: none;
+    }
+    .detail-img-small {
+        display: none;
+    }
+    .change {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+    }
+    
 }
