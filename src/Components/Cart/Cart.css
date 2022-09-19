@@ -159,12 +159,9 @@ section .cart {
 
 .total {
     width: auto;
-    margin-left: auto;
-    margin-right: auto;
     display: flex;
     align-items:center;
-    justify-content: space-between;
-    margin: 20px;
+    justify-content: center;
 }
 
 
@@ -264,6 +261,7 @@ section .cart {
 .gral-container {
     min-height: 100vh;
     height: auto;
+   
 }
 
 .loading {
@@ -342,6 +340,13 @@ section .cart {
 #a {
     text-decoration: none;
     color: #257558;
+}
+#ref {
+    text-decoration: none;
+    color: #257558;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
 }
 
 .change {

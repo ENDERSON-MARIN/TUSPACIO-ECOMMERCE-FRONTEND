@@ -43,6 +43,12 @@ const useStyles = makeStyles((theme) => ({
       },
       
     },
+    link: {
+      display:'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textDecoration: 'none'
+    }
   }));
 
   export default useStyles

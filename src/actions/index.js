@@ -39,9 +39,11 @@ export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
 export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
+export const UPDATE_STOCK = "UPDATE_STOCK";
+
 
 //API
-const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+const API = "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -394,6 +396,16 @@ export const deleteUser = (id) => {
 
 }
 
+
+
+
+export function updateStock(id, stock){
+  return async function (dispatch) {
+    try {
+      const json = await axios.put(`${API}/controlstock/${id}/?stock=${stock}`);
+      return dispatch({
+        type: UPDATE_STOCK,
+
 export const addNewCategory = (category) => {
   return async function (dispatch) {
     try {
@@ -420,6 +432,7 @@ export const makeAdmin = (id, role) => {
       console.error(error);
     }
   }
+
 };
 
 export function getProductTypes() {

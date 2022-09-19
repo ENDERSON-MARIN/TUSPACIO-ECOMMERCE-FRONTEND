@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import { setCurrentHomePage } from '../../actions';
@@ -8,9 +8,10 @@ import Box from '@material-ui/core/Box';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      marginTop: theme.spacing(12),
+      marginTop: 0,
       marginLeft: "auto",
-      marginBottom: theme.spacing(1),
+      marginBottom: 50,
+
     },
   },
 }));
@@ -29,9 +30,9 @@ export default function BasicPagination(
 
   const handlePageClick = (page)=>{
     dispatch(setCurrentHomePage(page))
+    window.scrollTo(0, 0)
   }
 
-  console.log(currentPage)
   return (
     <div className={classes.root}>
       <Box
@@ -45,7 +46,7 @@ export default function BasicPagination(
         count={pages.length}
         shape="rounded" 
         variant="outlined"
-        size="medium" 
+        size="large" 
         color="primary"
         onChange = {(event,page)=>handlePageClick(page)}
         hideNextButton={false}

@@ -14,16 +14,23 @@ import Placeholder from '../../assets/images/placeholder_home.png';
 import Box from '@material-ui/core/Box';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { removeFromWishlist } from '../../actions'
+import { removeFromWishlist, addToCart } from '../../actions'
 
-export default function WishlistCards({props}) {
+export default function WishlistCards(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   function handleDelete(e){
     e.preventDefault();
-    dispatch(removeFromWishlist(props.id))
+    dispatch(removeFromWishlist(props.product.id))
   }
+  function handleCart(e) {
+    e.preventDefault()
+    !props.cart ?
+    dispatch(addToCart(props.product.id)) : 
+    alert('The product is already added')
+
+}
 
   return (
     <Card className={classes.root}>
@@ -34,7 +41,8 @@ export default function WishlistCards({props}) {
           alignItems="end"
           minHeight="5vh">
           <CardActions >
-            <Button size="small"  >
+            <Button size="small"
+            onClick={(e) => handleCart(e)}>
               <ShoppingCartIcon className={classes.iconColors} />
             </Button>
             <Button 
@@ -44,11 +52,11 @@ export default function WishlistCards({props}) {
             </Button>
           </CardActions>   
         </Box>
-        <Link to={`/${props.id}`}>
+        <Link to={`/${props.product.id}`}>
         <CardMedia
           className={classes.media}
-          image={props.image_link?
-            props.image_link:
+          image={props.product.image_link?
+            props.product.image_link:
             Placeholder} />
         </Link>
           <CardContent 
@@ -58,7 +66,7 @@ export default function WishlistCards({props}) {
                 textAlign="left"  
                 fontWeight="fontWeightBold" 
                 fontSize={15} >
-              {props.name}
+              {props.product.name}
               </Box>
             </Typography>
             <Typography component="div" >
@@ -68,7 +76,7 @@ export default function WishlistCards({props}) {
             fontWeight="fontWeightBold" 
             fontSize={15}> 
             <AttachMoneyIcon fontSize="small"  />  
-              USD {props.price}
+              $ {props.product.price}
             </Box>
             </Typography>
         </CardContent>

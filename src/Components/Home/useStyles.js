@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    scrollSnapAlign: 'start',
+
   },
   paper: {
     height: 140,
@@ -25,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
     
   },
+  container: {
+    marginTop: 100
+  }
 }));
 
 export default useStyles

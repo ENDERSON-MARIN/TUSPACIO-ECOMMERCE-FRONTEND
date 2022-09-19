@@ -10,6 +10,11 @@ import img from '../../assets/images/wish.png'
 function Wishlist() {
   const classes = useStyles();
   const favorites = useSelector(state => state.favorites)
+  const cart = useSelector((state) => state.cart);
+
+  function productInCart(productID) {
+    return cart?.some((product) => product.id === productID);
+  }
 
   return (
 
@@ -42,7 +47,8 @@ function Wishlist() {
                       return(
                         <WishlistCards 
                           key={index} 
-                          props={product} />
+                          product={product}
+                          cart={productInCart(product.id)} />
                       )
                     })}
                 </Grid>
