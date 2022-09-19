@@ -45,7 +45,7 @@ export const UPDATE_STOCK = "UPDATE_STOCK";
 
 //API
 
- const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+ //const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
 
 
 export function getAllProducts() {
@@ -91,15 +91,9 @@ export function getAllBrands(categorie) {
 }
 
 
-export function getCategories() {
-  return function (dispatch) {
-    return axios
-      .get(`/categories`)
-      .then((c) => {
-        
-        dispatch({
-          type: GET_CATEGORIES,
-          payload: c.data,
+
+
+
 
 export function getCategories(brand) {
   if (brand) {
