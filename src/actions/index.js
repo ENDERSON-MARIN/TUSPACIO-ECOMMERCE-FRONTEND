@@ -44,7 +44,9 @@ export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
 export const UPDATE_STOCK = "UPDATE_STOCK";
 
 //API
+
  const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -88,6 +90,17 @@ export function getAllBrands(categorie) {
 }
 }
 
+
+export function getCategories() {
+  return function (dispatch) {
+    return axios
+      .get(`/categories`)
+      .then((c) => {
+        
+        dispatch({
+          type: GET_CATEGORIES,
+          payload: c.data,
+
 export function getCategories(brand) {
   if (brand) {
     return async function (dispatch) {
@@ -97,6 +110,7 @@ export function getCategories(brand) {
           type: GET_CATEGORIES,
 
           payload: json.data,
+
 
         });
       } catch (error) {
@@ -179,6 +193,15 @@ export function postNewProduct(payload) {
 // }
 
 export function postReview(payload) {
+  return function (dispatch) {
+    const newReviewResult = axios.post(`/products/reviews`, payload);
+    dispatch({
+      type: POST_REVIEW,
+      payload,
+    });
+    return newReviewResult;
+  }
+
   return async function (dispatch) {
     try {
       console.log(payload)
@@ -192,6 +215,7 @@ export function postReview(payload) {
       console.log(error);
     }
   };
+
 }
 
 export function updateRating(id) {

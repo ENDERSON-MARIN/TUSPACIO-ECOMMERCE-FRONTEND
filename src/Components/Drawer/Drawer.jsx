@@ -64,6 +64,7 @@ function limpiandoFiltros () {
       "rating": "" 
   })
 }
+// console.log(categories)
 
   return(
     <div>
@@ -119,11 +120,13 @@ function limpiandoFiltros () {
                           handlefilter(e)
                       }}
                   >
-                      <option aria-label="None" value="" />
-                      {
-                          categories?.length &&
-                          categories.map( c => <option value={`${c.name}`}>{`${c.name.toUpperCase()}`}</option> )
-                      }
+
+                    <option aria-label="None" value="" />
+                    {
+                        categories.length &&
+                        categories.map( c => <option value={`${c.name}`}>{`${c.name.toUpperCase()}`}</option> )
+                    }
+
                   </Select>
               </FormControl>
               <Divider />
