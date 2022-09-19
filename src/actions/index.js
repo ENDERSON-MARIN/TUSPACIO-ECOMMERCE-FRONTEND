@@ -35,10 +35,18 @@ export const CREATE_USER = "CREATE_USER";
 export const SET_GLOBAL_STATE = "SET_GLOBAL_STATE";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
-
+export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
+export const CREATE_CATEGORY = "CREATE_CATEGORY";
+export const MAKE_ADMIN = "MAKE_ADMIN";
+export const GET_ORDERS_USER = "GET_ORDERS_USER";
+export const CHANGES_USER = "CHANGES_USER";
+export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
+export const UPDATE_STOCK = "UPDATE_STOCK";
 
 //API
-// const API = "https://tuspacio.herokuapp.com/api"; //|| "http://localhost:3001/api";
+
+ const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -54,7 +62,20 @@ export function getAllProducts() {
   };
 }
 
-export function getAllBrands() {
+export function getAllBrands(categorie) {
+  if (categorie) {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/products/brand?categorie=${categorie}`);
+        return dispatch({
+          type: GET_ALL_BRANDS,
+          payload: json.data,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  } else {
   return async function (dispatch) {
     try {
       var json = await axios.get(`/products/brand`);
@@ -67,6 +88,8 @@ export function getAllBrands() {
     }
   };
 }
+}
+
 
 export function getCategories() {
   return function (dispatch) {
@@ -77,12 +100,37 @@ export function getCategories() {
         dispatch({
           type: GET_CATEGORIES,
           payload: c.data,
+
+export function getCategories(brand) {
+  if (brand) {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/categories?brand=${brand}`);
+        return dispatch({
+          type: GET_CATEGORIES,
+
+          payload: json.data,
+
+
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  } else {
+    return async function (dispatch) {
+      try {
+        var json = await axios.get(`/categories`);
+        return dispatch({
+          type: GET_CATEGORIES,
+          payload: json.data,
+
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }
 }
 
 export function setCurrentHomePage(page) {
@@ -131,6 +179,19 @@ export function postNewProduct(payload) {
   };
 }
 
+// export function postReview(payload) {
+//   return function (dispatch) {
+//     console.log(payload)
+//     const newReviewResult = axios.post(`/products/reviews`, payload);
+//     console.log(newReviewResult)
+//     dispatch({
+//       type: POST_REVIEW,
+//       payload,
+//     });
+//     return newReviewResult;
+//   }
+// }
+
 export function postReview(payload) {
   return function (dispatch) {
     const newReviewResult = axios.post(`/products/reviews`, payload);
@@ -140,6 +201,21 @@ export function postReview(payload) {
     });
     return newReviewResult;
   }
+
+  return async function (dispatch) {
+    try {
+      console.log(payload)
+      const newReviewResult = axios.post(`/products/reviews`, payload);
+      console.log(newReviewResult)
+      dispatch({
+        type: POST_REVIEW,
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 }
 
 export function updateRating(id) {
@@ -236,7 +312,7 @@ export function postUser(user) {
       const newUser = await axios.post(`/users`, infoUser);
       return dispatch({
         type: POST_USER,
-        payload: newUser.data
+        payload: newUser.data[0]
         });
     } catch (error) {
       console.error(error);
@@ -361,4 +437,113 @@ export const deleteUser = (id) => {
     }
   };
 
+}
+
+
+
+
+export function updateStock(id, stock){
+  return async function (dispatch) {
+    try {
+      const json = await axios.put(`/controlstock/${id}/?stock=${stock}`);
+      return dispatch({
+        type: UPDATE_STOCK,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  }
+
+export const addNewCategory = (category) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`/categories`, category);
+      return dispatch({
+        type: CREATE_CATEGORY,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export const makeAdmin = (id, role) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.patch(`/user/${id}`, role);
+      return dispatch({
+        type: MAKE_ADMIN,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+};
+
+export function getProductTypes() {
+  return function (dispatch) {
+    return axios
+      .get(`/products/productType`) 
+      .then((p) => {
+        dispatch({
+          type: GET_PRODUCTYPES,
+          payload: p.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function getOrdersUser(id) { 
+  return function (dispatch) {
+    return axios
+      .get(`/orders/user/${id}`) 
+      .then((o) => {
+        dispatch({
+          type: GET_ORDERS_USER,
+          payload: o.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function putUserChanges(user) {
+  const changeUser = {email: user.email, address: user.address}
+  console.log('entre a la accion, sigue el response')
+  return async function (dispatch) {
+    try {
+      let response = await axios.put(`/users/${user.id}`, changeUser);
+      console.log(response)
+      return dispatch({
+        type: CHANGES_USER,
+        payload: changeUser
+        });
+    } catch (error) {
+      console.log(error);
+    }
+ }
+}
+
+export const getLatestOrders = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/orders/dashboard`);
+      return dispatch({
+        type: GET_LATEST_ORDERS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }

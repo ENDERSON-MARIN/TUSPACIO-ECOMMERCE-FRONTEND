@@ -18,32 +18,29 @@ const useStyles = makeStyles((theme) => ({
     },
     margin2: {
       marginTop: 25,
-      marginLeft: 10
+      marginLeft: 10,
+      backgroundColor: "#257558",
+      color: "#ffffff"
     },
     extendedIcon: {
       marginRight: theme.spacing(1),
     },
 }));
 
-export default function Filter({setOrder}) {
+export default function Filter({setOrder, filters, setFilters}) {
     const navigate = useNavigate()
-    const categories = useSelector((state) => state.categories)
-    const brands = useSelector((state) => state.brands)
+    let categories = useSelector((state) => state.categories)
+    let brands = useSelector((state) => state.brands)
     const classes = useStyles();
-    const [filters, setFilters] = useState({
-        "alpha": "",
-        "category": "",
-        "price": "",
-        "brand": "",
-        "rating": ""
-    })
-
+    
     const dispatch = useDispatch();
+
+    const {alpha,category,price,brand,rating} = filters;
     
     useEffect ( () => {
-        dispatch(getCategories())
-        dispatch(getAllBrands())
-    }, [dispatch] )
+         dispatch(categories = getCategories(filters.brand))
+         dispatch(brands = getAllBrands(filters.category))
+    }, [filters.brand, filters.category] )
     
     function handlefilter(e) {
         e.preventDefault();
@@ -64,10 +61,12 @@ export default function Filter({setOrder}) {
         })
     }
 
+    if (alpha || category || price || brand || rating) dispatch(orderCombine({...filters}))
+    
     return (
         <Box
-            bgcolor='white'
-            // boxShadow= '0px 10px 8px 0px rgba(0,0,0,0.18)'
+            bgcolor='#37af84'
+            boxShadow= '0px 5px 8px 0px rgba(37,117,88,0.18)'
             position= 'fixed'
             top= {60}
             left= {0}
@@ -117,7 +116,7 @@ export default function Filter({setOrder}) {
                         >
                             <option aria-label="None" value="" />
                             {
-                                categories.length &&
+                                categories?.length &&
                                 categories.map( c => <option value={`${c.name}`}>{`${c.name.toUpperCase()}`}</option> )
                             }
                         </Select>
@@ -180,9 +179,10 @@ export default function Filter({setOrder}) {
                         </Select>
                     </FormControl>
                     
-                        <Button 
+                        <Button
+                            variant="outlined"
                             onClick={() => limpiandoFiltros()}
-                            color="secondary"
+                            color="primary"
                             size="small"
                             className={classes.margin2}
                         >
@@ -195,7 +195,7 @@ export default function Filter({setOrder}) {
                     <Button 
                         onClick={() => navigate('/service')}
                         variant="contained" 
-                        // color="secondary"
+                        color="primary"
                         className={classes.margin}
                     >
                         Beuthy Services

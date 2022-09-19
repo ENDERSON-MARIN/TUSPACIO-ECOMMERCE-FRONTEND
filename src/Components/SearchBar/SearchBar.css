@@ -1,6 +1,12 @@
 
+.search{
+  margin-left: auto;
+  margin-right: auto;
+  
+}
 .searchInputs {
   display: flex;
+
 }
 
 
@@ -13,7 +19,8 @@
   font-size: 18px;
   padding: 15px;
   height: 40px;
-  width: 300px;
+  width: auto;
+  z-index: 1000;
   
 }
 
@@ -77,11 +84,16 @@ a:hover {
 
 #searchBtn {
   width: 25px;
+  cursor: pointer;
+  filter: invert(100%) sepia(98%) saturate(9%) hue-rotate(166deg) brightness(104%) contrast(104%);
+
+
 }
 
 #noProduct {
   margin-left: 10px;
 }
+
 
 
 

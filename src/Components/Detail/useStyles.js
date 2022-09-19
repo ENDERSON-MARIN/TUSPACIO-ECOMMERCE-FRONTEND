@@ -37,7 +37,35 @@ const useStyles = makeStyles((theme) => ({
      color: '#fff',
      width: '100%',
      marginTop: 10
+ },
+ ratingCont: {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: 50,
+ },
+ reviewsList: {
+    width: '100%',
+    maxWidth: 1000,
+    backgroundColor: theme.palette.background.paper,
+    marginBottom: 80
+
+ },
+ iconRed:{
+  color: 'crimson'
+ },
+ iconGreen: {
+  color: "#257558"
+ },
+ ratingBtn: {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: 80,
+
  }
+
 }));
 
 export default useStyles;

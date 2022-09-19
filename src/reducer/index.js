@@ -34,7 +34,13 @@ import {
   SET_GLOBAL_STATE,
   GET_ALL_USERS,
   DELETE_USER,
-
+  UPDATE_STOCK,
+  GET_PRODUCTYPES,
+  CREATE_CATEGORY,
+  MAKE_ADMIN,
+  GET_ORDERS_USER,
+  CHANGES_USER,
+  GET_LATEST_ORDERS,
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -87,6 +93,9 @@ const initialState = {
   infoUser: {},
   dashboardItem: 'Dashboard',
   users: [],
+  producTypes: [],
+  ordersUser: [],
+  latestOrders: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -243,7 +252,7 @@ function rootReducer(state = initialState, action) {
       return newState;
     }
     case ADD_TO_CART: {
-      let newItem = state.products.find(
+      let newItem = state.products?.find(
         (product) => product.id === action.payload
       );
       let itemsCart = state.cart?.find((item) => item.id === newItem.id); // busco si ya esta en el carrito y lo guardo
@@ -251,7 +260,7 @@ function rootReducer(state = initialState, action) {
       if (itemsCart) {
         itemsCart = {
           ...state,
-          cart: state.cart.map((i) =>
+          cart: state.cart?.map((i) =>
             i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
           ),
         };
@@ -306,9 +315,10 @@ function rootReducer(state = initialState, action) {
         cart: [],
       };
     case POST_USER:
+      console.log(action.payload)
       return {
         ...state,
-        //infoUser: action.payload,
+        infoUser: action.payload,
       };
     case GET_ALL_ORDERS:
       return {
@@ -352,8 +362,43 @@ function rootReducer(state = initialState, action) {
     case DELETE_USER:
       return {
         ...state,
-
       }
+    case GET_PRODUCTYPES:
+      return {
+        ...state,
+        producTypes: action.payload
+      } 
+    case CREATE_CATEGORY:
+      return {
+        ...state,
+      }
+    case MAKE_ADMIN:
+      return {
+        ...state,
+      }
+    case GET_ORDERS_USER:
+    return {
+      ...state,
+      ordersUser: action.payload
+    }
+    case CHANGES_USER:
+      return {
+        ...state,
+        infoUser: {
+          ...state.infoUser,
+          email: action.payload.email,
+          address: action.payload.address
+        }
+      }
+    case GET_LATEST_ORDERS:
+      return {
+        ...state,
+        latestOrders: action.payload
+      }
+    case UPDATE_STOCK:
+      return {
+        ...state,
+        }
     default:
       return state;
   }

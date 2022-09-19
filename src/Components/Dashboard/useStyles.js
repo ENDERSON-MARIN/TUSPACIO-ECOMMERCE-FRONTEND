@@ -79,8 +79,12 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  money:{
+   marginTop: theme.spacing(2)
+  },
   depositContext: {
     flex: 1,
+    marginTop: theme.spacing(2)
   },
   seeMore: {
     marginTop: theme.spacing(3),
