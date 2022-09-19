@@ -8,30 +8,33 @@ import { useNavigate } from 'react-router-dom';
 import { getAllOrders, updateOrderStatus } from '../../actions';
 import Box from '@material-ui/core/Box';
 import useStyles from './useStyles';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function OrdersGrid() {
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.orders);
+  const originalOrders = useSelector((state) => state.orders);
   const navigate = useNavigate();
   const classes = useStyles();
+
+  const orders = originalOrders.filter((order) => order.number !== null)
 
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
   
   const columns = [
-  { field: 'id', headerName: 'Order No.', width: 90,},
+  { field: 'id', headerName: 'Order No.', width: 100,},
   {
     field: 'date',
     headerName: 'Date',
-    width: 183,
+    width: 150,
     type: 'datetime',
     editable: false,
   },
   {
     field: 'status',
     headerName: 'Status',
-    width: 98,
+    width: 100,
     editable: true,
     type: 'singleSelect',
     valueOptions: ['processing', 'completed', 'cancelled'],
@@ -39,7 +42,7 @@ export default function OrdersGrid() {
       return (
         params.value === 'processing' ? classes.processing : 
         params.value === 'completed' ? classes.completed : 
-        params.value === 'cancelled' ? classes.cancelled : null
+        params.value === 'cancelled' ? classes.cancelled : classes.created
       )
     },
   },
@@ -100,7 +103,7 @@ export default function OrdersGrid() {
     let orderTotal = (order.total / 100).toString().replace(',', '.');
     return {
       id: order.number ? order.number : 'N/A',
-      date: order.updatedAt,
+      date: new Date(order.updatedAt).toLocaleString('es-MX', {timeZone: 'UTC'}),
       status: order.status,
       customer: order.userId?.toString().slice(14),
       address:  order.shipping?.address === null || 
@@ -119,6 +122,17 @@ export default function OrdersGrid() {
     navigate(`/orders/${id}`);
   };
 
+   const notifyChange= () => 
+    toast.info('Order status was updated', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+
   return (
     <Box>
       <h4>Orders</h4>
@@ -130,17 +144,11 @@ export default function OrdersGrid() {
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
           onCellEditCommit={(params) => {
-            console.log(params);
             dispatch(updateOrderStatus(params.id, params.value));
-          }}
-          sx={{
-            '& .MuiDataGrid-cell:hover': {
-              backgroundColor: '#ff0000',
-              color: '#fff',
-            }
-          }}
-          />
+            notifyChange();
+          }}/>
       </div>
+      <ToastContainer />
     </Box>
   );
 }
