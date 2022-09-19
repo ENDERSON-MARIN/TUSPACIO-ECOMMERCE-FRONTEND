@@ -9,7 +9,7 @@ import useStyles from './useStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-//import axios from 'axios';
+import axios from 'axios';
 import { getAllUsers, deleteUser, makeAdmin } from '../../actions';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
@@ -33,7 +33,26 @@ export default function UsersGrid() {
     dispatch(getAllUsers());
   }, [dispatch, tempDelete]);
 
-  
+  function handleReset(params) {
+    var options = {
+      method: 'POST',
+      url: 'https://dev-iyl61sxr.us.auth0.com/dbconnections/change_password',
+      headers: {'content-type': 'application/json'},
+      data: {
+        client_id: 'iGWV7b28WTEv4RPPPK6IwXXvPnRkwPfP',
+        email: '503689@uane.mx',
+        connection: 'Username-Password-Authentication'
+      }
+    };
+    axios.request(options)
+      .then(function (response) {
+        console.log(response.data);
+        notifyUserChangePass();
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 40,},
@@ -92,8 +111,7 @@ export default function UsersGrid() {
               variant="contained"
               className={classes.resetBtn}
               startIcon={<RotateLeftIcon />}
-              onClick={() => {}}
-            >
+              onClick={(params) => handleReset(params)}>
               Reset
             </Button>
             <ToastContainer />
@@ -107,7 +125,6 @@ export default function UsersGrid() {
     width: 130,
     sortable: false,
     renderCell: (params) => {
-      console.log(params)
         return (
           <div className="cellAction">
             <Button
@@ -151,16 +168,16 @@ export default function UsersGrid() {
     progress: undefined,
   });
 
-  /*const notifyUserChangePass = () => 
+  const notifyUserChangePass = () => 
   toast.info('Password reset was sent!', {
-    position: "top-right",
+    position: "top-center",
     autoClose: 3000,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-  });*/
+  });
 
   return (
     <div>
