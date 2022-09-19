@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useParams} from "react-router-dom"
 import {getDetail, addToCart, addToWishlist, removeFromWishlist, setGlobalEstate} from '../../actions/index'
-import { useEffect } from 'react'
 import defaultImage from "../../assets/images/not_found.png"
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -18,9 +17,6 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import MoodIcon from '@material-ui/icons/Mood';
-import MoodBadIcon from '@material-ui/icons/MoodBad';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -37,6 +33,9 @@ export default function RecipeReviewCard() {
 //  const handleExpandClick = () => {
 //    setExpanded(!expanded);
 //  };
+useEffect(() => {
+  window.scrollTo(0, 0)
+}, [])
 
  const dispatch = useDispatch()
  const item = useSelector((state) => state.productDetail?.dbInfo)
