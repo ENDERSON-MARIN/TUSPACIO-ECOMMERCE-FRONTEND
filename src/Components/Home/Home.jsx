@@ -99,13 +99,13 @@ export default function SpacingGrid(order) {
         </Grid>
       </Grid>
 
-      <BasicPagination
+      {/* <BasicPagination
         className={classes.centering}
         currentPage={currentPage}
         productsPerPage={productsPerPage}
         totalProducts={products.length}
         onChange={handleChange}
-      />
+      /> */}
 
       <div className="divwsp">
         <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">

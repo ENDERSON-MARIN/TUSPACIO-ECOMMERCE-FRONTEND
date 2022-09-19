@@ -405,6 +405,13 @@ export function updateStock(id, stock){
       const json = await axios.put(`${API}/controlstock/${id}/?stock=${stock}`);
       return dispatch({
         type: UPDATE_STOCK,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  }
 
 export const addNewCategory = (category) => {
   return async function (dispatch) {
