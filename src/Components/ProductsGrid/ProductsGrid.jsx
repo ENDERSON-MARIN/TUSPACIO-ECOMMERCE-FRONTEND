@@ -1,21 +1,25 @@
 import * as React from 'react';
+import { useState } from 'react'
 import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { getAllProducts } from '../../actions';
+import { getAllProducts, setDashboardItem, 
+  addNewCategory } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import CategoryIcon from '@material-ui/icons/Category';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ProductsGrid() {
   const classes = useStyles();
   const dispatch = useDispatch()
   const products = useSelector(state => state.products);
-  
+  const [category, setCategory] = useState('');
 
   useEffect(() => {
     dispatch(getAllProducts())
@@ -119,7 +123,6 @@ export default function ProductsGrid() {
     }
   });
 
-
   const navigate = useNavigate();
 
   const handleView = (id) => {
@@ -134,17 +137,72 @@ export default function ProductsGrid() {
     navigate(`/reviews/${id}`);
   };
 
+  const handleCreateCategory = (e) => {
+    e.preventDefault();
+    if(!category){
+      notifyEmptyCategory()
+    } else{
+      dispatch(addNewCategory(category));
+      setCategory('');
+      e.target.value = '';
+      notifyCategoryCreated()
+    }
+  }
+
+  const notifyEmptyCategory= () => 
+  toast.error('Please enter a category name.', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
+  const notifyCategoryCreated= () => 
+  toast.success('Category was created!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
 
   return (
     <div>
       <h4> Products</h4>
+      <div className={classes.controls}>
        <Button
         variant="contained"
+        color="secondary"
         className={classes.btnAdd}
         startIcon={<AddShoppingCartIcon />}
-        onClick={() => navigate('/create')}>
+        onClick={() => dispatch(setDashboardItem("CreateProducts"))}>
           Add New Product
-      </Button>
+        </Button>
+        <form>
+          <TextField 
+            id="category" 
+            value={category}
+            type="text" 
+            placeholder="Add new category" 
+            onChange={(e) => setCategory(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.btnCategory}
+            startIcon={<CategoryIcon />}
+            onClick={(e) => handleCreateCategory(e)}
+            >
+              Create Category
+          </Button>
+          <ToastContainer />
+        </form>
+      </div>
       <div style={{ height: 631, width: '100%', backgroundColor: '#fff'}}>
         <DataGrid
           rows={rows}

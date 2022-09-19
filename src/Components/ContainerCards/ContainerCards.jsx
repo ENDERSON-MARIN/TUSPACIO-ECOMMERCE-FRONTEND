@@ -6,19 +6,20 @@ import Filter from "../Filter/Filter";
 // import PersistentDrawerLeft from '../Drawer/Drawer'
 
 
+export default function ContainerCards({filters, setFilters}) {
 
-export default function ContainerCards() {
-    useEffect(() => {
+    eEffect(() => {
         window.scrollTo(0, 0)
       }, [])
-    
     const [order, setOrder] = useState("")
-       
+           
     return(
         <div className="gral-container">
             {/*<PersistentDrawerLeft />*/}
             <Filter 
-                setOrder={setOrder} 
+                setOrder={setOrder}
+                filters={filters}
+                setFilters={setFilters} 
             />
             <Home order={order}/>
         </div>

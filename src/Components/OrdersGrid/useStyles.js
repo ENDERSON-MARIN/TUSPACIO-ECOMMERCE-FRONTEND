@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
     color: '#DF0C0C',
     fontWeight: 'bold',
   },
+  statusColumn:{
+    '&:hover': {
+      backgroundColor: '#ff0000',
+      color: '#fff',
+      cursor: 'pointer'},
+  }
 }));
 
 export default useStyles;
