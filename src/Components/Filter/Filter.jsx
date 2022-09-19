@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
     },
     margin2: {
       marginTop: 25,
-      marginLeft: 10
+      marginLeft: 10,
+      backgroundColor: "#257558",
+      color: "#ffffff"
     },
     extendedIcon: {
       marginRight: theme.spacing(1),
@@ -63,7 +65,7 @@ export default function Filter({setOrder, filters, setFilters}) {
     
     return (
         <Box
-            bgcolor='white'
+            bgcolor='#37af84'
             boxShadow= '0px 5px 8px 0px rgba(37,117,88,0.18)'
             position= 'fixed'
             top= {60}
@@ -177,9 +179,10 @@ export default function Filter({setOrder, filters, setFilters}) {
                         </Select>
                     </FormControl>
                     
-                        <Button 
+                        <Button
+                            variant="outlined"
                             onClick={() => limpiandoFiltros()}
-                            color="secondary"
+                            color="primary"
                             size="small"
                             className={classes.margin2}
                         >
@@ -192,7 +195,7 @@ export default function Filter({setOrder, filters, setFilters}) {
                     <Button 
                         onClick={() => navigate('/service')}
                         variant="contained" 
-                        // color="secondary"
+                        color="primary"
                         className={classes.margin}
                     >
                         Beuthy Services

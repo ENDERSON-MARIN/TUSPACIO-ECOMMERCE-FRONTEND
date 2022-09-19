@@ -38,8 +38,9 @@ import {
   GET_PRODUCTYPES,
   CREATE_CATEGORY,
   MAKE_ADMIN,
+  GET_ORDERS_USER,
+  CHANGES_USER
   GET_LATEST_ORDERS,
-
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -93,6 +94,7 @@ const initialState = {
   dashboardItem: 'Dashboard',
   users: [],
   producTypes: [],
+  ordersUser: []
   latestOrders: [],
 };
 
@@ -313,9 +315,10 @@ function rootReducer(state = initialState, action) {
         cart: [],
       };
     case POST_USER:
+      console.log(action.payload)
       return {
         ...state,
-        //infoUser: action.payload,
+        infoUser: action.payload,
       };
     case GET_ALL_ORDERS:
       return {
@@ -373,15 +376,28 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
       }
+    case GET_ORDERS_USER:
+    return {
+      ...state,
+      ordersUser: action.payload
+    }
+    case CHANGES_USER:
+      return {
+        ...state,
+        infoUser: {
+          ...state.infoUser,
+          email: action.payload.email,
+          address: action.payload.address
+        }
+      }
     case GET_LATEST_ORDERS:
       return {
         ...state,
         latestOrders: action.payload
       }
-      case UPDATE_STOCK:
-        return {
-          ...state,
-  
+    case UPDATE_STOCK:
+      return {
+        ...state,
         }
     default:
       return state;

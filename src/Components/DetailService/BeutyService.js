@@ -47,55 +47,46 @@ export const ProviderService = [
         name:'Andrada Beuty',
         service: ['Manicure','Peeling','Facial Cleansing','Pedicure'],
         price: {
-            'Manicure': 1200,
-            'Pedicure': 1200,
-            'Peeling': 1200,
-            'Facial Cleansing': 3500,
+            'Manicure': 6,
+            'Pedicure': 6,
+            'Peeling': 6,
+            'Facial Cleansing': 17.5,
         }
     },
     {
         name:'Spa Dr. Marin',
         service: ['Botox','Peeling','Facial Cleansing','Lifting Tabs'],
         price: {
-            'Botox': 25000,
-            'Lifting Tabs': 2000,
-            'Peeling': 5000,
-            'Facial Cleansing': 3500,
+            'Botox': 125,
+            'Lifting Tabs': 10,
+            'Peeling': 25,
+            'Facial Cleansing': 17.5,
         }
     },
     {
         name:'Adriano\'s Barbershop',
         service: ['Barbershop','Hairdressing'],
         price: {
-            'Barbershop': 950,
-            'Hairdressing': 1900,
+            'Barbershop': 5,
+            'Hairdressing': 9.5,
         }
     },
     {
         name:'Madrid HandSpa',
         service: ['Manicure','Pedicure','Lifting Tabs'],
         price: {
-            'Manicure': 1200,
-            'Pedicure': 1200,
-            'Lifting Tabs': 2200
+            'Manicure': 6.5,
+            'Pedicure': 5.5,
+            'Lifting Tabs': 11
         }
     },
     {
         name:'Dr. Maceda',
         service: ['Botox','Peeling','Facial Cleansing'],
         price: {
-            'Botox': 20000,
-            'Peeling': 4000,
-            'Facial Cleansing': 4500,
+            'Botox': 100,
+            'Peeling': 20,
+            'Facial Cleansing': 22,
         }
     },
 ]
-
-/*
-    manicure (polish - semipermanente) 1200
-    pedicure 1200
-    pestañas ondulacion y tinte (2000) extencion (2000) 
-    botox 25000
-    Limpieza de cutis (punta de diamante) - 3500
-    Peeling 5000
-*/

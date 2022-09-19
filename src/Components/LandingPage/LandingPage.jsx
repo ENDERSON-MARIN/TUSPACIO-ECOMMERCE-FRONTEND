@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Typography from '@material-ui/core/Typography';
@@ -17,27 +17,25 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import useStyles from './useStyles';
 import { useNavigate, useParams } from "react-router-dom"
 
-
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
 
 const itemData = [
   {
-      img: "https://i.im.ge/2022/09/12/OGJBI1.envios2.jpg",
-      title: "Entregamos a todo el pais,..."
+    img: "https://i.im.ge/2022/09/12/OGJBI1.envios2.jpg",
+    title: "Envios a todo el mundo"
   },
   {
     img: "https://i.im.ge/2022/09/12/1MIaNh.10.jpg",
-    title: "Entregamos a todo el pais,..."
-},
+    title: "porciento de descuento al inciar sesion"
+  },
   {
-      img: "https://i.im.ge/2022/09/12/OGnQdr.hogar.jpg",
-      title: "...inspiramos confianza a nuestros clientes,..."
+    img: "https://i.im.ge/2022/09/12/OGnQdr.hogar.jpg",
+    title: "descuentos de temporada"
   },
   {
     img: "https://i.im.ge/2022/09/12/1MI0Iq.SALE.jpg",
-    title: "...inspiramos confianza a nuestros clientes,..."
-},
+    title: "confort de clientes"
+  },
 
 
 ]
@@ -79,7 +77,7 @@ const images = [
     category: "pencil",
     width: '40%',
   },
-  
+
 ];
 
 
@@ -109,7 +107,7 @@ const images = [
   }, [dispatch]);
 
   useEffect(() => {
-     setChecked(true)
+    setChecked(true)
   }, []);
 
   useEffect(() => {
@@ -137,20 +135,20 @@ const images = [
         onChangeIndex={handleStepChange}
         enableMouseEvents
         animateHeight={true}
-        // containerStyle={}
+      // containerStyle={}
       >
-       
+
         {
           itemData.map((step, index) => (
             <div key={step.title}>
-              { Math.abs(activeStep - index) <= 2 
-                  ? <img className={classes.img} src={step.img} alt={step.title} />
-                  : null
+              {Math.abs(activeStep - index) <= 2
+                ? <img className={classes.img} src={step.img} alt={step.title} />
+                : null
               }
             </div>
           ))
         }
-        
+
       </AutoPlaySwipeableViews>
 
       <MobileStepper
@@ -159,18 +157,15 @@ const images = [
         position="static"
         variant="dots"
         activeStep={activeStep}
-      /> 
+      />
 
-
-
-
-    <div className={classes.descripContainer}>
+      <div className={classes.descripContainer}>
         <h2 >
-        Featured Products
+          Featured Products
         </h2>
-        </div>
-     
-            <Grid
+      </div>
+
+      <Grid
         container
         direction="row"
         justifyContent="space-around"
@@ -179,41 +174,41 @@ const images = [
         <Grid item xs={10}>
           <Box mb={4}>
             <Grid container justifyContent="center" >
-              {RENDERED_PRODUCTS.length === 0  ? <div className="loading loading--full-height"></div> 
-              
-               : RENDERED_PRODUCTS?.map((product, index) => (
-                <Grid key={index} item>
-                  <LandingCards
-                    className={classes.paper}
-                    products={product}
-                  />
-                </Grid>
-              ))}
+              {RENDERED_PRODUCTS.length === 0 ? <div className="loading loading--full-height"></div>
 
-              
+                : RENDERED_PRODUCTS?.map((product, index) => (
+                  <Grid key={index} item>
+                    <LandingCards
+                      className={classes.paper}
+                      products={product}
+                    />
+                  </Grid>
+                ))}
+
+
             </Grid>
           </Box>
-           </Grid>
-          </Grid>
-            
-            <div className={classes.all}>
-            <Link to='/home'>
-            <Button
-              variant="contained"
-              className={classes.button3}
-              startIcon={<VisibilityIcon />}
-              size='large'
-             >
-             see more
-            </Button>
-            </Link>
-            </div>
+        </Grid>
+      </Grid>
+
+      <div className={classes.all}>
+        <Link to='/home'>
+          <Button
+            variant="contained"
+            className={classes.button3}
+            startIcon={<VisibilityIcon />}
+            size='large'
+          >
+            see more
+          </Button>
+        </Link>
+      </div>
 
 
-        <div className={classes.descripContain}>
-        <h2 > 
-        Achieve your best you in TuSpacio.<br/>
-        Because looking and feeling good belong together.
+      <div className={classes.descripContain}>
+        <h2 >
+          Achieve your best you in TuSpacio.<br />
+          Because looking and feeling good belong together.
         </h2>
         </div>
             <div className={classes.rootImg}>
@@ -232,31 +227,37 @@ const images = [
           <span
             className={classes.imageSrc}
             style={{
-              backgroundImage: `url(${image.url})`,
+              width: image.width,
             }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="h5"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {image.title}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
-        </ButtonBase>
-      ))}
-        </div>
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${image.url})`,
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="h5"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {image.title}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </ButtonBase>
+        ))}
+      </div>
 
-            <div>
-              <img src={brands} alt="" className={classes.brands}/>
-            </div>
+      <div>
+        <img src={brands} alt="" className={classes.brands} />
+      </div>
 
-        </div>
+    </div>
 
-    
+
   );
 }

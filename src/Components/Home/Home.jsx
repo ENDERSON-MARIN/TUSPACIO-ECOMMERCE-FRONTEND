@@ -56,15 +56,14 @@ export default function SpacingGrid(order) {
           {order && <LandingPage />}
         </Grid>
       </Grid> */}
-
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Grid item xs={10}>
-          <Box mt={9}>
+      <Box mt={17}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-around"
+          alignItems="center"
+        >
+          <Grid item xs={10}>
             <Grid container justifyContent="center" spacing={spacing}>
             {RENDERED_PRODUCTS.length === 0 && productsCopy.length === 0 ? <div className="loading loading--full-height"></div>  :
               RENDERED_PRODUCTS?.map((product, index) => (
@@ -88,14 +87,7 @@ export default function SpacingGrid(order) {
               }
               
             </Grid>
-          </Box>
-        <BasicPagination
-        className={classes.centering}
-        currentPage={currentPage}
-        productsPerPage={productsPerPage}
-        totalProducts={products.length}
-        onChange={handleChange}
-      />
+          </Grid>
         </Grid>
       </Grid>
 
@@ -107,19 +99,26 @@ export default function SpacingGrid(order) {
         onChange={handleChange}
       /> */}
 
-      <div className="divwsp">
-        <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">
-          <img
-            src="https://i.ibb.co/Th1XCXz/Dise-o-sin-t-tulo-1.png"
-            alt="..."
-          />
-        </a>
-      </div>
+        <BasicPagination
+          className={classes.centering}
+          currentPage={currentPage}
+          productsPerPage={productsPerPage}
+          totalProducts={products.length}
+          onChange={handleChange}
+        />
 
-      <div>
-        <Contenido />
-      </div>
-      
-    </div>
+        <div className="divwsp">
+          <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">
+            <img
+              src="https://i.ibb.co/Th1XCXz/Dise-o-sin-t-tulo-1.png"
+              alt="..."
+            />
+          </a>
+        </div>
+        <div>
+          <Contenido />
+        </div>
+      </Box>
+    </>
   );
 }

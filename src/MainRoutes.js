@@ -7,11 +7,9 @@ import Detail from './Components/Detail/Detail';
 import DetailService from './Components/DetailService/DetailService';
 import ContainerCards from './Components/ContainerCards/ContainerCards.jsx'
 import { Routes, Route } from 'react-router-dom';
-import CreateProduct from './Components/CreateProduct/CreateProduct';
 import Wishlist from './Components/Wishlist/Wishlist'
 import Cart from './Components/Cart/Cart'
 import Profile from './Components/Profile/Profile';
-// import theme from './ThemeConfig'
 import Checkout from './Components/Checkout/Checkout';
 import OrderDetail from './Components/OrderDetail/OrderDetail.jsx';
 import CreateUser from './Components/CreateUser/CreateUser.jsx';
@@ -34,16 +32,12 @@ function MainRoutes() {
     <Box>  
       {/*<ThemeProvider theme={theme}>*/}
       <Navbar />
-      <Box
-        pt={8}
-      >
         <Routes >
           <Route path="/" element={ <LandingPage setFilters={setFilters}/> } /> 
           <Route path="/home" exact element={ <ContainerCards filters={filters} setFilters={setFilters}/> } /> 
           <Route path="/:id" exact element={ <Detail setFilters={setFilters}/> } />
           <Route path="/service" element={ <DetailService /> } />
           <Route path="/createUser" element={ <CreateUser /> } />
-          <Route path="/create" element={ <CreateProduct /> } />
           <Route path="/wishlist" element={ <Wishlist /> } />
           <Route path="/cart" element={ <Cart /> } />
           <Route path="/profile" element={ <Profile /> } />
@@ -52,7 +46,6 @@ function MainRoutes() {
           <Route path="/orders/:id" element={ <OrderDetail /> } />
           <Route path="/reviews/:id" element={ <PostReview/> } />
         </Routes>  
-      </Box>
       <Footer />
       {/* </ThemeProvider> */} 
     </Box>    

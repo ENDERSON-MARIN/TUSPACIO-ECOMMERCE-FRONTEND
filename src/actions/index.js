@@ -38,12 +38,13 @@ export const DELETE_USER = "DELETE_USER";
 export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
+export const GET_ORDERS_USER = "GET_ORDERS_USER";
+export const CHANGES_USER = "CHANGES_USER";
 export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
 export const UPDATE_STOCK = "UPDATE_STOCK";
 
-
 //API
-const API = "http://localhost:3001/api";
+const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -164,15 +165,33 @@ export function postNewProduct(payload) {
   };
 }
 
+// export function postReview(payload) {
+//   return function (dispatch) {
+//     console.log(payload)
+//     const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+//     console.log(newReviewResult)
+//     dispatch({
+//       type: POST_REVIEW,
+//       payload,
+//     });
+//     return newReviewResult;
+//   }
+// }
+
 export function postReview(payload) {
-  return function (dispatch) {
-    const newReviewResult = axios.post(`${API}/products/reviews`, payload);
-    dispatch({
-      type: POST_REVIEW,
-      payload,
-    });
-    return newReviewResult;
-  }
+  return async function (dispatch) {
+    try {
+      console.log(payload)
+      const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+      console.log(newReviewResult)
+      dispatch({
+        type: POST_REVIEW,
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export function updateRating(id) {
@@ -269,7 +288,7 @@ export function postUser(user) {
       const newUser = await axios.post(`${API}/users`, infoUser);
       return dispatch({
         type: POST_USER,
-        payload: newUser.data
+        payload: newUser.data[0]
         });
     } catch (error) {
       console.error(error);
@@ -456,6 +475,39 @@ export function getProductTypes() {
         console.log(error);
       });
   };
+}
+
+export function getOrdersUser(id) { 
+  return function (dispatch) {
+    return axios
+      .get(`${API}/orders/user/${id}`) 
+      .then((o) => {
+        dispatch({
+          type: GET_ORDERS_USER,
+          payload: o.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function putUserChanges(user) {
+  const changeUser = {email: user.email, address: user.address}
+  console.log('entre a la accion, sigue el response')
+  return async function (dispatch) {
+    try {
+      let response = await axios.put(`${API}/users/${user.id}`, changeUser);
+      console.log(response)
+      return dispatch({
+        type: CHANGES_USER,
+        payload: changeUser
+        });
+    } catch (error) {
+      console.log(error);
+    }
+ }
 }
 
 export const getLatestOrders = () => {

@@ -91,16 +91,16 @@ export default function Navbar() {
               <MenuItem>{user.name}</MenuItem>
               <MenuItem onClick={ () => 
                 user.sub === "auth0|63194dd4a66d06a2351daf15" 
-                   ? navigate('/profile') 
-                   : navigate('/home') } >
+                   ? navigate('/home') 
+                   : navigate('/profile') } >
                 { user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                  "Dashboard" : "Profile" }
+                  "User shop" : "Profile" }
               </MenuItem>
               <MenuItem onClick={ () => 
                 user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
                 navigate('/dashboard') : navigate('/home') }>
                 { user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                "New Dashboard" : null }
+                "Dashboard" : null }
               </MenuItem>
               <MenuItem onClick={Logout()}>Sing out</MenuItem>
               {
@@ -124,16 +124,22 @@ export default function Navbar() {
           <Toolbar>
 
             {/* Hamburguesa */}
-            {/* <IconButton
+            <IconButton
               edge="start"
               className={classes.menuButton}
               color="inherit"
               aria-label="open drawer">
-              <MenuIcon />
-            </IconButton> */}
+              <DrawerBox/>
+              <IconButton color="primary" onClick={() => handleRefresh()} >
+                <img
+                      className={classes.logoImg}
+                      src={LogoIMG}
+                      alt="logo img" />
+              </IconButton>
+            </IconButton>
             {/* Logo */}
        
-            <DrawerBox />
+            {/* <DrawerBox /> */}
             <IconButton color="primary" onClick={() => handleRefresh()} >
 
                 <Box className={classes.logoBox}>
