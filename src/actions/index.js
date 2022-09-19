@@ -90,11 +90,6 @@ export function getAllBrands(categorie) {
 }
 }
 
-
-
-
-
-
 export function getCategories(brand) {
   if (brand) {
     return async function (dispatch) {
@@ -187,20 +182,11 @@ export function postNewProduct(payload) {
 // }
 
 export function postReview(payload) {
-  return function (dispatch) {
-    const newReviewResult = axios.post(`/products/reviews`, payload);
-    dispatch({
-      type: POST_REVIEW,
-      payload,
-    });
-    return newReviewResult;
-  }
-
   return async function (dispatch) {
     try {
-      console.log(payload)
+      // console.log(payload)
       const newReviewResult = axios.post(`/products/reviews`, payload);
-      console.log(newReviewResult)
+      // console.log(newReviewResult)
       dispatch({
         type: POST_REVIEW,
         payload,
@@ -209,7 +195,6 @@ export function postReview(payload) {
       console.log(error);
     }
   };
-
 }
 
 export function updateRating(id) {
@@ -448,7 +433,7 @@ export function updateStock(id, stock){
       console.error(error);
     }
   }
-  }
+}
 
 export const addNewCategory = (category) => {
   return async function (dispatch) {
