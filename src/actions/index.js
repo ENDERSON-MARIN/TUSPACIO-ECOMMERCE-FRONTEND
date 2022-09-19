@@ -44,7 +44,7 @@ export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
 export const UPDATE_STOCK = "UPDATE_STOCK";
 
 //API
-// const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
+ const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
 
 export function getAllProducts() {
   return async function (dispatch) {

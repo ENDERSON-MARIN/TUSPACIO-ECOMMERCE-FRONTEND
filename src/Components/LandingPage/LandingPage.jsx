@@ -229,7 +229,7 @@ const images = [
             style={{
               width: image.width,
             }}
-          >
+          />
             <span
               className={classes.imageSrc}
               style={{
