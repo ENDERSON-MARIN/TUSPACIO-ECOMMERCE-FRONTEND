@@ -39,6 +39,7 @@ export const GET_PRODUCTYPES = "GET_PRODUCTYPES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const MAKE_ADMIN = "MAKE_ADMIN";
 export const GET_ORDERS_USER = "GET_ORDERS_USER";
+export const CHANGES_USER = "CHANGES_USER";
 
 //API
 const API = "https://tuspacio.herokuapp.com/api" || "http://localhost:3001/api";
@@ -450,4 +451,33 @@ export function getOrdersUser(id) {
         console.log(error);
       });
   };
+}
+
+export function putUserChanges(user) {
+  const changeUser = {
+    name: user.name, 
+    nickname: user.nickname, 
+    email: user.email, 
+    email_verified: user.email_verified,
+    picture: user.picture, 
+    sid: user.sub,
+    id: user.id,
+    address: user.address,
+    status: user.status,
+    rol_id: user.rol_id 
+  }
+  const changes = {email: user.email, address: user.address}
+  console.log('entre a la accion, sigue el response')
+  return async function (dispatch) {
+    try {
+      let response = await axios.put(`${API}/users/${user.id}`, changeUser);
+      console.log(response)
+      return dispatch({
+        type: CHANGES_USER,
+        payload: changes
+        });
+    } catch (error) {
+      console.log(error);
+    }
+ }
 }

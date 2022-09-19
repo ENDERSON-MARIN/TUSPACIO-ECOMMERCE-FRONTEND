@@ -37,7 +37,8 @@ import {
   GET_PRODUCTYPES,
   CREATE_CATEGORY,
   MAKE_ADMIN,
-  GET_ORDERS_USER
+  GET_ORDERS_USER,
+  CHANGES_USER
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -311,6 +312,7 @@ function rootReducer(state = initialState, action) {
         cart: [],
       };
     case POST_USER:
+      console.log(action.payload)
       return {
         ...state,
         infoUser: action.payload,
@@ -375,7 +377,17 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       ordersUser: action.payload
-    } 
+    }
+    case CHANGES_USER:
+      console.log('entre en el reducer')
+      return {
+        ...state,
+        infoUser: [{
+          ...state.infoUser,
+          email: action.payload.email,
+          address: action.payload.address
+        }]
+      }
     default:
       return state;
   }

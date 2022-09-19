@@ -33,17 +33,17 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-function createData(name, price, quantity, date) {
-    return { name, price, quantity, date };
-}
+// function createData(name, price, quantity, date) {
+//     return { name, price, quantity, date };
+// }
 
-const rows = [
-    createData('imgProduct', 'nameProduct', 6.0, 24, 4.0),
-    createData('imgProduct', 'nameProduct', 9.0, 37, 4.3),
-    createData('imgProduct', 'nameProduct', 16.0, 24, 6.0),
-    createData('imgProduct', 'nameProduct', 3.7, 67, 4.3),
-    createData('imgProduct', 'nameProduct', 16.0, 49, 3.9),
-];
+// const rows = [
+//     createData('imgProduct', 'nameProduct', 6.0, 24, 4.0),
+//     createData('imgProduct', 'nameProduct', 9.0, 37, 4.3),
+//     createData('imgProduct', 'nameProduct', 16.0, 24, 6.0),
+//     createData('imgProduct', 'nameProduct', 3.7, 67, 4.3),
+//     createData('imgProduct', 'nameProduct', 16.0, 49, 3.9),
+// ];
 
 const useStyles = makeStyles({
     table: {

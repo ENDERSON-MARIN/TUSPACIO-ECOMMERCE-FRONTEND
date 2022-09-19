@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Grid, Paper, Button, Typography, Box, FormLabel, RadioGroup, FormControlLabel } from '@material-ui/core';
-import { TextField, FormControl, Radio } from '@material-ui/core'
+import { Grid, Paper, Button } from '@material-ui/core'; // Typography, Box, FormLabel, RadioGroup, FormControlLabel
+import { TextField } from '@material-ui/core' // FormControl, Radio
 import { makeStyles } from "@material-ui/core";
-import ButtonSubmit from "./ButtonSubmit";
-import { padding } from "@mui/system";
+// import ButtonSubmit from "./ButtonSubmit";
+// import { padding } from "@mui/system";
+import { putUserChanges } from "../../actions";
+import { useDispatch } from "react-redux";
 
 
 // import {Formik, Form, Field, ErrorMessage} from 'formik';
@@ -16,28 +18,38 @@ const useStyle = makeStyles(theme => ({
             margin: theme.spacing(1),
             // paddingTop: "200px",
         }
+    },
+    buttonPop:{
+        margin: theme.spacing(0.5),
+        textTransform: 'none'
     }
 }))
 
 
-const initialFValeus = {
-    id: 0,
-    fullName: '',
-    nickName: '',
-    email: '',
-    address: '',
-    hireDate: new Date(),
-    inPermanent: false,
-}
 
-export default function FormProfile() {
+export default function FormProfile({user, setOpenPopup}) {
 
+    const dispatch = useDispatch()
+    const initialValues = {
+        name: user.name, 
+        nickname: user.nickname, 
+        email: user.email, 
+        email_verified: user.email_verified,
+        picture: user.picture, 
+        sid: user.sub,
+        id: user.id,
+        address: user.address?user.address:"----",
+        status: true,
+        rol_id: 2,
+        // hireDate: new Date(),
+        // inPermanent: false,
+    }
 
-    const [values, setValues] = useState(initialFValeus)
-    const [errors, setErrors] = useState({});
+    // console.log(initialFValeus)
 
+    const [values, setValues] = useState(initialValues)
+    
     const classes = useStyle();
-
 
     // const validate=() => {
     //   let temp = {}
@@ -59,12 +71,21 @@ export default function FormProfile() {
         })
     }
 
+    function resetValues() {
+        setValues(initialValues)
+    }
+
+    function changeValues() {
+        console.log('entre a la funcion del boton')
+        dispatch(putUserChanges(values))
+        setOpenPopup(false)
+    }
+
     // const handleSubmit = e => {
     //   e.preventDefault()
     //   if(validate())
     //   window.alert('testing...')
     // }
-
 
     return (
         <Paper>
@@ -75,14 +96,14 @@ export default function FormProfile() {
                 >
                     <Grid item>
                         <TextField
-                            variant='outlined'
+                            variant="filled"
                             label='New Email'
                             name="email"
                             value={values.email}
                             onChange={handleInputChange}
                         />
                         <TextField
-                            variant='outlined'
+                            variant="filled"
                             label='New Address'
                             value={values.address}
                             name='address'
@@ -90,7 +111,7 @@ export default function FormProfile() {
                         />
                     </Grid>
                     <Grid item >
-                        <FormControl>
+                        {/* <FormControl>
                             <FormLabel>
                                 <RadioGroup>
                                     <FormControlLabel
@@ -117,23 +138,23 @@ export default function FormProfile() {
                                     </RadioGroup>
                                 </FormLabel>
                             </FormControl>
-                        </Box>
+                        </Box> */}
 
                         <div>
-                            <ButtonSubmit
-                                type='submit'
+                            <Button
                                 variant='outlined'
                                 color='primary'
                                 size='medium'
-                                text='Submit'
-                            />
-                            <ButtonSubmit
-                                type='submit'
+                                className={classes.buttonPop}
+                                onClick={() => changeValues()} 
+                            >Update</Button>
+                            <Button
                                 variant='outlined'
                                 color='default'
                                 size='medium'
-                                text='Reset'
-                            />
+                                className={classes.buttonPop}
+                                onClick={() => resetValues()} 
+                            >Reset</Button>
                         </div>
                     </Grid>
                 </Grid>

@@ -3,8 +3,9 @@ import {Button as MuiButton, makeStyles } from '@material-ui/core'
 
 
 const useStyles = makeStyles(theme => ({
-    root:{
-        margin: theme.spacing(0.5)
+    buttonPop:{
+        margin: theme.spacing(0.5),
+        textTransform: 'none'
     },
     label:{
         textTransform: 'none'
