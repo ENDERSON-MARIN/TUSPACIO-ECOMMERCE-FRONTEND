@@ -4,12 +4,9 @@ import HomeCards from "../../Components/HomeCards/HomeCards";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrders, getAllProducts } from "../../actions";
 import BasicPagination from "../BasicPagination/Pagination";
-// import LandingPage from "../Landing/Landing";
 import { Box } from "@material-ui/core";
 import useStyles from "./useStyles";
 import img from '../../assets/images/noProduct.png'
-
-
 import Contenido from "../Chatbot/Chatbot";
 import "./Home.css";
 

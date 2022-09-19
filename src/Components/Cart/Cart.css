@@ -363,6 +363,10 @@ section .cart {
     height: 25px;
 }
 
+#chat {
+    color: white;
+}
+
   /*********** MEDIA QUERIES (MEDIUM DEVICES ************/
   @media screen and (max-width: 1180px) {
     .byn-small {

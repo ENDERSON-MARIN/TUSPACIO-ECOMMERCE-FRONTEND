@@ -4,11 +4,12 @@ import {ServiceJson, ProviderService} from './BeutyService'
 import { Box, Button, FormControl, Grid, InputLabel, Select, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import LogoIMG from '../../assets/images/img_logo.png';
 import theme from '../../ThemeConfig';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
-    marginTop: 50
+    marginTop: 50,
   },
   media: {
     height: 0,
@@ -29,14 +30,15 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 150,
   },
   margin: {
-    margin: theme.spacing(1),
+    marginTop: 10
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
   },
   detailImg : {
     height: 300,
-    width: 300
+    width: 300,
+    marginTop: 50
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -44,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
     paddingTop: 5
   },
+  view: {
+    minHeight: '70vh'
+  }
 }));
 
 export default function DetailService() {
@@ -60,6 +65,7 @@ export default function DetailService() {
   };
 
   return (
+    <div className={classes.view}>
         <ThemeProvider theme={theme}>
             <Box
                 display='flex'
@@ -74,7 +80,7 @@ export default function DetailService() {
                     alignItems="flex-start"
                 >
                     <Grid item xs={12}>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                             Chose how to take care of yourself...
                         </Typography>
                     </Grid>
@@ -84,7 +90,7 @@ export default function DetailService() {
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            border={1}
+                            //border={1}
                             borderRadius="borderRadius"
                             borderColor='primary.main'
                             height={300}
@@ -183,16 +189,26 @@ export default function DetailService() {
                                     : "Select your service" }
                                 </Typography>
                             </Grid>
-                            <Button variant="contained" size="large" color="primary" className={classes.margin}>
-                                Add to Cart
+                            
+
+
+                            <Button variant="contained"
+                              size="large"
+                              color="primary"
+                              className={classes.margin}
+                              startIcon={<WhatsAppIcon/>}>
+                            <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer" id='chat'>Chat now!</a>
                             </Button>
-                            <Button variant="outlined" size="large" color="primary" className={classes.margin}>
+                            
+                            {/* <Button variant="outlined" size="large" color="primary" className={classes.margin}>
                                 Add to Favorites
-                            </Button>
+                            </Button> */}
+                            
                         </Grid>
                     </Grid>
                 </Grid>
             </Box>
         </ThemeProvider>
+        </div>
     );
 }
