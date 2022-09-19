@@ -49,7 +49,7 @@ export const UPDATE_STOCK = "UPDATE_STOCK";
 export function getAllProducts() {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products`);
+      var json = await axios.get(`/products`);
       return dispatch({
         type: GET_ALL_PRODUCTS,
         payload: json.data,
@@ -64,7 +64,7 @@ export function getAllBrands(categorie) {
   if (categorie) {
     return async function (dispatch) {
       try {
-        var json = await axios.get(`${API}/products/brand?categorie=${categorie}`);
+        var json = await axios.get(`/products/brand?categorie=${categorie}`);
         return dispatch({
           type: GET_ALL_BRANDS,
           payload: json.data,
@@ -76,7 +76,7 @@ export function getAllBrands(categorie) {
   } else {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products/brand`);
+      var json = await axios.get(`/products/brand`);
       return dispatch({
         type: GET_ALL_BRANDS,
         payload: json.data,
@@ -92,7 +92,7 @@ export function getCategories(brand) {
   if (brand) {
     return async function (dispatch) {
       try {
-        var json = await axios.get(`${API}/categories?brand=${brand}`);
+        var json = await axios.get(`/categories?brand=${brand}`);
         return dispatch({
           type: GET_CATEGORIES,
 
@@ -106,7 +106,7 @@ export function getCategories(brand) {
   } else {
     return async function (dispatch) {
       try {
-        var json = await axios.get(`${API}/categories`);
+        var json = await axios.get(`/categories`);
         return dispatch({
           type: GET_CATEGORIES,
           payload: json.data,
@@ -129,7 +129,7 @@ export function setCurrentHomePage(page) {
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/product/${id}`);
+      var json = await axios.get(`/product/${id}`);
       return dispatch({
         type: GET_DETAIL,
         payload: json.data,
@@ -143,7 +143,7 @@ export function getDetail(id) {
 export function getName(name) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products/search/?name=${name}`);
+      var json = await axios.get(`/products/search/?name=${name}`);
       return dispatch({
         type: GET_NAME,
         payload: json.data,
@@ -156,7 +156,7 @@ export function getName(name) {
 
 export function postNewProduct(payload) {
   return function (dispatch) {
-    const newProdResult = axios.post(`${API}/products`, payload);
+    const newProdResult = axios.post(`/products`, payload);
     dispatch({
       type: POST_PRODUCT,
       payload,
@@ -168,7 +168,7 @@ export function postNewProduct(payload) {
 // export function postReview(payload) {
 //   return function (dispatch) {
 //     console.log(payload)
-//     const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+//     const newReviewResult = axios.post(`/products/reviews`, payload);
 //     console.log(newReviewResult)
 //     dispatch({
 //       type: POST_REVIEW,
@@ -182,7 +182,7 @@ export function postReview(payload) {
   return async function (dispatch) {
     try {
       console.log(payload)
-      const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+      const newReviewResult = axios.post(`/products/reviews`, payload);
       console.log(newReviewResult)
       dispatch({
         type: POST_REVIEW,
@@ -197,7 +197,7 @@ export function postReview(payload) {
 export function updateRating(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`${API}/products/reviews/productId/${id}`);
+      var json = await axios.get(`/products/reviews/productId/${id}`);
       return dispatch({
         type: UPDATE_RATING,
         payload: json.data,
@@ -259,9 +259,9 @@ export function orderCombine(filters) {
     try {
       let jsonOC;
       if (alpha || brand || category || rating || price) {
-        jsonOC = await axios.get(`${API}/products/orderCombine${order}`);
+        jsonOC = await axios.get(`/products/orderCombine${order}`);
       } else {
-        jsonOC = await axios.get(`${API}/products`);
+        jsonOC = await axios.get(`/products`);
       }
       console.log(jsonOC);
       return dispatch({
@@ -285,7 +285,7 @@ export function postUser(user) {
   }
   return async function (dispatch) {
     try {
-      const newUser = await axios.post(`${API}/users`, infoUser);
+      const newUser = await axios.post(`/users`, infoUser);
       return dispatch({
         type: POST_USER,
         payload: newUser.data[0]
@@ -299,7 +299,7 @@ export function postUser(user) {
 export const getAllOrders = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/orders`);
+      const json = await axios.get(`/orders`);
       return dispatch({
         type: GET_ALL_ORDERS,
         payload: json.data,
@@ -313,7 +313,7 @@ export const getAllOrders = () => {
 export const getOrderById = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/orders/${id}`);
+      const json = await axios.get(`/orders/${id}`);
       console.log(json.data)
       return dispatch({
         type: GET_ORDER_BY_ID,
@@ -328,7 +328,7 @@ export const getOrderById = (id) => {
 export function updateOrderStatus(id, status){
   return async function (dispatch) {
     try {
-      const json = await axios.patch(`${API}/order/${id}`, {status});
+      const json = await axios.patch(`/order/${id}`, {status});
       return dispatch({
         type: UPDATE_ORDER_STATUS,
         payload: json.data,
@@ -348,7 +348,7 @@ export const cleanOrderDetail = () => {
 export const createCart = (cart, user) => {
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/orders`, { cart, user });
+      const json = await axios.post(`/orders`, { cart, user });
       return dispatch({
         type: CREATE_CART,
         payload: json.data,
@@ -369,7 +369,7 @@ export const setDashboardItem = (item) => {
 export const createUser = (payload) => {
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/users`, payload);
+      const json = await axios.post(`/users`, payload);
       return dispatch({
         type: CREATE_USER,
         payload: json.data,
@@ -389,7 +389,7 @@ export function setGlobalEstate () {
 export const getAllUsers = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/users`);
+      const json = await axios.get(`/users`);
       return dispatch({
         type: GET_ALL_USERS,
         payload: json.data,
@@ -403,7 +403,7 @@ export const getAllUsers = () => {
 export const deleteUser = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`${API}/users/${id}`);
+      const json = await axios.delete(`/users/${id}`);
       return dispatch({
         type: DELETE_USER,
         payload: json.data,
@@ -421,7 +421,7 @@ export const deleteUser = (id) => {
 export function updateStock(id, stock){
   return async function (dispatch) {
     try {
-      const json = await axios.put(`${API}/controlstock/${id}/?stock=${stock}`);
+      const json = await axios.put(`/controlstock/${id}/?stock=${stock}`);
       return dispatch({
         type: UPDATE_STOCK,
         payload: json.data,
@@ -435,7 +435,7 @@ export function updateStock(id, stock){
 export const addNewCategory = (category) => {
   return async function (dispatch) {
     try {
-      const json = await axios.post(`${API}/categories`, category);
+      const json = await axios.post(`/categories`, category);
       return dispatch({
         type: CREATE_CATEGORY,
         payload: json.data,
@@ -449,7 +449,7 @@ export const addNewCategory = (category) => {
 export const makeAdmin = (id, role) => {
   return async function (dispatch) {
     try {
-      const json = await axios.patch(`${API}/user/${id}`, role);
+      const json = await axios.patch(`/user/${id}`, role);
       return dispatch({
         type: MAKE_ADMIN,
         payload: json.data,
@@ -464,7 +464,7 @@ export const makeAdmin = (id, role) => {
 export function getProductTypes() {
   return function (dispatch) {
     return axios
-      .get(`${API}/products/productType`) 
+      .get(`/products/productType`) 
       .then((p) => {
         dispatch({
           type: GET_PRODUCTYPES,
@@ -480,7 +480,7 @@ export function getProductTypes() {
 export function getOrdersUser(id) { 
   return function (dispatch) {
     return axios
-      .get(`${API}/orders/user/${id}`) 
+      .get(`/orders/user/${id}`) 
       .then((o) => {
         dispatch({
           type: GET_ORDERS_USER,
@@ -498,7 +498,7 @@ export function putUserChanges(user) {
   console.log('entre a la accion, sigue el response')
   return async function (dispatch) {
     try {
-      let response = await axios.put(`${API}/users/${user.id}`, changeUser);
+      let response = await axios.put(`/users/${user.id}`, changeUser);
       console.log(response)
       return dispatch({
         type: CHANGES_USER,
@@ -513,7 +513,7 @@ export function putUserChanges(user) {
 export const getLatestOrders = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`${API}/orders/dashboard`);
+      const json = await axios.get(`/orders/dashboard`);
       return dispatch({
         type: GET_LATEST_ORDERS,
         payload: json.data,
