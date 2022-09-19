@@ -34,6 +34,7 @@ import {
   SET_GLOBAL_STATE,
   GET_ALL_USERS,
   DELETE_USER,
+  UPDATE_STOCK,
 
 } from "../actions";
 
@@ -243,7 +244,7 @@ function rootReducer(state = initialState, action) {
       return newState;
     }
     case ADD_TO_CART: {
-      let newItem = state.products.find(
+      let newItem = state.products?.find(
         (product) => product.id === action.payload
       );
       let itemsCart = state.cart?.find((item) => item.id === newItem.id); // busco si ya esta en el carrito y lo guardo
@@ -251,7 +252,7 @@ function rootReducer(state = initialState, action) {
       if (itemsCart) {
         itemsCart = {
           ...state,
-          cart: state.cart.map((i) =>
+          cart: state.cart?.map((i) =>
             i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
           ),
         };
@@ -354,6 +355,11 @@ function rootReducer(state = initialState, action) {
         ...state,
 
       }
+      case UPDATE_STOCK:
+        return {
+          ...state,
+  
+        }
     default:
       return state;
   }

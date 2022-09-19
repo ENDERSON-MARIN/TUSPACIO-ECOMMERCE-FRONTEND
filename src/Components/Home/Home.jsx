@@ -20,7 +20,7 @@ export default function SpacingGrid(order) {
   const products = useSelector((state) => state.products);
   const productsCopy = useSelector((state) => state.productsCopy);
   const favorites = useSelector((state) => state.favorites);
-  // const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart);
 
   const currentPage = useSelector((state) => state.currentPageHome);
   const [productsPerPage] = useState(9);
@@ -31,35 +31,33 @@ export default function SpacingGrid(order) {
 
   useEffect(() => {
     dispatch(getAllProducts());
-    dispatch(getAllOrders())
   }, [dispatch]);
+
+
 
   const handleChange = (event) => {
     setSpacing(Number(event.target.value));
+    window.scrollTo(0, 0)
   };
+
+
 
   function productIsFavorite(productID) {
     return favorites?.some((favorite) => favorite.id === productID);
   }
-  // function productInCart(productID) {
-  //   return cart?.some((product) => product.id === productID);
-  // }
+   function productInCart(productID) {
+     return cart?.some((product) => product.id === productID);
+   }
 
   return (
-    <>
+    <div className={classes.container}>
       {/* <Grid container direction='row' >
         <Grid item xs={12}>
           {order && <LandingPage />}
         </Grid>
       </Grid> */}
 
-      <BasicPagination
-        className={classes.centering}
-        currentPage={currentPage}
-        productsPerPage={productsPerPage}
-        totalProducts={products.length}
-        onChange={handleChange}
-      />
+      
       <Grid
         container
         direction="row"
@@ -76,6 +74,7 @@ export default function SpacingGrid(order) {
                     className={classes.paper}
                     products={product}
                     favorite={productIsFavorite(product.id)}
+                    cart={productInCart(product.id)}
                   />
                 </Grid>
               ))}
@@ -88,8 +87,16 @@ export default function SpacingGrid(order) {
               
               : null
               }
+              
             </Grid>
           </Box>
+        <BasicPagination
+        className={classes.centering}
+        currentPage={currentPage}
+        productsPerPage={productsPerPage}
+        totalProducts={products.length}
+        onChange={handleChange}
+      />
         </Grid>
       </Grid>
 
@@ -101,11 +108,12 @@ export default function SpacingGrid(order) {
           />
         </a>
       </div>
+      
 
       <div>
         <Contenido />
       </div>
       
-    </>
+    </div>
   );
 }
