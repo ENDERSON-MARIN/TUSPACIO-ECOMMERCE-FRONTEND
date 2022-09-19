@@ -161,15 +161,33 @@ export function postNewProduct(payload) {
   };
 }
 
+// export function postReview(payload) {
+//   return function (dispatch) {
+//     console.log(payload)
+//     const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+//     console.log(newReviewResult)
+//     dispatch({
+//       type: POST_REVIEW,
+//       payload,
+//     });
+//     return newReviewResult;
+//   }
+// }
+
 export function postReview(payload) {
-  return function (dispatch) {
-    const newReviewResult = axios.post(`${API}/products/reviews`, payload);
-    dispatch({
-      type: POST_REVIEW,
-      payload,
-    });
-    return newReviewResult;
-  }
+  return async function (dispatch) {
+    try {
+      console.log(payload)
+      const newReviewResult = axios.post(`${API}/products/reviews`, payload);
+      console.log(newReviewResult)
+      dispatch({
+        type: POST_REVIEW,
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export function updateRating(id) {
@@ -266,7 +284,7 @@ export function postUser(user) {
       const newUser = await axios.post(`${API}/users`, infoUser);
       return dispatch({
         type: POST_USER,
-        payload: newUser.data
+        payload: newUser.data[0]
         });
     } catch (error) {
       console.error(error);
@@ -437,7 +455,7 @@ export function getProductTypes() {
   };
 }
 
-export function getOrdersUser(id) {
+export function getOrdersUser(id) { 
   return function (dispatch) {
     return axios
       .get(`${API}/orders/user/${id}`) 
@@ -454,19 +472,7 @@ export function getOrdersUser(id) {
 }
 
 export function putUserChanges(user) {
-  const changeUser = {
-    name: user.name, 
-    nickname: user.nickname, 
-    email: user.email, 
-    email_verified: user.email_verified,
-    picture: user.picture, 
-    sid: user.sub,
-    id: user.id,
-    address: user.address,
-    status: user.status,
-    rol_id: user.rol_id 
-  }
-  const changes = {email: user.email, address: user.address}
+  const changeUser = {email: user.email, address: user.address}
   console.log('entre a la accion, sigue el response')
   return async function (dispatch) {
     try {
@@ -474,7 +480,7 @@ export function putUserChanges(user) {
       console.log(response)
       return dispatch({
         type: CHANGES_USER,
-        payload: changes
+        payload: changeUser
         });
     } catch (error) {
       console.log(error);

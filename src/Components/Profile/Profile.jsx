@@ -101,14 +101,26 @@ export default function Profile() {
     const navigate = useNavigate()
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
-    const userS = useSelector(state => state.infoUser);
+    const user = useSelector(state => state.infoUser);
     
-    const user = userS[0]
+    // para probar
+    // const userS = [{
+    //     name: "Adrian Quintana",
+    //     email: "radrianquintana@gmail.com",
+    //     nickname: "rquintana", 
+    //     email_verified: true,
+    //     picture: "", 
+    //     sid: "google-oauth2|113743980042929626345",
+    //     id: 14,
+    //     address: "----",
+    //     status: true,
+    //     rol_id: 2,
+    // }]
     
     return (
         <div className={classes.root}>
             {
-                userS.length 
+                user.id 
                 ?   <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
@@ -167,7 +179,7 @@ export default function Profile() {
                         </Grid>
                         <Grid item xs={12}>
                             <Box className={classes.box}>
-                                <CustomizedTables id={"google-oauth2|113743980042929626345"}/>  
+                                <CustomizedTables id={"google-oauth2|107435403474491105660"}/>  
                                 {/* user.sid es el valor que va en id -- solo se esta probando*/}
                             </Box>
                         </Grid>

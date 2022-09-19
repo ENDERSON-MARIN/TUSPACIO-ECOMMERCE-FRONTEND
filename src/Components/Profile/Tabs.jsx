@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersUser } from '../../actions';
-import { Badge, Chip, IconButton, Link } from '@material-ui/core';
+import { Badge, Chip, Fade, IconButton, Link, Popper, Typography } from '@material-ui/core';
 // import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
@@ -49,6 +49,12 @@ const useStyles = makeStyles({
     table: {
         minWidth: 700,
     },
+    root: {
+        width: 500,
+      },
+    // typography: {
+    // padding: theme.spacing(2),
+    // },
 });
 
 export default function CustomizedTables({ id }) {
@@ -56,6 +62,15 @@ export default function CustomizedTables({ id }) {
     const dispatch = useDispatch()
     const classes = useStyles();
     const ordersUser = useSelector(state => state.ordersUser);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [placement, setPlacement] = useState();
+    
+    const handleClick = (newPlacement) => (event) => {
+        setAnchorEl(event.currentTarget);
+        setOpen((prev) => placement !== newPlacement || !prev);
+        setPlacement(newPlacement);
+    };
         
     useEffect(() => {
         dispatch(getOrdersUser(id))
@@ -64,8 +79,8 @@ export default function CustomizedTables({ id }) {
     let rows2 = ordersUser.map(o => o.orderProducts.map(p => { return {
         date: o.updatedAt, id: p.id, img: p.image_link, name: p.name, price: p.price, quantity: p.quantity
     }})).flat()
-    console.log(rows2)
-    console.log(ordersUser)
+    // console.log(rows2)
+    // console.log(ordersUser)
 
     return (
         <>
@@ -97,17 +112,38 @@ export default function CustomizedTables({ id }) {
                                         <StyledTableCell align="center">{`$ ${row.price}`}</StyledTableCell>
                                         <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                                         <StyledTableCell align="center">
-                                            <Chip
-                                                variant="outlined"
-                                                size="small"
-                                                icon={<FaceIcon />}
-                                                label="Ranked!!"
-                                                clickable
-                                                color="primary"
-                                                onClick={() => navigate(`/reviews/${row.id}`)}
-                                                // onDelete={handleDelete}
-                                                // deleteIcon={<DoneIcon />}
-                                            />
+                                            {
+                                               ordersUser.includes(o => o.id === row.id)
+                                                ? <Chip
+                                                    variant="outlined"
+                                                    size="small"
+                                                    icon={<FaceIcon />}
+                                                    label="Ranked!!"
+                                                    clickable
+                                                    color="secondary"
+                                                    onClick={handleClick('left')}
+                                                    />
+                                                : <Chip
+                                                    variant="outlined"
+                                                    size="small"
+                                                    icon={<FaceIcon />}
+                                                    label="Ranked!!"
+                                                    clickable
+                                                    color="primary"
+                                                    onClick={() => navigate(`/reviews/${row.id}`)}
+                                                    />
+                                            }
+                                            <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
+                                                {({ TransitionProps }) => (
+                                                    <Fade {...TransitionProps} timeout={350}>
+                                                        <Paper>
+                                                            <Typography className={classes.typography}>
+                                                                {ordersUser?.filter(o => o.id === row.id).title}
+                                                            </Typography>
+                                                        </Paper>
+                                                    </Fade>
+                                                )}
+                                            </Popper>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}

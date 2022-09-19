@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PostReview() {
     const { id } = useParams();
     const item = useSelector((state) => state.productDetail?.dbInfo)
+    const id_user = useSelector((state) => state.infoUser.id)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
@@ -57,6 +58,7 @@ export default function PostReview() {
     }, [dispatch])
 
     const [input, setInput] = useState({
+        user_id: id_user,
         title: "",
         text: "",
         score: 0,
@@ -108,11 +110,11 @@ export default function PostReview() {
         dispatch(postReview(input))
         dispatch(updateRating(id))
         alert("Thanks you for your review");
-        setInput({
-            title: "",
-            text: "",
-            score: 0,
-        })
+        // setInput({
+        //     title: "",
+        //     text: "",
+        //     score: 0,
+        // })
         navigate(`/profile`)
     }
 

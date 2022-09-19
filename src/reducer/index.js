@@ -382,11 +382,11 @@ function rootReducer(state = initialState, action) {
       console.log('entre en el reducer')
       return {
         ...state,
-        infoUser: [{
+        infoUser: {
           ...state.infoUser,
           email: action.payload.email,
           address: action.payload.address
-        }]
+        }
       }
     default:
       return state;
