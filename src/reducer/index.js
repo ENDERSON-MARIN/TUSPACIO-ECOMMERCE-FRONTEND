@@ -39,7 +39,7 @@ import {
   CREATE_CATEGORY,
   MAKE_ADMIN,
   GET_ORDERS_USER,
-  CHANGES_USER
+  CHANGES_USER,
   GET_LATEST_ORDERS,
 } from "../actions";
 
@@ -94,7 +94,7 @@ const initialState = {
   dashboardItem: 'Dashboard',
   users: [],
   producTypes: [],
-  ordersUser: []
+  ordersUser: [],
   latestOrders: [],
 };
 
