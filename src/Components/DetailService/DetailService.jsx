@@ -4,6 +4,7 @@ import {ServiceJson, ProviderService} from './BeutyService'
 import { Box, Button, FormControl, Grid, InputLabel, Select, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import LogoIMG from '../../assets/images/img_logo.png';
 import theme from '../../ThemeConfig';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -183,12 +184,18 @@ export default function DetailService() {
                                     : "Select your service" }
                                 </Typography>
                             </Grid>
-                            <Button variant="contained" size="large" color="primary" className={classes.margin}>
+                            {/* <Button variant="contained" size="large" color="primary" className={classes.margin}>
                                 Add to Cart
-                            </Button>
-                            <Button variant="outlined" size="large" color="primary" className={classes.margin}>
+                            </Button> */}
+                             <Button variant="contained"
+                              size="large"
+                              color="primary"
+                              startIcon={<WhatsAppIcon/>}>
+                            <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer" id='chat'>Chat now!</a>
+                            </Button>	                           
+                            {/* <Button variant="outlined" size="large" color="primary" className={classes.margin}>
                                 Add to Favorites
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </Grid>
                 </Grid>

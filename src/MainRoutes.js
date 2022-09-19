@@ -38,7 +38,7 @@ function MainRoutes() {
         pt={8}
       >
         <Routes >
-          <Route path="/" element={ <LandingPage /> } /> 
+          <Route path="/" element={ <LandingPage setFilters={setFilters}/> } /> 
           <Route path="/home" exact element={ <ContainerCards filters={filters} setFilters={setFilters}/> } /> 
           <Route path="/:id" exact element={ <Detail setFilters={setFilters}/> } />
           <Route path="/service" element={ <DetailService /> } />
