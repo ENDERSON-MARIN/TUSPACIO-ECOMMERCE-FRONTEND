@@ -8,7 +8,7 @@ import Filter from "../Filter/Filter";
 
 export default function ContainerCards({filters, setFilters}) {
 
-    eEffect(() => {
+    useEffect(() => {
         window.scrollTo(0, 0)
       }, [])
     const [order, setOrder] = useState("")

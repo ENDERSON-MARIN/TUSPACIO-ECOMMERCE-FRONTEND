@@ -15,6 +15,7 @@ import { getAllProducts } from "../../actions";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import useStyles from './useStyles';
+import { useNavigate, useParams } from "react-router-dom"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -41,54 +42,68 @@ const itemData = [
 
 const images = [
   {
-    url: "https://i.im.ge/2022/09/10/OJ6erM.makeup.jpg",
-    title: 'MakeUp',
+    url: "https://i.im.ge/2022/09/19/1sp3Pm.BRONZER.png",
+    title: 'Bronzer',
+    category: "bronzer",
     width: '40%',
   },
   {
-    url: 'https://i.im.ge/2022/09/10/OJNlEq.lab.jpg',
+    url: 'https://i.im.ge/2022/09/19/1spWQc.LIPS.png',
     title: 'Lipstick',
+    category: "lipstick",
     width: '30%',
   },
   {
-    url: 'https://i.im.ge/2022/09/10/OJNyd9.smal.jpg',
-    title: 'Nail polish',
+    url: 'https://i.im.ge/2022/09/19/1spyIp.LIQUID.png',
+    title: 'Liquid',
+    category: "liquid",
     width: '30%',
   },
   {
-    url: "https://i.im.ge/2022/09/12/1MLbYC.pexels-suzy-hazelwood-1327689.jpg",
+    url: "https://i.im.ge/2022/09/19/1spzPJ.PALLE.png",
     title: 'Palette',
+    category: "palette",
     width: '30%',
   },
   {
-    url: 'https://i.im.ge/2022/09/10/OJcHI1.001-42.jpg',
-    title: 'Contourn',
+    url: 'https://i.im.ge/2022/09/19/1spJ9z.CONTOR.png',
+    title: 'Contour',
+    category: "contour",
     width: '30%',
   },
   {
-    url: 'https://i.im.ge/2022/09/10/OJgInh.pencil.jpg',
+    url: 'https://i.im.ge/2022/09/19/1svTq8.PEN.png',
     title: 'Pencil',
+    category: "pencil",
     width: '40%',
   },
 
 ];
 
 
-  export default function Containe() {
+  export default function Containe({setFilters}) {
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = itemData.length;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
-  const RENDERED_PRODUCTS = products.slice(155, 163);
-  const [checked, setChecked] = useState(false)
+  const RENDERED_PRODUCTS = products.slice(155,163);
+  const [checked,setChecked] = useState(false)
+  const navigate = useNavigate();
 
   const handleStepChange = (step) => {
       setActiveStep(step);
     };
   useEffect(() => {
     dispatch(getAllProducts());
+    setFilters({
+      "alpha": "",
+      "category": "",
+      "price": "",
+      "brand": "",
+      "rating": ""
+    })
   }, [dispatch]);
 
   useEffect(() => {
@@ -98,6 +113,19 @@ const images = [
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  
+  function handleCatgory(category) {
+    setFilters({
+      "alpha": "",
+      "category": category,
+      "price": "",
+      "brand": "",
+      "rating": ""
+    })
+    navigate('/home')
+  }
+
 
   return (
     <div className={classes.root}>
@@ -182,14 +210,22 @@ const images = [
           Achieve your best you in TuSpacio.<br />
           Because looking and feeling good belong together.
         </h2>
-      </div>
-      <div className={classes.rootImg}>
-        {images.map((image) => (
-          <ButtonBase
-            focusRipple
-            key={image.title}
-            className={classes.image}
-            focusVisibleClassName={classes.focusVisible}
+        </div>
+            <div className={classes.rootImg}>
+          {images.map((image) => (
+        <ButtonBase
+          focusRipple
+          key={image.title}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          style={{
+            width: image.width,
+          }}
+          onClick={() => handleCatgory(image.category)}
+        
+        >
+          <span
+            className={classes.imageSrc}
             style={{
               width: image.width,
             }}

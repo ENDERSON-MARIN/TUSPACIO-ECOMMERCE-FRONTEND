@@ -72,8 +72,8 @@ const useStyles = makeStyles((theme) => ({
     },
     brands: {
       width: '100%',
-      marginTop: 50,
-      marginBottom: 50
+      marginTop: 200,
+      marginBottom: 100
     },
     paper: {
       height: 140,

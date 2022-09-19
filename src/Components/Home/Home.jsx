@@ -89,6 +89,15 @@ export default function SpacingGrid(order) {
             </Grid>
           </Grid>
         </Grid>
+      </Grid>
+
+      {/* <BasicPagination
+        className={classes.centering}
+        currentPage={currentPage}
+        productsPerPage={productsPerPage}
+        totalProducts={products.length}
+        onChange={handleChange}
+      /> */}
 
         <BasicPagination
           className={classes.centering}
