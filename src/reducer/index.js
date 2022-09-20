@@ -315,7 +315,7 @@ function rootReducer(state = initialState, action) {
         cart: [],
       };
     case POST_USER:
-      console.log(action.payload)
+      // console.log(action.payload)
       return {
         ...state,
         infoUser: action.payload,

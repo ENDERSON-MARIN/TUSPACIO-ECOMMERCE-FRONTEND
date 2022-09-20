@@ -7,8 +7,9 @@ import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid,
     Grow, InputAdornment, InputLabel,makeStyles, Select, Slider, 
     TextField, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import MuiAlert from '@material-ui/lab/Alert';
 import AddIcon from '@material-ui/icons/Add';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -240,19 +241,14 @@ export default function CreateProduct() {
     }
     
     function handleSubmit(e){
-        // e.preventDefault();
+        if ( !input.brand || !input.name || !input.price || !input.image_link || !input.description ||
+            !input.rating || !input.product_type || !input.stock || !categories.length ) {
+            return notifyLessInfo()    
+        }
         if (errors.name || errors.categories || errors.description ||
             errors.image_link || errors.price || errors.brand 
             || errors.stock || errors.rating || errors.product_type) {
-            return alert("Can't create a product. Missing data")
-            // <>
-            // { handleClick() }
-            // <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            //     <Alert onClose={handleClose} severity="error">
-            //         Can't create a product. Missing data
-            //     </Alert>
-            // </Snackbar> 
-            // </> 
+            return notifyLessInfo()
         }
         input.categories = categories;
         input.product_colors = addColors.map(c => {return {hex_value: c}});
@@ -273,8 +269,30 @@ export default function CreateProduct() {
             categories: [] 
         });
         setAddColors([]);
-        return alert("Product created successfully!!")
+        return notifyProductCreated()
     }
+
+    const notifyLessInfo= () => 
+        toast.error("Can't create a product. Missing data", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+    });
+
+    const notifyProductCreated= () => 
+        toast.success("Product created successfully!!", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+    });
 
     return (
         <form className={classes.root} noValidate autoComplete="off">
@@ -303,6 +321,7 @@ export default function CreateProduct() {
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
                         > Load new product </Button>
+                        <ToastContainer />
                     </Grid>
                 </Grid>
                 <Box

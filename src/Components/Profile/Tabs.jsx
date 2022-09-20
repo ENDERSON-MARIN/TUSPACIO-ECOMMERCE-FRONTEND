@@ -76,8 +76,17 @@ export default function CustomizedTables({ id }) {
         dispatch(getOrdersUser(id))
     }, [])
 
-    let rows2 = ordersUser.map(o => o.orderProducts.map(p => { return {
-        date: o.updatedAt, id: p.id, img: p.image_link, name: p.name, price: p.price, quantity: p.quantity
+    let i = 0;
+    let rows2 = ordersUser.map(o => o.orderProducts.map(p => { 
+        i = i+1
+        return {
+        key: `${i}-${p.id}`,
+        date: o.updatedAt, 
+        id: p.id, 
+        img: p.image_link, 
+        name: p.name, 
+        price: p.price, 
+        quantity: p.quantity
     }})).flat()
     // console.log(rows2)
     // console.log(ordersUser)
@@ -100,7 +109,7 @@ export default function CustomizedTables({ id }) {
                             </TableHead>
                             <TableBody>
                                 {rows2.map((row) => (
-                                    <StyledTableRow key={row.id}
+                                    <StyledTableRow key={row.key}
                                     >
                                         <StyledTableCell align="center">{row.date.slice(0,10)}</StyledTableCell>
                                         <StyledTableCell align="center" component="th" scope="row">

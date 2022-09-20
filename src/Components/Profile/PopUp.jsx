@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 export default function PopUp(props) {
     const classes = useStyles();
     const { title, openPopup, setOpenPopup, user } = props;
-    console.log(props)
+    // console.log(props)
     return (
         <Dialog
             open={openPopup}

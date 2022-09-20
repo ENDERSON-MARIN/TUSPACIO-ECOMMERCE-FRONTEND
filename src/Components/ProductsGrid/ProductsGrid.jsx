@@ -142,12 +142,12 @@ export default function ProductsGrid() {
     if(!category){
       notifyEmptyCategory()
     } else{
-      dispatch(addNewCategory(category));
+      dispatch(addNewCategory({name: category}));
       setCategory('');
       e.target.value = '';
       notifyCategoryCreated()
     }
-  }
+  } 
 
   const notifyEmptyCategory= () => 
   toast.error('Please enter a category name.', {

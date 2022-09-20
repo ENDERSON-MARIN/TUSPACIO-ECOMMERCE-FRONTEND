@@ -261,7 +261,7 @@ export function orderCombine(filters) {
       } else {
         jsonOC = await axios.get(`/products`);
       }
-      console.log(jsonOC);
+      // console.log(jsonOC);
       return dispatch({
         type: ORDERS_FILTERS,
         payload: jsonOC.data,
