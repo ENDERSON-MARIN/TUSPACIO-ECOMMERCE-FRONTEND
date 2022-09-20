@@ -41,6 +41,7 @@ import {
   GET_ORDERS_USER,
   CHANGES_USER,
   GET_LATEST_ORDERS,
+  GET_REVIEWS_USER
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -96,6 +97,7 @@ const initialState = {
   producTypes: [],
   ordersUser: [],
   latestOrders: [],
+  reviewsUser: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -315,7 +317,7 @@ function rootReducer(state = initialState, action) {
         cart: [],
       };
     case POST_USER:
-      console.log(action.payload)
+      // console.log(action.payload)
       return {
         ...state,
         infoUser: action.payload,
@@ -399,6 +401,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         }
+    case GET_REVIEWS_USER:
+      return {
+        ...state,
+        reviewsUser: action.payload
+      }
     default:
       return state;
   }
