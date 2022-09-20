@@ -256,9 +256,8 @@ export default function CreateProduct() {
         }
         input.categories = categories;
         input.product_colors = addColors.map(c => {return {hex_value: c}});
-        console.log(input)
-        let result = dispatch(postNewProduct(input))
-        console.log(result)
+        dispatch(postNewProduct(input))
+        setCategories([])
         setInput({
             brand: "", 
             name: "", 

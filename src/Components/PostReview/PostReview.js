@@ -52,7 +52,10 @@ export default function PostReview() {
     const navigate = useNavigate();
     const classes = useStyles();
     const [errors, setErrors] = useState({});
-
+    // console.log({
+    //     id_prod: parseInt(id),
+    //     id_user: id_user
+    // })
     useEffect(() => {
         dispatch(getDetail(id))
     }, [dispatch])
@@ -62,7 +65,7 @@ export default function PostReview() {
         title: "",
         text: "",
         score: 0,
-        product_id: id
+        product_id: parseInt(id)
     });
 
     function validation(input) {
