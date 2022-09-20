@@ -9,12 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersUser, getReviewsUser } from '../../actions';
-import { Badge, Chip, Fade, IconButton, Link, Popper, Typography } from '@material-ui/core';
+import { Chip, IconButton } from '@material-ui/core';
 // import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
-import DoneIcon from '@material-ui/icons/Done';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useSelect } from '@mui/base';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -65,21 +64,7 @@ export default function CustomizedTables() {
     const ordersUser = useSelector(state => state.ordersUser);
     const reviewsUser = useSelector(state => state.reviewsUser);
     const {id, sid} = useSelector(state => state.infoUser);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [placement, setPlacement] = useState();
-    
-    const handleClick = (newPlacement) => (event) => {
-        setAnchorEl(event.currentTarget);
-        setOpen((prev) => placement !== newPlacement || !prev);
-        setPlacement(newPlacement);
-    };
-    
-    console.log({
-        sid: sid,
-        id: id
-    })
-
+        
     useEffect(() => {
         dispatch(getOrdersUser("google-oauth2|107204405880773625539")) // va sid 
         dispatch(getReviewsUser(42)) // va id
@@ -98,10 +83,19 @@ export default function CustomizedTables() {
         quantity: p.quantity
     }})).flat()
 
-    console.log(reviewsUser)
-
-    // console.log(ordersUser)
-
+    function notifyReviewText(text) {
+        // alert(text)
+        return toast.info(text, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+        })
+    } 
+        
     return (
         <>
             {
@@ -133,7 +127,7 @@ export default function CustomizedTables() {
                                         <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {
-                                                reviewsUser.includes(r => r.product_id === row.id)
+                                                reviewsUser?.map(r => r.product_id).includes(row.id)
                                                 ? <Chip
                                                     variant="outlined"
                                                     size="small"
@@ -141,7 +135,7 @@ export default function CustomizedTables() {
                                                     label="See your review"
                                                     clickable
                                                     color="secondary"
-                                                    onClick={handleClick('left')}
+                                                    onClick={() => notifyReviewText(reviewsUser.find(r => r.product_id === row.id)?.text)}
                                                     />
                                                 : <Chip
                                                     variant="outlined"
@@ -153,17 +147,6 @@ export default function CustomizedTables() {
                                                     onClick={() => navigate(`/reviews/${row.id}`)}
                                                     />
                                             }
-                                            <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
-                                                {({ TransitionProps }) => (
-                                                    <Fade {...TransitionProps} timeout={350}>
-                                                        <Paper>
-                                                            <Typography className={classes.typography}>
-                                                                {ordersUser?.filter(o => o.id === row.id).title}
-                                                            </Typography>
-                                                        </Paper>
-                                                    </Fade>
-                                                )}
-                                            </Popper>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
@@ -172,6 +155,17 @@ export default function CustomizedTables() {
                     </TableContainer>
                 :   <StyledTableCell align='left'>Section where you can see your future purchases</StyledTableCell>
             }
+            <ToastContainer 
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+            />
         </>
     );
 }

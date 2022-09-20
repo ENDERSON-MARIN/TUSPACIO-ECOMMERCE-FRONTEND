@@ -97,7 +97,7 @@ const initialState = {
   producTypes: [],
   ordersUser: [],
   latestOrders: [],
-  reviewsUser: {}
+  reviewsUser: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -403,7 +403,7 @@ function rootReducer(state = initialState, action) {
         }
     case GET_REVIEWS_USER:
       return {
-        ... state,
+        ...state,
         reviewsUser: action.payload
       }
     default:

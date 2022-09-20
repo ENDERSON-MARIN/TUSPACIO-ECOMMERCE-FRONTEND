@@ -180,7 +180,7 @@ export function postReview(payload) {
   return async function (dispatch) {
     try {
       // console.log(payload)
-      const newReviewResult = axios.post(`/products/reviews`, payload);
+      axios.post(`/products/reviews`, payload);
       // console.log(newReviewResult)
       dispatch({
         type: POST_REVIEW,
