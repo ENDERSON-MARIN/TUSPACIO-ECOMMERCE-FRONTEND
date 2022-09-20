@@ -130,24 +130,6 @@ export default function Dashboard() {
           </ListItemIcon>
           <ListItemText primary="Products" />
         </ListItem>
-        <ListItem button onClick={() => handleSelection("Notifications")}>
-          <ListItemIcon>
-            <NotificationsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Notifications" />
-        </ListItem>
-        <ListItem button onClick={() => handleSelection("Reports")}>
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Reports" />
-        </ListItem>
-        <ListItem button onClick={() => handleSelection("Settings")}>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
-        </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -163,13 +145,7 @@ export default function Dashboard() {
             dashboardItem === 'Products' ?
             <ProductsGrid /> :
             dashboardItem === 'CreateProducts' ?
-            <CreateProduct /> :
-            dashboardItem === 'Notifications' ?
-            <h1>Notifications</h1> :
-            dashboardItem === 'Reports' ?
-            <h1>Reports</h1> :
-            dashboardItem === 'Settings' ?
-            <h1>Settings</h1> : null
+            <CreateProduct /> : null
           }
           <Box pt={4}>
             <Copyright />
