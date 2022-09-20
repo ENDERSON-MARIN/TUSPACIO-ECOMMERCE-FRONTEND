@@ -33,6 +33,10 @@ export default function UsersGrid() {
     dispatch(getAllUsers());
   }, [dispatch, tempDelete]);
 
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch, tempRole]);
+
   function handleReset(params) {
     var options = {
       method: 'POST',
@@ -182,13 +186,6 @@ export default function UsersGrid() {
   return (
     <div>
       <h4>Users</h4>
-      {/*<Button
-          variant="contained"
-          className={classes.btnAdd}
-          startIcon={<PersonAddIcon />}
-          onClick={() => navigate('/createUser')}>
-            Add New User
-        </Button>*/}
       <div style={{ height: 631, width: '100%', backgroundColor: '#fff'}}>
         <DataGrid
           rows={rows}
