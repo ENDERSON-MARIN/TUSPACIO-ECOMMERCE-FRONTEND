@@ -151,8 +151,7 @@ export default function Profile() {
                         </Grid>
                         <Grid item xs={12}>
                             <Box className={classes.box}>
-                                <CustomizedTables id={"google-oauth2|107204405880773625539"}/>  
-                                {/* user.sid es el valor que va en id -- solo se esta probando*/}
+                                <CustomizedTables />  
                             </Box>
                         </Grid>
                         <PopUp

@@ -42,7 +42,7 @@ export const GET_ORDERS_USER = "GET_ORDERS_USER";
 export const CHANGES_USER = "CHANGES_USER";
 export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
 export const UPDATE_STOCK = "UPDATE_STOCK";
-
+export const GET_REVIEWS_USER = "GET_REVIEWS_USER";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -512,6 +512,20 @@ export const getLatestOrders = () => {
       const json = await axios.get(`/orders/dashboard`);
       return dispatch({
         type: GET_LATEST_ORDERS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export const getReviewsUser = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/products/reviews/userId/${id}`);
+      return dispatch({
+        type: GET_REVIEWS_USER,
         payload: json.data,
       });
     } catch (error) {

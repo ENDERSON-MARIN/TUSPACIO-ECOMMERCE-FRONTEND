@@ -8,12 +8,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrdersUser } from '../../actions';
+import { getOrdersUser, getReviewsUser } from '../../actions';
 import { Badge, Chip, Fade, IconButton, Link, Popper, Typography } from '@material-ui/core';
 // import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useSelect } from '@mui/base';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -57,11 +58,13 @@ const useStyles = makeStyles({
     // },
 });
 
-export default function CustomizedTables({ id }) {
+export default function CustomizedTables() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles();
     const ordersUser = useSelector(state => state.ordersUser);
+    const reviewsUser = useSelector(state => state.reviewsUser);
+    const {id, sid} = useSelector(state => state.infoUser);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
     const [placement, setPlacement] = useState();
@@ -71,13 +74,19 @@ export default function CustomizedTables({ id }) {
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
-        
+    
+    console.log({
+        sid: sid,
+        id: id
+    })
+
     useEffect(() => {
-        dispatch(getOrdersUser(id))
+        dispatch(getOrdersUser("google-oauth2|107204405880773625539")) // va sid 
+        dispatch(getReviewsUser(42)) // va id
     }, [])
 
     let i = 0;
-    let rows2 = ordersUser.map(o => o.orderProducts.map(p => { 
+    let rows = ordersUser.map(o => o.orderProducts.map(p => { 
         i = i+1
         return {
         key: `${i}-${p.id}`,
@@ -88,7 +97,9 @@ export default function CustomizedTables({ id }) {
         price: p.price, 
         quantity: p.quantity
     }})).flat()
-    // console.log(rows2)
+
+    console.log(reviewsUser)
+
     // console.log(ordersUser)
 
     return (
@@ -108,7 +119,7 @@ export default function CustomizedTables({ id }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows2.map((row) => (
+                                {rows.map((row) => (
                                     <StyledTableRow key={row.key}
                                     >
                                         <StyledTableCell align="center">{row.date.slice(0,10)}</StyledTableCell>
@@ -122,12 +133,12 @@ export default function CustomizedTables({ id }) {
                                         <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {
-                                               ordersUser.includes(o => o.id === row.id)
+                                                reviewsUser.includes(r => r.product_id === row.id)
                                                 ? <Chip
                                                     variant="outlined"
                                                     size="small"
                                                     icon={<FaceIcon />}
-                                                    label="Ranked!!"
+                                                    label="See your review"
                                                     clickable
                                                     color="secondary"
                                                     onClick={handleClick('left')}
