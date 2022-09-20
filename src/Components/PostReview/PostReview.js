@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { getDetail, postReview, updateRating } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    Box, Button, FormHelperText, Grid, makeStyles,
-    TextField, Typography
-} from '@material-ui/core'; // Select - InputLabel - FormControl se saco por que no se usaba
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Box, Button, FormHelperText, Grid, makeStyles,
+    TextField, Typography } from '@material-ui/core'; // Select - InputLabel - FormControl se saco por que no se usaba
 import defaultImage from "../../assets/images/not_found.png";
 import Rating from '@material-ui/lab/Rating';
+import { ToastContainer, toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -52,10 +50,7 @@ export default function PostReview() {
     const navigate = useNavigate();
     const classes = useStyles();
     const [errors, setErrors] = useState({});
-    // console.log({
-    //     id_prod: parseInt(id),
-    //     id_user: id_user
-    // })
+    
     useEffect(() => {
         dispatch(getDetail(id))
     }, [dispatch])
@@ -106,21 +101,41 @@ export default function PostReview() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (errors.title || errors.text) {
-            return alert("Can't post a Review. Missing data")
+        if (!input.title || !input.text || !input.score) {
+            return notifyLessInfo()
         }
-
+        if (errors.title || errors.text) {
+            return notifyLessInfo()
+        }
         dispatch(postReview(input))
         dispatch(updateRating(id))
-        alert("Thanks you for your review");
-        // setInput({
-        //     title: "",
-        //     text: "",
-        //     score: 0,
-        // })
-        navigate(`/profile`)
+        notifyReviewCreated();
+        setTimeout(() => {
+            navigate(`/profile`)
+        }, 1500);
     }
 
+    const notifyLessInfo= () => 
+        toast.error("Can't post a Review. Missing data", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+    });
+
+    const notifyReviewCreated= () => 
+        toast.success("Thanks you for your review", {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+    });
 
     return (
         <div className={classes.container}>
@@ -218,7 +233,17 @@ export default function PostReview() {
                                 size="large"
                                 onClick={(e) => handleSubmit(e)}> POST REVIEW
                             </Button>
-
+                            <ToastContainer 
+                                position="top-right"
+                                autoClose={5000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss={false}
+                                draggable
+                                pauseOnHover={false}
+                            />
                         </div>
                     </Grid>
                 </Box>

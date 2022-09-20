@@ -179,9 +179,7 @@ export function postNewProduct(payload) {
 export function postReview(payload) {
   return async function (dispatch) {
     try {
-      // console.log(payload)
       axios.post(`/products/reviews`, payload);
-      // console.log(newReviewResult)
       dispatch({
         type: POST_REVIEW,
         payload,

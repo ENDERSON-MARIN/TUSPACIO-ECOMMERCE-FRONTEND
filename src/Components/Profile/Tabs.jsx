@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,7 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersUser, getReviewsUser } from '../../actions';
 import { Chip, IconButton } from '@material-ui/core';
-// import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -33,17 +32,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-// function createData(name, price, quantity, date) {
-//     return { name, price, quantity, date };
-// }
-
-// const rows = [
-//     createData('imgProduct', 'nameProduct', 6.0, 24, 4.0),
-//     createData('imgProduct', 'nameProduct', 9.0, 37, 4.3),
-//     createData('imgProduct', 'nameProduct', 16.0, 24, 6.0),
-//     createData('imgProduct', 'nameProduct', 3.7, 67, 4.3),
-//     createData('imgProduct', 'nameProduct', 16.0, 49, 3.9),
-// ];
 
 const useStyles = makeStyles({
     table: {
@@ -52,9 +40,6 @@ const useStyles = makeStyles({
     root: {
         width: 500,
       },
-    // typography: {
-    // padding: theme.spacing(2),
-    // },
 });
 
 export default function CustomizedTables() {
@@ -66,8 +51,8 @@ export default function CustomizedTables() {
     const {id, sid} = useSelector(state => state.infoUser);
         
     useEffect(() => {
-        dispatch(getOrdersUser("google-oauth2|107204405880773625539")) // va sid 
-        dispatch(getReviewsUser(42)) // va id
+        dispatch(getOrdersUser(sid)) // para probar que funciona con datos "google-oauth2|107204405880773625539" 
+        dispatch(getReviewsUser(id)) // para probar que funciona con datos 42
     }, [])
 
     let i = 0;
@@ -84,7 +69,6 @@ export default function CustomizedTables() {
     }})).flat()
 
     function notifyReviewText(text) {
-        // alert(text)
         return toast.info(text, {
             position: "top-right",
             autoClose: 5000,
