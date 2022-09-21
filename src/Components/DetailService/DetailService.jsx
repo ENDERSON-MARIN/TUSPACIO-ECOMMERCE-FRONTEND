@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import {ServiceJson, ProviderService} from './BeutyService'
-import { Box, Button, FormControl, Grid, InputLabel, Select, TextField, ThemeProvider, Typography } from '@material-ui/core';
+import { Box, Button, FormControl, FormHelperText, Grid, InputLabel, Select, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import LogoIMG from '../../assets/images/img_logo.png';
 import theme from '../../ThemeConfig';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -56,6 +56,8 @@ export default function DetailService() {
     return setService(e.target.value);
   };
 
+//   function handleCart() { dispatch(addToCart()) }
+
   function handleProvider(e) {
     return setProvider(e.target.value);
   };
@@ -67,7 +69,7 @@ export default function DetailService() {
                 FlexWarp='wrap'
                 flex-direction='row'
                 mt={5}
-                p={5}
+                p={7}
             >
                 <Grid
                     container
@@ -80,28 +82,33 @@ export default function DetailService() {
                             Chose how to take care of yourself...
                         </Typography>
                     </Grid>
-                    <Grid item xs={3}>
-                        <Box
-                            p={1}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            border={1}
-                            borderRadius="borderRadius"
-                            borderColor='primary.main'
-                            height={300}
-                            width={300}
-                        >
-                            <img 
-                                src={service
-                                        ? `${ServiceJson.filter(s => s.name === service)[0].img}`
-                                        : LogoIMG } 
-                                className={classes.detailImg}
-                                alt='imagen de servicio'
-                            />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4}>
+                    <Box
+                        p={1}
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        border={1}
+                        borderRadius="borderRadius"
+                        borderColor='primary.main'
+                        height={300}
+                        width={300}
+                        my={2}
+                    >
+                        <img 
+                            src={service
+                                    ? `${ServiceJson.filter(s => s.name === service)[0].img}`
+                                    : LogoIMG } 
+                            className={classes.detailImg}
+                            alt='imagen de servicio'
+                        />
+                    </Box>
+                    
+                    <Box
+                        height={300}
+                        width={400}
+                        my={2}
+                        p={1}
+                    >
                         <Grid
                             container
                             direction="column"
@@ -169,8 +176,13 @@ export default function DetailService() {
                                 />
                             </form>
                         </Grid>
-                    </Grid>
-                    <Grid item xs={4}>
+                    </Box>
+                    <Box
+                        height={300}
+                        width={400}
+                        my={2}
+                        p={1}
+                    >
                         <Grid
                             container
                             direction="column"
@@ -185,20 +197,35 @@ export default function DetailService() {
                                     : "Select your service" }
                                 </Typography>
                             </Grid>
-                            {/* <Button variant="contained" size="large" color="primary" className={classes.margin}>
+                            {/* <Button variant="contained" size="large" color="primary" className={classes.margin}
+                                startIcon={<ShoppingCartIcon />}
+                                onClick={() => handleCart()}
+                            >
                                 Add to Cart
                             </Button> */}
-                             <Button variant="contained"
-                              size="large"
-                              color="primary"
+                            <Button variant="contained" className={classes.margin}
+                              size="large" color="secondary"
                               startIcon={<WhatsAppIcon/>}>
-                            <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer" id='chat'>Chat now!</a>
-                            </Button>	                           
+                                <a href="https://wa.me/+5493813253529" target="_blank" rel="noreferrer" id='chat'>Chat now!</a>
+                            </Button>
+                            {   
+                                service ? provider ? 
+                                <>
+                                    <FormHelperText>
+                                        ONLY PAY 20% TO RESERVE THE SHIFT!!!
+                                    </FormHelperText>
+                                    <FormHelperText>
+                                        The chosen shift is a reference for our employees, contact us to finalize the reservation and payment.
+                                    </FormHelperText>
+                                </> 
+                                : <></>
+                                : <></>
+                            }                           
                             {/* <Button variant="outlined" size="large" color="primary" className={classes.margin}>
                                 Add to Favorites
                             </Button> */}
                         </Grid>
-                    </Grid>
+                    </Box>
                 </Grid>
             </Box>
         </ThemeProvider>

@@ -441,9 +441,11 @@ export const addNewCategory = (category) => {
 }
 
 export const makeAdmin = (id, role) => {
+  // console.log({id: id})
+  // console.log({role: role})
   return async function (dispatch) {
     try {
-      const json = await axios.patch(`/user/${id}`, role);
+      const json = await axios.patch(`/user/${id}`, {role: role});
       return dispatch({
         type: MAKE_ADMIN,
         payload: json.data,

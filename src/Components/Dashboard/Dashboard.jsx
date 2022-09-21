@@ -33,6 +33,7 @@ import OrdersGrid from '../OrdersGrid/OrdersGrid';
 import UsersGrid from '../UsersGrid/UsersGrid';
 import ProductsGrid from '../ProductsGrid/ProductsGrid';
 import CreateProduct from '../CreateProduct/CreateProduct';
+import LoginFirst from '../LoginFirst/LoginFirst';
 
 function Copyright() {
   return (
@@ -53,6 +54,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dashboardItem = useSelector(state => state.dashboardItem);
+  const user = useSelector(state => state.infoUser);
 
   useEffect(() => {
     setOpen(false)
@@ -72,86 +74,92 @@ export default function Dashboard() {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Admin. Dashboard
-          </Typography>
-          <IconButton color="inherit" onClick={() => navigate('/home')}>
-              <HomeIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          <ListItem button onClick={() => handleSelection("Dashboard")}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-        <ListItem button onClick={() => handleSelection("Orders")}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Orders" />
-        </ListItem>
-        <ListItem button onClick={() => handleSelection("Users")}>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
-        </ListItem>
-        <ListItem button onClick={() => handleSelection("Products")}>
-          <ListItemIcon>
-            <StoreIcon />
-          </ListItemIcon>
-          <ListItemText primary="Products" />
-        </ListItem>
-        </List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          {
-            dashboardItem === 'Dashboard' ? 
-            <MainDash /> :
-            dashboardItem === 'Orders' ?
-            <OrdersGrid /> :
-            dashboardItem === 'Users' ?
-            <UsersGrid /> :
-            dashboardItem === 'Products' ?
-            <ProductsGrid /> :
-            dashboardItem === 'CreateProducts' ?
-            <CreateProduct /> : null
-          }
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+      {
+        user?.rol_id === 2
+        ? <>
+            <CssBaseline />
+            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+              <Toolbar className={classes.toolbar}>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                  Admin. Dashboard
+                </Typography>
+                <IconButton color="inherit" onClick={() => navigate('/home')}>
+                    <HomeIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              variant="permanent"
+              classes={{
+                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+              }}
+              open={open}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={handleDrawerClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </div>
+              <Divider />
+                <List>
+                  <ListItem button onClick={() => handleSelection("Dashboard")}>
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" />
+                </ListItem>
+                <ListItem button onClick={() => handleSelection("Orders")}>
+                  <ListItemIcon>
+                    <ShoppingCartIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Orders" />
+                </ListItem>
+                <ListItem button onClick={() => handleSelection("Users")}>
+                  <ListItemIcon>
+                    <PeopleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Users" />
+                </ListItem>
+                <ListItem button onClick={() => handleSelection("Products")}>
+                  <ListItemIcon>
+                    <StoreIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Products" />
+                </ListItem>
+                </List>
+              </Drawer>
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+              <Container maxWidth="lg" className={classes.container}>
+                {
+                  dashboardItem === 'Dashboard' ? 
+                  <MainDash /> :
+                  dashboardItem === 'Orders' ?
+                  <OrdersGrid /> :
+                  dashboardItem === 'Users' ?
+                  <UsersGrid /> :
+                  dashboardItem === 'Products' ?
+                  <ProductsGrid /> :
+                  dashboardItem === 'CreateProducts' ?
+                  <CreateProduct /> : null
+                }
+                <Box pt={4}>
+                  <Copyright />
+                </Box>
+              </Container>
+            </main>
+          </>
+        : <LoginFirst />
+      }
     </div>
   );
 }
