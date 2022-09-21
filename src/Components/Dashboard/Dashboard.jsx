@@ -110,51 +110,33 @@ export default function Dashboard() {
                 </IconButton>
               </div>
               <Divider />
-              <List>
-                <ListItem button onClick={() => handleSelection("Dashboard")}>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItem>
-              <ListItem button onClick={() => handleSelection("Orders")}>
-                <ListItemIcon>
-                  <ShoppingCartIcon />
-                </ListItemIcon>
-                <ListItemText primary="Orders" />
-              </ListItem>
-              <ListItem button onClick={() => handleSelection("Users")}>
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Users" />
-              </ListItem>
-              <ListItem button onClick={() => handleSelection("Products")}>
-                <ListItemIcon>
-                  <StoreIcon />
-                </ListItemIcon>
-                <ListItemText primary="Products" />
-              </ListItem>
-              <ListItem button onClick={() => handleSelection("Notifications")}>
-                <ListItemIcon>
-                  <NotificationsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Notifications" />
-              </ListItem>
-              <ListItem button onClick={() => handleSelection("Reports")}>
-                <ListItemIcon>
-                  <BarChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="Reports" />
-              </ListItem>
-              <ListItem button onClick={() => handleSelection("Settings")}>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-              </ListItem>
-              </List>
-            </Drawer>
+                <List>
+                  <ListItem button onClick={() => handleSelection("Dashboard")}>
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" />
+                </ListItem>
+                <ListItem button onClick={() => handleSelection("Orders")}>
+                  <ListItemIcon>
+                    <ShoppingCartIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Orders" />
+                </ListItem>
+                <ListItem button onClick={() => handleSelection("Users")}>
+                  <ListItemIcon>
+                    <PeopleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Users" />
+                </ListItem>
+                <ListItem button onClick={() => handleSelection("Products")}>
+                  <ListItemIcon>
+                    <StoreIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Products" />
+                </ListItem>
+                </List>
+              </Drawer>
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
@@ -168,13 +150,7 @@ export default function Dashboard() {
                   dashboardItem === 'Products' ?
                   <ProductsGrid /> :
                   dashboardItem === 'CreateProducts' ?
-                  <CreateProduct /> :
-                  dashboardItem === 'Notifications' ?
-                  <h1>Notifications</h1> :
-                  dashboardItem === 'Reports' ?
-                  <h1>Reports</h1> :
-                  dashboardItem === 'Settings' ?
-                  <h1>Settings</h1> : null
+                  <CreateProduct /> : null
                 }
                 <Box pt={4}>
                   <Copyright />
