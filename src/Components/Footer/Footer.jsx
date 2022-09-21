@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 
-export default function Footer() {
+export default function Footer({handleClickOpen}) {
     const classes = useStyles();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth0();
@@ -60,7 +60,7 @@ export default function Footer() {
                             width="200px"
                         >
                             <Typography variant="h6" gutterBottom> INFORMATION </Typography>
-                            <IconButton color="inherit" onClick={()=>navigate('/')}>
+                            <IconButton color="inherit" onClick={() => handleClickOpen()}>
                                 <Typography variant="body2" gutterBottom> How to buy? </Typography>
                             </IconButton>
                             {
@@ -79,7 +79,7 @@ export default function Footer() {
                                         </IconButton>
                                     :   <></>
                             }
-                            <IconButton color="inherit" onClick={()=>navigate('/')}>
+                            <IconButton color="inherit" onClick={()=>navigate('/aboutUs')}>
                                 <Typography variant="body2" gutterBottom> About us </Typography>
                             </IconButton>
                         </Box>

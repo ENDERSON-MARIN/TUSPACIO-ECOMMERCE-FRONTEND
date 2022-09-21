@@ -94,7 +94,7 @@ export default function Navbar() {
               <MenuItem>{userState.name?userState.name:"Cargando..."}</MenuItem>
               <MenuItem onClick={ () => navigate('/profile') } > Profile </MenuItem>
               { 
-                userState.rol_id?userState.rol_id:null === 2 
+                userState.rol_id && userState.rol_id===2 
                 ? <MenuItem onClick={ () => navigate('/dashboard')} > Dashboard </MenuItem>
                 : null
               }
