@@ -15,7 +15,6 @@ import paypal from '../../assets/images/paypal.png';
 import theme from '../../ThemeConfig';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 
@@ -30,142 +29,130 @@ export default function Footer() {
                     className={classes.boxContainer}
                     bgcolor="secondary.dark"
                     color='secondary.contrastText'
+                    px={6}
                     py={2}
                     m={0}
                 >
-                    <Grid 
+                    <Grid
                         container
                         direction="row"
-                        justifyContent="space-evenly"
+                        justifyContent="space-between"
                         alignItems="flex-start"
                     >
-                        <Grid item xs={3}>
-                            <Box>
-                                <Typography variant="h6" gutterBottom> PRODUCTS </Typography>
-                                <Typography variant="body2" gutterBottom>
-                                    <Link href="#" onClick={()=>navigate('/')} color="inherit">
-                                        Make up
-                                    </Link>
-                                </Typography>
-                                <Typography variant="body2" gutterBottom>
-                                    <Link href="#" onClick={()=>navigate('/service')} color="inherit">
-                                        Dermotherapy
-                                    </Link>
-                                </Typography>
-                                <Typography variant="body2" gutterBottom>
-                                    <Link href="#" onClick={()=>navigate('/service')} color="inherit">
-                                        Manicure
-                                    </Link>
-                                </Typography>
-                                <Typography variant="body2" gutterBottom>
-                                    <Link href="#" onClick={()=>navigate('/service')} color="inherit">
-                                        Barbershop
-                                    </Link>
-                                </Typography>
-                            </Box>
-                        </Grid>
-                        
-                        <Grid item xs={3}>
-                            <Box>
-                                <Typography variant="h6" gutterBottom> INFORMATION </Typography>
+                        <Box
+                            width="200px"
+                        >
+                            <Typography variant="h6" gutterBottom> PRODUCTS </Typography>
+                            <IconButton color="inherit" onClick={() => navigate('/')}>
+                                <Typography variant="body2" gutterBottom> Make up </Typography>
+                            </IconButton>
+                            <IconButton color="inherit" onClick={()=>navigate('/service')}>
+                                <Typography variant="body2" gutterBottom> Dermotherapy </Typography>
+                            </IconButton>
+                            <IconButton color="inherit" onClick={()=>navigate('/service')}>
+                                <Typography variant="body2" gutterBottom> Manicure </Typography>
+                            </IconButton>
+                            <IconButton color="inherit" onClick={()=>navigate('/service')}>
+                                <Typography variant="body2" gutterBottom> Barbershop </Typography>
+                            </IconButton>
+                        </Box>
+                        <Box
+                            width="200px"
+                        >
+                            <Typography variant="h6" gutterBottom> INFORMATION </Typography>
+                            <IconButton color="inherit" onClick={()=>navigate('/')}>
                                 <Typography variant="body2" gutterBottom> How to buy? </Typography>
-                                {
-                                    isAuthenticated 
-                                        ?   <Typography variant="body2" gutterBottom>
-                                                <Link href="#" onClick={Logout()} color="inherit">
-                                                    Sign out
-                                                </Link>
-                                            </Typography> 
-                                        :   <Typography variant="body2" gutterBottom>
-                                                <Link href="#" onClick={Login()} color="inherit">
-                                                    Sign in
-                                                </Link>
-                                            </Typography>
-                                }
-                                {
-                                    isAuthenticated 
-                                        ? <Typography variant="body2" gutterBottom>
-                                            <Link href="#" onClick={()=>navigate('/profile')} color="inherit">
-                                                My acount
-                                            </Link>
-                                          </Typography>
-                                        : <></>
-                                }
+                            </IconButton>
+                            {
+                                isAuthenticated 
+                                    ?   <IconButton color="inherit" onClick={Logout()}>
+                                            <Typography variant="body2" gutterBottom> Sign out </Typography>
+                                        </IconButton>   
+                                    :   <IconButton color="inherit" onClick={Login()}>
+                                            <Typography variant="body2" gutterBottom> Sign in </Typography>
+                                        </IconButton>
+                            }
+                            {
+                                isAuthenticated 
+                                    ?   <IconButton color="inherit" onClick={()=>navigate('/profile')}>
+                                            <Typography variant="body2" gutterBottom> My acount </Typography>
+                                        </IconButton>
+                                    :   <></>
+                            }
+                            <IconButton color="inherit" onClick={()=>navigate('/')}>
                                 <Typography variant="body2" gutterBottom> About us </Typography>
-                            </Box>
-                        </Grid>
-                        
-                        <Grid item xs={3}>
+                            </IconButton>
+                        </Box>
+                        <Box
+                            width="200px"
+                        >
                             <Box>
+                                <Typography variant="h6" gutterBottom> FOLLOW US! </Typography>
                                 <Box>
-                                    <Typography variant="h6" gutterBottom> FOLLOW US! </Typography>
-                                    <Box>
-                                        <IconButton aria-label="TwitterIcon" color='inherit'>
-                                            <TwitterIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="FacebookIcon" color='inherit'>
-                                            <FacebookIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="InstagramIcon" color='inherit'>
-                                            <InstagramIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="GitHubIcon" color='inherit'>
-                                            <GitHubIcon />
-                                        </IconButton>
-                                    </Box>
-                                </Box>
-                                <br />
-                                <Box>
-                                    <Typography variant="h6" gutterBottom>
-                                        WE ACEPT
-                                    </Typography>
-                                    <Grid 
-                                        container
-                                        direction="row"
-                                        justifyContent="flex-start"
-                                        alignItems="flex-start"
-                                    >
-                                        <Grid item xs='auto'>
-                                            <Box className={classes.logoCardsBox}>
-                                                <img 
-                                                    className={classes.logoCardImg} 
-                                                    src={visa} 
-                                                    alt="logo visa img"
-                                                />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item xs='auto'>
-                                            <Box className={classes.logoCardsBox}>
-                                                <img 
-                                                    className={classes.logoCardImgMC} 
-                                                    src={mastercard} 
-                                                    alt="logo mastercard img"
-                                                />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item xs='auto'>
-                                            <Box className={classes.logoCardsBox}>
-                                                <img 
-                                                    className={classes.logoCardImg} 
-                                                    src={amex} 
-                                                    alt="logo amex img"
-                                                    />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item xs='auto'>
-                                            <Box className={classes.logoCardsBox}>
-                                                    <img 
-                                                    className={classes.logoCardImg} 
-                                                    src={paypal} 
-                                                    alt="logo paypal img"
-                                                    />
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
+                                    <IconButton aria-label="TwitterIcon" color='inherit'>
+                                        <TwitterIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="FacebookIcon" color='inherit'>
+                                        <FacebookIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="InstagramIcon" color='inherit'>
+                                        <InstagramIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="GitHubIcon" color='inherit'>
+                                        <GitHubIcon />
+                                    </IconButton>
                                 </Box>
                             </Box>
-                        </Grid>
-                        
+                            <br />
+                            <Box>
+                                <Typography variant="h6" gutterBottom>
+                                    WE ACEPT
+                                </Typography>
+                                <Grid 
+                                    container
+                                    direction="row"
+                                    justifyContent="flex-start"
+                                    alignItems="flex-start"
+                                >
+                                    <Grid item xs='auto'>
+                                        <Box className={classes.logoCardsBox}>
+                                            <img 
+                                                className={classes.logoCardImg} 
+                                                src={visa} 
+                                                alt="logo visa img"
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs='auto'>
+                                        <Box className={classes.logoCardsBox}>
+                                            <img 
+                                                className={classes.logoCardImgMC} 
+                                                src={mastercard} 
+                                                alt="logo mastercard img"
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs='auto'>
+                                        <Box className={classes.logoCardsBox}>
+                                            <img 
+                                                className={classes.logoCardImg} 
+                                                src={amex} 
+                                                alt="logo amex img"
+                                                />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs='auto'>
+                                        <Box className={classes.logoCardsBox}>
+                                                <img 
+                                                className={classes.logoCardImg} 
+                                                src={paypal} 
+                                                alt="logo paypal img"
+                                                />
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Box>
                         <Grid item xs={10}>
                             <Box py={1} >
                                 <Typography variant='caption'>
@@ -173,7 +160,6 @@ export default function Footer() {
                                 </Typography>
                             </Box>
                         </Grid>
-                            
                     </Grid>
                 </Box>
             </Typography>

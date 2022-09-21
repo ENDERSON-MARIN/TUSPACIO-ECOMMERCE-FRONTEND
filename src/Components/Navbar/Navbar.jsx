@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Hidden } from '@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import { getAllProducts, postUser } from '../../actions';
 import { useDispatch } from 'react-redux'
@@ -144,7 +144,9 @@ export default function Navbar() {
             </IconButton>
             {/* Searchbar */}
             <div className={classes.search}>
-              <SearchBar placeholder="Search product..." data={data} />
+              <Hidden xsDown>
+                <SearchBar placeholder="Search product..." data={data} />
+              </Hidden>
             </div>
             {/* Iconos de lado derecho */}
             <div className={classes.sectionDesktop}>
@@ -175,7 +177,7 @@ export default function Navbar() {
               </IconButton>
             </div>
             {/* Icono de tres puntos para mobile */}
-            <div className={classes.sectionMobile}>
+            {/* <div className={classes.sectionMobile}>
               <IconButton
                 aria-label="show more"
                 aria-haspopup="true"
@@ -183,7 +185,7 @@ export default function Navbar() {
               >
                 <MoreIcon />
               </IconButton>
-            </div>
+            </div> */}
           </Toolbar>
         </AppBar>
         {renderMenu}

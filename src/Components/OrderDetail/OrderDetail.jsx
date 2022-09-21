@@ -24,9 +24,8 @@ function createRow(desc, qty, unit) {
   return { desc, qty, unit, price };
 }
 
-export default function OrderDetail() {
+export default function OrderDetail({setOrderDetail, id}) {
   const classes = useStyles();
-  const { id } = useParams();
   const dispatch = useDispatch();
   const order = useSelector((state) => state.orderDetail);
 
@@ -65,7 +64,7 @@ export default function OrderDetail() {
       <ThemeProvider theme={theme}>
           <IconButton 
             className={classes.backBtn}
-            onClick={() => window.history.back()}>
+            onClick={() => setOrderDetail({status:false, id:null})}>
               <ArrowBackIcon /> Go Back
           </IconButton>
           <Table className={classes.table} aria-label="customized table">
