@@ -411,7 +411,6 @@ export const deleteUser = (id) => {
 
 }
 
-
 export function updateStock(id, stock){
   return async function (dispatch) {
     try {

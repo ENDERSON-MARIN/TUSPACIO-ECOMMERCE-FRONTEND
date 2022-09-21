@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { getAllProducts, setDashboardItem, 
-  addNewCategory } from '../../actions';
+  addNewCategory, updateStock } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
@@ -73,11 +73,6 @@ export default function ProductsGrid() {
         );
     }
   },
-  // {
-  //   field: 'review',
-  //   headerName: 'Review',
-  //   width: 120,
-  // },
   {
     field: 'action',
     headerName: 'Action',
@@ -86,22 +81,13 @@ export default function ProductsGrid() {
     renderCell: (params) => {
         return (
           <div className="cellAction">
-{/* 
-            <Button
-              variant="contained"
-              color="primary"
-              endIcon={<PageviewIcon>send</PageviewIcon>}
-              onClick={() => handleReview(params.row.id)}>
-                Post
-            </Button> */}
-
             <Link to={`/${params.id}`}>
             <Button
               variant="contained"
               color=""
               className={classes.btnDelete}
               startIcon={<DeleteIcon />}
-              /*onClick={() => handleDelete(params.row.id)}*/>
+              /*onClick={() => }*/>
                 Delete
             </Button>
             </Link>
@@ -129,14 +115,6 @@ export default function ProductsGrid() {
     navigate(`/${id}`);
   };
 
-  // const handleDelete = (id) => {
-  //   products.filter((item) => item.id !== id);
-  // };S
-
-  const handleReview = (id) => {
-    navigate(`/reviews/${id}`);
-  };
-
   const handleCreateCategory = (e) => {
     e.preventDefault();
     if(!category){
@@ -162,6 +140,17 @@ export default function ProductsGrid() {
 
   const notifyCategoryCreated= () => 
   toast.success('Category was created!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
+  const notifyStock= () => 
+  toast.success('Product stock was updated!', {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: true,
@@ -210,7 +199,10 @@ export default function ProductsGrid() {
           pageSize={10}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
-        />
+          onCellEditCommit={(params) => {
+            dispatch(updateStock(params.id, params.value))
+            notifyStock()
+          }}/>
       </div>
     </div>
   );
