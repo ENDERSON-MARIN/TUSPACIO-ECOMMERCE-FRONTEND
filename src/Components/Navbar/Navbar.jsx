@@ -48,6 +48,8 @@ export default function Navbar() {
 
   const { user, isAuthenticated } = useAuth0();
 
+  console.log(user)
+
   //useEffect para evitaar doble post de creacion de usuario
   useEffect(() => {
     if(isAuthenticated){
@@ -89,15 +91,14 @@ export default function Navbar() {
       {
         isAuthenticated
           ? <div>
-              <MenuItem>{userState.name}</MenuItem>
+              <MenuItem>{userState.name?userState.name:"Cargando..."}</MenuItem>
               <MenuItem onClick={ () => navigate('/profile') } > Profile </MenuItem>
               { 
-                userState.rol_id === 2 
+                userState.rol_id?userState.rol_id:null === 2 
                 ? <MenuItem onClick={ () => navigate('/dashboard')} > Dashboard </MenuItem>
-                : <></>
+                : null
               }
               <MenuItem onClick={Logout()}>Sing out</MenuItem>
-              
             </div>
           : <MenuItem onClick={Login()}>Sing in</MenuItem>
       }
