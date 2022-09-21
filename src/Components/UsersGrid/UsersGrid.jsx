@@ -138,6 +138,7 @@ export default function UsersGrid() {
               onClick={() => { 
                 setTempRole(tempRole + 1);
                 dispatch(makeAdmin(params.row.id, params.row.role)) 
+                notifyRoleChange()
               }}>
                 {params.row.role === 'User' ? 'Make' : 'Cancel'}
             </Button>
@@ -174,6 +175,17 @@ export default function UsersGrid() {
 
   const notifyUserChangePass = () => 
   toast.info('Password reset was sent!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
+  const notifyRoleChange = () => 
+  toast.info('User role was changed', {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: true,
