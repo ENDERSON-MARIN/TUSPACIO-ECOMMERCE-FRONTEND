@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react'
 import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, TextField } from '@material-ui/core';
+import { Button, IconButton, TextField } from '@material-ui/core';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
@@ -15,12 +15,19 @@ import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
 import Switch from '@material-ui/core/Switch';
+import EditIcon from '@material-ui/icons/Edit';
+import DetailProduct from './Detail.jsx'
+import ChangeProduct from '../ChangeProduct/ChangeProduct'
 
 export default function ProductsGrid() {
   const classes = useStyles();
   const dispatch = useDispatch()
   const products = useSelector(state => state.products);
   const [category, setCategory] = useState('');
+  const [oneProduct, setOneProduct] = useState({
+    id: null,
+    vista: ""
+  })
   const [state, setState] = React.useState({
     checkedA: 'on',
     checkedB: 'off',
@@ -107,6 +114,21 @@ export default function ProductsGrid() {
         );
     }
   },
+  {
+    field: 'modify',
+    headerName: 'Modify',
+    width: 70,
+    sortable: false,
+    renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            <IconButton color="inherit" onClick={() => handleChangeProduct(params.row.id)}>
+                <EditIcon /> 
+            </IconButton>
+          </div>
+        );
+    }
+  },
   ];
 
   const rows = products?.map(product => {
@@ -122,12 +144,22 @@ export default function ProductsGrid() {
   const navigate = useNavigate();
 
   const handleView = (id) => {
-    navigate(`/${id}`);
+    setOneProduct({
+      id: id,
+      vista: "detail"
+    })
   };
 
   const handleDelete = (id, status) => {
     dispatch(disableProduct(id, status))
     notifyDisabled()
+  }
+
+  function handleChangeProduct(id) {
+    setOneProduct({
+      id: id,
+      vista: "change"
+    })
   }
 
   const handleCreateCategory = (e) => {
@@ -188,48 +220,56 @@ export default function ProductsGrid() {
     
   return (
     <div>
-      <h4> Products</h4>
-      <div className={classes.controls}>
-       <Button
-        variant="contained"
-        color="secondary"
-        className={classes.btnAdd}
-        startIcon={<AddShoppingCartIcon />}
-        onClick={() => dispatch(setDashboardItem("CreateProducts"))}>
-          Add New Product
-        </Button>
-        <form>
-          <TextField 
-            id="category" 
-            value={category}
-            type="text" 
-            placeholder="Add new category" 
-            onChange={(e) => setCategory(e.target.value)}
-          />
+      {
+        oneProduct.vista === "detail" ?
+        <DetailProduct id={oneProduct.id}/> :
+        oneProduct.vista === "change" ?
+        <ChangeProduct id={oneProduct.id}/> :
+        <>
+          <h4> Products</h4>
+          <div className={classes.controls}>
           <Button
             variant="contained"
             color="secondary"
-            className={classes.btnCategory}
-            startIcon={<CategoryIcon />}
-            onClick={(e) => handleCreateCategory(e)}
-            >
-              Create Category
-          </Button>
-          <ToastContainer />
-        </form>
-      </div>
-      <div style={{ height: 631, width: '100%', backgroundColor: '#fff'}}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[5]}
-          disableSelectionOnClick
-          onCellEditCommit={(params) => {
-            dispatch(updateStock(params.id, params.value))
-            notifyStock()
-          }}/>
-      </div>
+            className={classes.btnAdd}
+            startIcon={<AddShoppingCartIcon />}
+            onClick={() => dispatch(setDashboardItem("CreateProducts"))}>
+              Add New Product
+            </Button>
+            <form>
+              <TextField 
+                id="category" 
+                value={category}
+                type="text" 
+                placeholder="Add new category" 
+                onChange={(e) => setCategory(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.btnCategory}
+                startIcon={<CategoryIcon />}
+                onClick={(e) => handleCreateCategory(e)}
+                >
+                  Create Category
+              </Button>
+              <ToastContainer />
+            </form>
+          </div>
+          <div style={{ height: 631, width: '100%', backgroundColor: '#fff'}}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[5]}
+              disableSelectionOnClick
+              onCellEditCommit={(params) => {
+                dispatch(updateStock(params.id, params.value))
+                notifyStock()
+              }}/>
+          </div>
+        </>
+      }
     </div>
   );
 }

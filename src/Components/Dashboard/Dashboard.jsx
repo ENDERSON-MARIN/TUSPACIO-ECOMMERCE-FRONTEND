@@ -75,7 +75,7 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       {
-        user?.rol_id === 2
+        /*user?.rol_id*/ 2 === 2
         ? <>
             <CssBaseline />
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>

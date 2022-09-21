@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, getDetail } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         position: "relative",
-        width: "150px",
+        height: "150px",
         margin: "20px"
     },
     textField: {
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ChangeProduct(id) {
+export default function ChangeProduct({id}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
@@ -78,10 +78,11 @@ export default function ChangeProduct(id) {
         rojo: 0,
         verde: 0,
     });
-    const [categories, setCategories] = useState(product.categories);
-    const [addColors, setAddColors] = useState(product.products_colors.map(c => c.hex_value));
+    const [categories, setCategories] = useState(product?.categories || []);
+    const [addColors, setAddColors] = useState(product?.products_colors?.map(c => c.hex_value) || "");
     
     useEffect ( () => {
+        dispatch(getDetail(id))
         dispatch(getCategories())
         dispatch(getAllBrands())
         dispatch(getProductTypes())
@@ -114,20 +115,20 @@ export default function ChangeProduct(id) {
         // console.log('entre aqui?')
         setOpen(false);
     };
-
+    console.log(categories)
     const [ input, setInput ] = useState({
-        brand: product.brand, 
-        name: product.name, 
-        price: product.price, 
-        price_sign: product.price_sing,
-        currency: product.currency, 
-        image_link: product.image_link, 
-        description: product.description, 
-        rating: product.rating, 
-        product_type: product.product_type, 
-        stock: product.stock, 
-        product_colors: product.products_colors,
-        categories: product.cateogories
+        brand: product?.brand || "", 
+        name: product?.name || "", 
+        price: product?.price || null, 
+        price_sign: product?.price_sing || "$",
+        currency: product?.currency || "USD", 
+        image_link: product?.image_link || "", 
+        description: product?.description || "", 
+        rating: product?.rating || null, 
+        product_type: product?.product_type || "", 
+        stock: product?.stock || null, 
+        product_colors: product?.products_colors || [],
+        categories: product?.cateogories || []
     });
     
     // function handleClick() { 
@@ -321,7 +322,7 @@ export default function ChangeProduct(id) {
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Load new product </Button>
+                        > Load changes </Button>
                         <ToastContainer />
                     </Grid>
                 </Grid>
