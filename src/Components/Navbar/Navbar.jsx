@@ -60,6 +60,7 @@ export default function Navbar() {
   const cart = useSelector((state) => state.cart);
   const mapped= cart?.map(item => item.quantity)
   const total = mapped?.map(c => parseFloat(c)).reduce((a, b) => a + b, 0) ;
+  const userState = useSelector((state) => state.infoUser);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,28 +89,15 @@ export default function Navbar() {
       {
         isAuthenticated
           ? <div>
-              <MenuItem>{user.name}</MenuItem>
-              <MenuItem onClick={ () => 
-                user.sub === "auth0|63194dd4a66d06a2351daf15" 
-                   ? navigate('/home') 
-                   : navigate('/profile') } >
-                { user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                  "User shop" : "Profile" }
-              </MenuItem>
-              <MenuItem onClick={ () => 
-                user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                navigate('/dashboard') : navigate('/home') }>
-                { user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                "Dashboard" : null }
-              </MenuItem>
-              <MenuItem onClick={Logout()}>Sing out</MenuItem>
-              {
-                user.name === 'TuSpacio' && <div>
-                    <MenuItem onClick={() => navigate('/create')}>Create Product</MenuItem>
-                    <MenuItem onClick={() => navigate('/createUser')}>Users</MenuItem>
-                    <MenuItem onClick={() => navigate('/orders/1')}>Orders</MenuItem>
-                  </div>
+              <MenuItem>{userState.name}</MenuItem>
+              <MenuItem onClick={ () => navigate('/profile') } > Profile </MenuItem>
+              { 
+                userState.rol_id === 2 
+                ? <MenuItem onClick={ () => navigate('/dashboard')} > Dashboard </MenuItem>
+                : <></>
               }
+              <MenuItem onClick={Logout()}>Sing out</MenuItem>
+              
             </div>
           : <MenuItem onClick={Login()}>Sing in</MenuItem>
       }
@@ -181,7 +169,7 @@ export default function Navbar() {
                 color='primary'>
                 {
                   isAuthenticated
-                    ? <Avatar alt={user.name} src={`${user.picture}`} />
+                    ? <Avatar alt={userState.name} src={`${userState.picture}`} />
                     : <AccountCircle className={classes.iconColors}/>
                 }
               </IconButton>
