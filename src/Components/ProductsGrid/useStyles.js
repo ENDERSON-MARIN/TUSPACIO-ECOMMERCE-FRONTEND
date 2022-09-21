@@ -25,7 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
   btnCategory: {
     marginLeft: theme.spacing(3),
-  }
+  },
+  btnOn: {
+    marginRight: theme.spacing(1),
+  },
+  btnOff: {
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 export default useStyles;

@@ -9,17 +9,27 @@ import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { getAllProducts, setDashboardItem, 
-  addNewCategory, updateStock } from '../../actions';
+  addNewCategory, updateStock, disableProduct } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
+import Switch from '@material-ui/core/Switch';
 
 export default function ProductsGrid() {
   const classes = useStyles();
   const dispatch = useDispatch()
   const products = useSelector(state => state.products);
   const [category, setCategory] = useState('');
+  const [state, setState] = React.useState({
+    checkedA: 'on',
+    checkedB: 'off',
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
 
   useEffect(() => {
     dispatch(getAllProducts())
@@ -81,22 +91,22 @@ export default function ProductsGrid() {
     renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={`/${params.id}`}>
             <Button
               variant="contained"
-              color=""
-              className={classes.btnDelete}
-              startIcon={<DeleteIcon />}
-              /*onClick={() => }*/>
-                Delete
+              className={classes.btnOn}
+              onClick={() => handleDelete(params.row.id, 'on')}>
+                On
             </Button>
-            </Link>
-
+            <Button
+              variant="contained"
+              className={classes.btnOff}
+              onClick={() => handleDelete(params.row.id, 'off')}>
+                Off
+            </Button>
           </div>
         );
     }
   },
-
   ];
 
   const rows = products?.map(product => {
@@ -114,6 +124,11 @@ export default function ProductsGrid() {
   const handleView = (id) => {
     navigate(`/${id}`);
   };
+
+  const handleDelete = (id, status) => {
+    dispatch(disableProduct(id, status))
+    notifyDisabled()
+  }
 
   const handleCreateCategory = (e) => {
     e.preventDefault();
@@ -160,6 +175,17 @@ export default function ProductsGrid() {
     progress: undefined,
   });
 
+  const notifyDisabled= () =>
+  toast.info('Product status changed!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+    
   return (
     <div>
       <h4> Products</h4>
