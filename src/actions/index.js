@@ -44,6 +44,7 @@ export const GET_LATEST_ORDERS = "GET_LATEST_ORDERS";
 export const UPDATE_STOCK = "UPDATE_STOCK";
 export const GET_REVIEWS_USER = "GET_REVIEWS_USER";
 export const DISABLE_PRODUCT = "DISABLE_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -541,6 +542,20 @@ export const disableProduct = (id, status) => {
       return dispatch({
         type: DISABLE_PRODUCT,
         payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function putChangeProduct(id, payload) {
+  return function (dispatch) {
+    try {
+      const results = axios.put(`/products/${id}`, payload);
+      dispatch({
+        type: UPDATE_PRODUCT,
+        payload: results.updatedProduct,
       });
     } catch (error) {
       console.error(error);

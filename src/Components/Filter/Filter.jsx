@@ -124,8 +124,9 @@ export default function Filter({ setOrder, filters, setFilters }) {
                                 }
                             </Select>
                         </FormControl>
+                    </Hidden>
 
-
+                    <Hidden smDown>
                         {/* Orden alfabetico */}
                         <FormControl className={classes.formControl}>
                             <InputLabel>Sort by Name</InputLabel>
@@ -162,8 +163,7 @@ export default function Filter({ setOrder, filters, setFilters }) {
                                 <option value='desc'>High to Low</option>
                             </Select>
                         </FormControl>
-                    </Hidden>
-                    <Hidden smDown>
+
                         {/* Order por Rating */}
                         <FormControl className={classes.formControl}>
                             <InputLabel>Order by Rating</InputLabel>
@@ -181,26 +181,26 @@ export default function Filter({ setOrder, filters, setFilters }) {
                                 <option value='asc'>1...5</option>
                             </Select>
                         </FormControl>
-                        <Hidden mdDown>
-                            <Button
-                                variant="outlined"
-                                onClick={() => limpiandoFiltros()}
-                                color="primary"
-                                size="small"
-                                className={classes.margin2}
-                            >
-                                Clean Filters
-                            </Button>
-                        </Hidden>
-                        <Hidden lgUp>
-                            {/* <Grid item xs='auto'> */}
-                                <Tooltip title="Clean Filters" placement="bottom">
-                                    <IconButton color="inherit" onClick={() => limpiandoFiltros()}>
-                                        <LocationDisabledIcon/>  
-                                    </IconButton>
-                                </Tooltip>
-                            {/* </Grid> */}
-                        </Hidden>
+                    </Hidden>
+                    <Hidden mdDown>
+                        <Button
+                            variant="outlined"
+                            onClick={() => limpiandoFiltros()}
+                            color="primary"
+                            size="small"
+                            className={classes.margin2}
+                        >
+                            Clean Filters
+                        </Button>
+                    </Hidden>
+                    <Hidden lgUp xsDown>
+                        {/* <Grid item xs='auto'> */}
+                        <Tooltip title="Clean Filters" placement="bottom">
+                            <IconButton color="inherit" onClick={() => limpiandoFiltros()}>
+                                <LocationDisabledIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {/* </Grid> */}
                     </Hidden>
                 </Grid>
                 <Hidden mdDown>
@@ -217,11 +217,11 @@ export default function Filter({ setOrder, filters, setFilters }) {
                 </Hidden>
                 <Hidden lgUp xsDown>
                     {/* <Grid item xs='auto' className={classes.margin}> */}
-                        <Tooltip title="Beuthy Services" placement="bottom">
-                            <IconButton color="inherit" className={classes.margin} onClick={()=>navigate('/service')}>
-                                <BathtubIcon/>  
-                            </IconButton>
-                        </Tooltip>
+                    <Tooltip title="Beuthy Services" placement="bottom">
+                        <IconButton color="inherit" className={classes.margin} onClick={() => navigate('/service')}>
+                            <BathtubIcon />
+                        </IconButton>
+                    </Tooltip>
                     {/* </Grid> */}
                 </Hidden>
             </Grid>
