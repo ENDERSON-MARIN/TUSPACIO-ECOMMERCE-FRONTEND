@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect} from "react";
 import { makeStyles, Box, Grid, Typography, Avatar, Card, CardActionArea, CardMedia, 
     CardContent, CardActions, Button} from "@material-ui/core";
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) =>({
 
 export default function AboutUs(){
 const classes = useStyles()
+useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
     return(
         <Grid container
@@ -95,7 +98,7 @@ const classes = useStyles()
                             <Avatar alt="Carolina Castillo" src="https://media-exp1.licdn.com/dms/image/C4D03AQGB-i9_BQ5ngQ/profile-displayphoto-shrink_200_200/0/1650381870262?e=1669248000&v=beta&t=yCpqaThVc7o2AEUruEuLKgygIdkNmh7wOeCaX-BDVnk" />
                             <Avatar alt="Santiago Pereyra" src="https://media-exp1.licdn.com/dms/image/C4E03AQGBEPMREeAB8w/profile-displayphoto-shrink_800_800/0/1638533828557?e=1669248000&v=beta&t=-NXb8JCaEnhFNtTybrp96HyFxeHKRWa-ipg7uFw_-Xs" />
                             <Avatar alt="Enderson Marin" src="https://media-exp1.licdn.com/dms/image/C5635AQEI4xDnMaL3Xw/profile-framedphoto-shrink_800_800/0/1597844138726?e=1664312400&v=beta&t=LGc7cnqVNQKeKRJ1sMHe1Va6nvze_ljGtJAuC6qS10A" />
-                            <Avatar alt="Diego " src="/static/images/avatar/5.jpg" />
+                            <Avatar alt="Diego Maceda" src="https://i.im.ge/2022/09/22/1hCGwc.IMG-8804-3.jpg" />
                             <Avatar alt="Juan Gearardo" src="https://media-exp1.licdn.com/dms/image/D5635AQG_i-fbnBf7eg/profile-framedphoto-shrink_800_800/0/1657843701499?e=1664316000&v=beta&t=tLQ5JXL9ErSV1gttb9VDwIdlwNEVXTw6U5nQa5QMJSU" />
                         </AvatarGroup>
                     </Box>
