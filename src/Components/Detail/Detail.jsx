@@ -163,7 +163,18 @@ export default function RecipeReviewCard({ setFilters }) {
                   <p key={index} >{ele}</p>
                 ))}
               </ul>
-              <h3>${Math.ceil(item.price)}</h3>
+              <h5  className={`${item.priceOfert} ${item.priceOfert ? 'tachado' : 'simple'}`}>${item.price}</h5>
+              {
+                    item.priceOfert &&
+                    <div>
+                    <h3 className={classes.off}>{item.oferts[0].discountPercent} %OFF</h3> 
+                    <div className={classes.prices}>   
+                    <h5>${item.priceOfert}</h5> 
+                      </div>   
+                    </div> 
+                    
+              }
+              
 
               <Box component="fieldset" borderColor="transparent" m={0} p={0} >
                 <Rating name="read-only" value={item.rating} readOnly precision={0.1} size="large" zIndex={-1} />

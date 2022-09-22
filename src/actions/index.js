@@ -45,11 +45,12 @@ export const UPDATE_STOCK = "UPDATE_STOCK";
 export const GET_REVIEWS_USER = "GET_REVIEWS_USER";
 export const DISABLE_PRODUCT = "DISABLE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const SET_OFFER = "SET_OFFER";
 
 export function getAllProducts() {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/products`);
+      var json = await axios.get("/products");
       return dispatch({
         type: GET_ALL_PRODUCTS,
         payload: json.data,
@@ -562,3 +563,21 @@ export function putChangeProduct(id, payload) {
     }
   };
 }
+
+export const setOffer = (id, discount) => {
+  console.log("discount back " + discount)
+  console.log("id back " + id)
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`/products/oferts/${id}`, {discountPercent: discount});
+      
+      return dispatch({
+        type: SET_OFFER,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+

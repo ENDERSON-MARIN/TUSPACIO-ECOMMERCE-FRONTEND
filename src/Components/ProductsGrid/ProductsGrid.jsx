@@ -8,6 +8,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { getAllProducts, setDashboardItem, 
   addNewCategory, updateStock, disableProduct } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Switch from '@material-ui/core/Switch';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
+import Offer from './Offer.jsx'
 import ChangeProduct from '../ChangeProduct/ChangeProduct'
 
 export default function ProductsGrid() {
@@ -129,6 +131,21 @@ export default function ProductsGrid() {
         );
     }
   },
+  {
+    field: 'Offer',
+    headerName: 'Offer',
+    width: 70,
+    sortable: false,
+    renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            <IconButton color="inherit" onClick={() => handleOffer(params.row.id)}>
+                <LocalOfferIcon /> 
+            </IconButton>
+          </div>
+        );
+    }
+  },
   ];
 
   const rows = products?.map(product => {
@@ -159,6 +176,12 @@ export default function ProductsGrid() {
     setOneProduct({
       id: id,
       vista: "change"
+    })
+  }
+  function handleOffer(id) {
+    setOneProduct({
+      id: id,
+      vista: "offer"
     })
   }
 
@@ -225,6 +248,8 @@ export default function ProductsGrid() {
         <DetailProduct id={oneProduct.id}/> :
         oneProduct.vista === "change" ?
         <ChangeProduct id={oneProduct.id}/> :
+        oneProduct.vista === "offer" ?
+        <Offer id={oneProduct.id}/> :
         <>
           <h4> Products</h4>
           <div className={classes.controls}>
