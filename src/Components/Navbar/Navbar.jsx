@@ -172,7 +172,9 @@ export default function Navbar() {
                 color='primary'>
                 {
                   isAuthenticated
-                    ? <Avatar alt={userState.name} src={`${userState.picture}`} />
+                    ? <Avatar 
+                        alt={userState.name?userState.name:"alt cargando..."} 
+                        src={`${userState.picture?userState.picture:LogoIMG}`} />
                     : <AccountCircle className={classes.iconColors}/>
                 }
               </IconButton>

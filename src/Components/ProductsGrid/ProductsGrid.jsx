@@ -5,46 +5,71 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button, IconButton, TextField } from '@material-ui/core';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { getAllProducts, setDashboardItem, 
-  addNewCategory, updateStock, disableProduct } from '../../actions';
+  addNewCategory, updateStock, disableProduct, getAllDash, cleanProductDetail } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
-import Switch from '@material-ui/core/Switch';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
-import ChangeProduct from '../ChangeProduct/ChangeProduct'
+import { EventRepeat } from '@mui/icons-material';
+import Offer from './Offer.jsx'
+import ChangeProduct from '../ChangeProduct/LoadProduct.jsx'
 
 export default function ProductsGrid() {
   const classes = useStyles();
   const dispatch = useDispatch()
-  const products = useSelector(state => state.products);
+  const products = useSelector(state => state.dashboard);
   const [category, setCategory] = useState('');
+  const [tempRole, setTempRole] = useState(1);
+
+  const notifyDisabled= () =>
+  toast.info('Product status changed!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
   const [oneProduct, setOneProduct] = useState({
     id: null,
     vista: ""
   })
+
   const [state, setState] = React.useState({
     checkedA: 'on',
     checkedB: 'off',
   });
 
   const handleChange = (event) => {
+    event.preventDefault()
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
+// useEffect(() => {
+//     dispatch(getAllProducts())
+//     dispatch(cleanProductDetail())
+//   }, [dispatch, oneProduct.vista])
 
   useEffect(() => {
-    dispatch(getAllProducts())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    dispatch(getAllDash())
+    dispatch(cleanProductDetail())
+  }, [dispatch, tempRole, oneProduct.vista])
+
+  useEffect(() => {
+    dispatch(getAllDash())
+  }, [tempRole])
+
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
+  //{ field: 'enabled', headerName: 'Enabled?', width: 80 },
   {
     field: 'stock',
     headerName: 'Stock',
@@ -92,24 +117,27 @@ export default function ProductsGrid() {
   },
   {
     field: 'action',
-    headerName: 'Action',
-    width: 200,
+    headerName: 'Product',
+    width: 120,
     sortable: false,
     renderCell: (params) => {
         return (
           <div className="cellAction">
             <Button
               variant="contained"
-              className={classes.btnOn}
-              onClick={() => handleDelete(params.row.id, 'on')}>
-                On
+              className={params.row.enabled ? classes.btnOn : classes.btnOff}
+              onClick={() => {
+                setTempRole(tempRole + 1)
+                handleDelete(params.row.id, params.row.enabled)
+                }}>
+                {params.row.enabled ? 'On' : 'Off'}
             </Button>
-            <Button
+            {/*<Button
               variant="contained"
               className={classes.btnOff}
-              onClick={() => handleDelete(params.row.id, 'off')}>
+              onClick={() => handleDelete(params.row.id, "off")}>
                 Off
-            </Button>
+            </Button>*/}
           </div>
         );
     }
@@ -117,13 +145,36 @@ export default function ProductsGrid() {
   {
     field: 'modify',
     headerName: 'Modify',
-    width: 70,
+    width: 120,
     sortable: false,
     renderCell: (params) => {
         return (
           <div className="cellAction">
-            <IconButton color="inherit" onClick={() => handleChangeProduct(params.row.id)}>
+            <IconButton color="inherit" onClick={() => 
+              
+              handleChangeProduct(params.row.id)
+              
+              }>
                 <EditIcon /> 
+            </IconButton>
+          </div>
+        );
+    }
+  },
+  {
+    field: 'Offer',
+    headerName: 'Offer',
+    width: 120,
+    sortable: false,
+    renderCell: (params) => {
+
+        return (
+          <div className="cellAction">
+            <IconButton 
+            disabled={params.row.enabled ? false : true}
+            color="inherit" 
+            onClick={() => handleOffer(params.row.id)}>
+                <LocalOfferIcon /> 
             </IconButton>
           </div>
         );
@@ -134,14 +185,13 @@ export default function ProductsGrid() {
   const rows = products?.map(product => {
     return {
       id: product.id,
+      enabled: product.status,
       stock: product.stock,
       name: product.name,
       description: product.description || 'No description',
       price: product.price
     }
   });
-
-  const navigate = useNavigate();
 
   const handleView = (id) => {
     setOneProduct({
@@ -151,7 +201,9 @@ export default function ProductsGrid() {
   };
 
   const handleDelete = (id, status) => {
-    dispatch(disableProduct(id, status))
+    status === true ?
+    dispatch(disableProduct(id, 'off')) :
+    dispatch(disableProduct(id, 'on'));
     notifyDisabled()
   }
 
@@ -159,6 +211,12 @@ export default function ProductsGrid() {
     setOneProduct({
       id: id,
       vista: "change"
+    })
+  }
+  function handleOffer(id) {
+    setOneProduct({
+      id: id,
+      vista: "offer"
     })
   }
 
@@ -207,24 +265,17 @@ export default function ProductsGrid() {
     progress: undefined,
   });
 
-  const notifyDisabled= () =>
-  toast.info('Product status changed!', {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-  });
+ 
     
   return (
     <div>
       {
         oneProduct.vista === "detail" ?
-        <DetailProduct id={oneProduct.id}/> :
+        <DetailProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
         oneProduct.vista === "change" ?
-        <ChangeProduct id={oneProduct.id}/> :
+        <ChangeProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
+        oneProduct.vista === "offer" ?
+        <Offer id={oneProduct.id} setOneProduct={setOneProduct}/> :
         <>
           <h4> Products</h4>
           <div className={classes.controls}>

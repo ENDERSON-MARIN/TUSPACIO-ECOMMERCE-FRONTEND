@@ -8,16 +8,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 
-
 const useStyles = makeStyles({
   root: {
     width: '70%',
     height: 350,
     // border: '1px solid #eceeed',
     borderRadius:'15%',
-    margin: 10,
+    margin: "auto",
     // marginLeft:20,
-    backgroundColor: '257558',
+    backgroundColor: '#257558',
+    marginBottom: "5%"
     
   },
   root2: {
@@ -26,19 +26,19 @@ const useStyles = makeStyles({
     // border: '1px solid #eceeed',
     borderRadius:'15%',
     margin: 20,
-    backgroundColor: '257558',
+    backgroundColor: '#257558',
     
   },
   media: {
     height: '70%',
     width: '100%',
-    // marginLeft: 50,
+    // margin: "auto",
     
   },
   content: {
     minHeight: 100,
     height: 'auto',
-    backgroundColor: 'f4f4f4'
+    backgroundColor: '#f4f4f4'
   },
   iconColors: {
     color: '#257558',
@@ -60,13 +60,23 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  cardBox:{
+    alignContent:'center',
+    justifyContent: "center",
+ },
   cardBox2:{
     marginLeft:2,
+  },
+  container: {
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 50,
+    marginBottom: 50
   }
 
 
 });
-
 
 const us = {
     Adrian:{
@@ -75,9 +85,9 @@ const us = {
         linkedIn: 'https://www.linkedin.com/in/radrianquintana/'
     },
     Edinson:{
-        name:'Edinson Marin',
+        name:'Edinson Madrid',
         pic:'https://media-exp1.licdn.com/dms/image/C5603AQGxhyxl6D9bNw/profile-displayphoto-shrink_800_800/0/1629320247409?e=1669248000&v=beta&t=qywMvVizXUF5TD6dsVHwxBQnR9tl9VksseQ_glqFmKo',
-        linkedIn:'https://www.linkedin.com/in/radrianquintana/',
+        linkedIn:'https://www.linkedin.com/in/ingedinsonmadrid/',
     },
     Carolina:{
         name:'Carolina Castillo',
@@ -101,7 +111,7 @@ const us = {
     },
     Diego:{
         name:'Diego Maceda',
-        pic:'https://media-exp1.licdn.com/dms/image/C5603AQFJ7mytNfIK1g/profile-displayphoto-shrink_200_200/0/1647706616888?e=1669248000&v=beta&t=qyTj3qRZTdAHFEuZ4UwIV9p2fVOR4lCrKfUnev1ziQw',
+        pic:'https://i.im.ge/2022/09/22/1hCGwc.IMG-8804-3.jpg',
         linkedIn:'https://www.linkedin.com/in/dmaceda/',
     }
 }
@@ -111,8 +121,12 @@ export default function AboutCard() {
 
 
   return (
-    <div>
-        <Grid container direction='row'>
+   <Box paddingY={4}>
+        <Grid container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
             <Grid item xs={3} className={classes.cardBox}>
                 <Card className={classes.root}>
                     <CardMedia
@@ -270,7 +284,7 @@ export default function AboutCard() {
                 </Card>
             </Grid>
             
-            <Grid item xs={3} >
+            <Grid item xs={3} className={classes.cardBox}>
                 <Card className={classes.root}>
                     <CardMedia
                         className={classes.media}
@@ -339,7 +353,7 @@ export default function AboutCard() {
                                 variant="contained"
                                 className={classes.button2}
                                 
-                                href={us.Edinson.linkedIn}
+                                href={us.Diego.linkedIn}
                                 size='small'
                                 >
                                 LinkedIn's Diego
@@ -388,6 +402,6 @@ export default function AboutCard() {
                 </Card>
             </Grid>
         </Grid>
-    </div>
+    </Box>
   )
 };

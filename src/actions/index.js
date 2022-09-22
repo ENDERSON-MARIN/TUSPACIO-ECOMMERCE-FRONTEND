@@ -45,13 +45,30 @@ export const UPDATE_STOCK = "UPDATE_STOCK";
 export const GET_REVIEWS_USER = "GET_REVIEWS_USER";
 export const DISABLE_PRODUCT = "DISABLE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const CLEAN_PRODUCT_DETAIL = "CLEAN_PRODUCT_DETAIL";
+export const SET_OFFER = "SET_OFFER";
+export const GET_ALL_DASH = "GET_ALL_DASH";
+
 
 export function getAllProducts() {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/products`);
+      var json = await axios.get("/products");
       return dispatch({
         type: GET_ALL_PRODUCTS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+export function getAllDash() {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("/products/dashboard");
+      return dispatch({
+        type: GET_ALL_DASH,
         payload: json.data,
       });
     } catch (error) {
@@ -492,7 +509,7 @@ export function getOrdersUser(id) {
 
 export function putUserChanges(user) {
   const changeUser = {email: user.email, address: user.address}
-  console.log('entre a la accion, sigue el response')
+  // console.log('entre a la accion, sigue el response')
   return async function (dispatch) {
     try {
       let response = await axios.put(`/users/${user.id}`, changeUser);
@@ -536,9 +553,10 @@ export const getReviewsUser = (id) => {
 }
 
 export const disableProduct = (id, status) => {
+  console.log({status})
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`/products/${id}`, status);
+      const json = await axios.delete(`/products/${id}?status=${status}`);
       return dispatch({
         type: DISABLE_PRODUCT,
         payload: json.data,
@@ -550,12 +568,35 @@ export const disableProduct = (id, status) => {
 }
 
 export function putChangeProduct(id, payload) {
-  return function (dispatch) {
+  return async function (dispatch) {
     try {
-      const results = axios.put(`/products/${id}`, payload);
+      const results = await axios.put(`/products/${id}`, payload);
       dispatch({
         type: UPDATE_PRODUCT,
         payload: results.updatedProduct,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export const cleanProductDetail = () => {
+  return {
+    type: CLEAN_PRODUCT_DETAIL,
+  };
+}
+
+export const setOffer = (id, discount) => {
+  console.log("discount back " + discount)
+  console.log("id back " + id)
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`/products/oferts/${id}`, {discountPercent: discount});
+      
+      return dispatch({
+        type: SET_OFFER,
+        payload: json.data,
       });
     } catch (error) {
       console.error(error);

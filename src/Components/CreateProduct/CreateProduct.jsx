@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, setDashboardItem } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
-    Grow, InputAdornment, InputLabel,makeStyles, Select, Slider, 
+    Grow, IconButton, InputAdornment, InputLabel,makeStyles, Select, Slider, 
     TextField, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
 import { ToastContainer, toast } from 'react-toastify';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -221,7 +221,7 @@ export default function CreateProduct() {
             setErrors(validation({...input, categories: [category]}))
         } else if (!categories.includes(category)) {
             if (categories.length === 2) {
-                return alert("Please delete one of the added categories to add a new one. Only a maximum of 2 categories per product is allowed")
+                return notifyCategError("Please delete one of the added categories to add a new one. Only a maximum of 2 categories per product is allowed")
                 // categories.pop()
                 // setCategories([...categories, category]) 
                 // setErrors(validation({...input, categories: categories}))    
@@ -229,12 +229,23 @@ export default function CreateProduct() {
             setCategories([...categories, category])
             setErrors(validation({...input, categories: categories}))
             } else if (categories.includes(category)) {
-                return alert("This category is already added")
+                return notifyCategError("This category is already added")
                 // setCategories(categories.filter(c => c !== category))
                 // setErrors(validation({...input, categories: categories}))
             }
         // console.log(categories) 
     }
+
+    const notifyCategError= (msj) => 
+        toast.error(msj, {
+            position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+    });
 
     function handlerDeleteColor(color) {
         setAddColors(addColors.filter(c => c!==color))
@@ -294,8 +305,17 @@ export default function CreateProduct() {
             progress: undefined,
     });
 
+    const handleSelection = (item) => {
+        dispatch(setDashboardItem(item))
+    }
+
     return (
         <form className={classes.root} noValidate autoComplete="off">
+            <IconButton 
+                onClick={() => handleSelection("Products")}
+            >
+                <ArrowBackIcon /> Go Back
+            </IconButton>
             <Box
                 position= 'relative'
                 width= '100%'
@@ -320,7 +340,7 @@ export default function CreateProduct() {
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Load new product </Button>
+                        > Create new product </Button>
                         <ToastContainer />
                     </Grid>
                 </Grid>

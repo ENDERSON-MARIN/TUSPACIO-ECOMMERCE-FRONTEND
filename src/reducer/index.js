@@ -43,7 +43,12 @@ import {
   GET_LATEST_ORDERS,
   GET_REVIEWS_USER,
   DISABLE_PRODUCT,
-  UPDATE_PRODUCT
+  UPDATE_PRODUCT,
+  SET_OFFER,
+  GET_ALL_DASH,
+  CLEAN_PRODUCT_DETAIL,
+  
+
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -99,7 +104,8 @@ const initialState = {
   producTypes: [],
   ordersUser: [],
   latestOrders: [],
-  reviewsUser: []
+  reviewsUser: [],
+  dashboard: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -195,6 +201,12 @@ function rootReducer(state = initialState, action) {
         products: action.payload,
         productsCopy: action.payload,
       };
+      case GET_ALL_DASH:
+        return {
+          ...state,
+          dashboard: action.payload,
+          
+        };
     case SET_CURRENT_HOME_PAGE:
       return {
         ...state,
@@ -415,8 +427,16 @@ function rootReducer(state = initialState, action) {
     case UPDATE_PRODUCT:
       return {
         ...state,
-        infoUser: action.payload
       }
+    case CLEAN_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetail: {}
+      }
+      case SET_OFFER:
+        return {
+          ...state,
+        }
     default:
       return state;
   }

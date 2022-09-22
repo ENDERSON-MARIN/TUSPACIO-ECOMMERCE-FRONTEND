@@ -39,12 +39,21 @@ export default function HomeCards(props) {
     <>
     { !products? <div>Not product Found</div> :
       <Card className={classes.root}>
+        
         <Box
           display="flex"
-          justifyContent="end"
-          alignItems="end"
+          justifyContent="space-around"
+          alignItems="center"
           minHeight="3vh">
           <CardActions >
+            {
+              props.products.discountPrice && props.products.discountPrice < parseInt(props.products.price )?  
+              <div className={classes.offcontainer}>
+              <p className={classes.off}>{props.products.oferts[0].discountPercent} %OFF</p>
+              </div> : null
+            }
+
+
             <Button 
               size="small" 
               onClick={(e) => handleFavorite(e)}>
@@ -81,7 +90,7 @@ export default function HomeCards(props) {
               {props.products.name}
               </Box>
             </Typography>
-            <Typography component="div" className={classes.price}   >
+            {/* <Typography component="div" className={classes.price}   >
             <Box
             display="flex"
             alignItems="center"
@@ -89,7 +98,17 @@ export default function HomeCards(props) {
             fontSize={15}> 
                 ${Math.ceil(props.products.price)}
             </Box>
-            </Typography>  
+                               
+            </Typography>   */}
+           {/* <h3 className={classes.off}>{props.products.oferts[0].discountPercent} %OFF</h3>    */}
+
+            {
+                    props.products.discountPrice ? 
+                    
+                    <p className={classes.red}>${props.products.discountPrice}</p>  : <p className={classes.red}> ${props.products.price}</p>  
+                 
+                    
+              }
             </div>
             {/* <Typography component="div">
               <Box 

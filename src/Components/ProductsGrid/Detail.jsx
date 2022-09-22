@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDetail, setGlobalEstate } from '../../actions/index'
+import { cleanProductDetail, getDetail, setGlobalEstate } from '../../actions/index'
 import { useEffect } from 'react'
 import defaultImage from "../../assets/images/not_found.png"
 import Rating from '@material-ui/lab/Rating';
@@ -13,8 +13,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { IconButton } from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-export default function RecipeReviewCard({ id }) {
+export default function RecipeReviewCard({ id, setOneProduct}) {
   const classes = useStyles();
   const dispatch = useDispatch()
   const item = useSelector((state) => state.productDetail?.dbInfo)
@@ -32,8 +34,18 @@ export default function RecipeReviewCard({ id }) {
     setColor(e)
   }
 
+  function backToProducts() {
+    dispatch(cleanProductDetail())
+    setOneProduct({id: null, vista: ""})
+  }
+
   return (
     <div>
+      <IconButton 
+          onClick={() => backToProducts()}
+      >
+          <ArrowBackIcon /> Go Back
+      </IconButton>
       {item ?
         <div className='detail' key={item.id}>
           <div className='image-list'>
@@ -49,7 +61,7 @@ export default function RecipeReviewCard({ id }) {
                   <p key={index} >{ele}</p>
                 ))}
               </ul>
-              <h3>${Math.ceil(item.price)}</h3>
+              <h3>${item.price}</h3>
 
               <Box component="fieldset" borderColor="transparent" m={0} p={0} >
                 <Rating name="read-only" value={item.rating} readOnly precision={0.1} size="large" zIndex={-1} />
