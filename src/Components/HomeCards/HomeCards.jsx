@@ -47,10 +47,10 @@ export default function HomeCards(props) {
           minHeight="3vh">
           <CardActions >
             {
-              props.products.discountPrice && 
+              props.products.discountPrice && props.products.discountPrice < parseInt(props.products.price )?  
               <div className={classes.offcontainer}>
               <p className={classes.off}>{props.products.oferts[0].discountPercent} %OFF</p>
-              </div>
+              </div> : null
             }
 
 

@@ -163,15 +163,17 @@ export default function RecipeReviewCard({ setFilters }) {
                   <p key={index} >{ele}</p>
                 ))}
               </ul>
-              <h5  className={`${item.priceOfert} ${item.priceOfert ? 'tachado' : 'simple'}`}>${item.price}</h5>
+              <h5  className={`${item.priceOfert} ${item.priceOfert && item.priceOfert < parseInt(item.price )? 'tachado' : 'simple'}`}>${item.price}</h5>
               {
-                    item.priceOfert &&
+                    item.priceOfert && item.priceOfert < parseInt(item.price )?
                     <div>
                     <h3 className={classes.off}>{item.oferts[0].discountPercent} %OFF</h3> 
                     <div className={classes.prices}>   
-                    <h5>${item.priceOfert}</h5> 
+
+                    {item.priceOfert && item.priceOfert < parseInt(item.price ) ? 
+                       <h5>${ item.priceOfert  }</h5> : null }
                       </div>   
-                    </div> 
+                    </div> : null
                     
               }
               

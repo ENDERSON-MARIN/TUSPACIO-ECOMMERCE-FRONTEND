@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function RecipeReviewCard({ id }) {
   const classes = useStyles();
@@ -51,7 +52,16 @@ export default function RecipeReviewCard({ id }) {
     setColor(e)
   }
 
-
+  const notifyReset= () => 
+  toast.success('Product price was updated!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
 
 
   
@@ -110,13 +120,26 @@ export default function RecipeReviewCard({ id }) {
             variant="contained"
             className={classes.button3}
             size='large'
-            onClick={() => 
+            onClick={() => {
                 discount === 0 ? alert("discount 0") : 
                 dispatch(setOffer(item.id, discount))
-                }
+                notifyReset()
+                }}
 
            >Apply Discount
            </Button>
+           <Button
+            variant="contained"
+            className={classes.button3}
+            size='large'
+            onClick={() => {
+                dispatch(setOffer(item.id, 0))
+                notifyReset()
+                }}
+
+           >Reset Price
+           </Button>
+           <ToastContainer />
           </div>
         </div>
         : <div className="loading loading--full-height"></div>
