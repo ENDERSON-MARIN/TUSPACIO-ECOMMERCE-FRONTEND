@@ -221,7 +221,7 @@ export default function CreateProduct() {
             setErrors(validation({...input, categories: [category]}))
         } else if (!categories.includes(category)) {
             if (categories.length === 2) {
-                return alert("Please delete one of the added categories to add a new one. Only a maximum of 2 categories per product is allowed")
+                return notifyCategError("Please delete one of the added categories to add a new one. Only a maximum of 2 categories per product is allowed")
                 // categories.pop()
                 // setCategories([...categories, category]) 
                 // setErrors(validation({...input, categories: categories}))    
@@ -229,12 +229,23 @@ export default function CreateProduct() {
             setCategories([...categories, category])
             setErrors(validation({...input, categories: categories}))
             } else if (categories.includes(category)) {
-                return alert("This category is already added")
+                return notifyCategError("This category is already added")
                 // setCategories(categories.filter(c => c !== category))
                 // setErrors(validation({...input, categories: categories}))
             }
         // console.log(categories) 
     }
+
+    const notifyCategError= (msj) => 
+        toast.error(msj, {
+            position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+    });
 
     function handlerDeleteColor(color) {
         setAddColors(addColors.filter(c => c!==color))

@@ -9,7 +9,7 @@ import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { getAllProducts, setDashboardItem, 
-  addNewCategory, updateStock, disableProduct, getAllDash } from '../../actions';
+  addNewCategory, updateStock, disableProduct, getAllDash, cleanProductDetail } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
@@ -52,18 +52,12 @@ export default function ProductsGrid() {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-
-  useEffect(() => {
-
+useEffect(() => {
     dispatch(getAllDash())
-  }, [dispatch, tempRole])
-
-  useEffect(() => {
-    dispatch(getAllDash())
-  }, [tempRole])
-
-  
-
+    dispatch(getAllProducts())
+    dispatch(cleanProductDetail())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, tempRole, oneProduct.vista])
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
@@ -271,9 +265,9 @@ export default function ProductsGrid() {
         oneProduct.vista === "detail" ?
         <DetailProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
         oneProduct.vista === "change" ?
-        <ChangeProduct id={oneProduct.id}/> :
+        <ChangeProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
         oneProduct.vista === "offer" ?
-        <Offer id={oneProduct.id}/> :
+        <Offer id={oneProduct.id} setOneProduct={setOneProduct}/> :
         <>
           <h4> Products</h4>
           <div className={classes.controls}>

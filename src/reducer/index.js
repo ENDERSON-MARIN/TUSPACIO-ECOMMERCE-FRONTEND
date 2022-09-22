@@ -427,7 +427,6 @@ function rootReducer(state = initialState, action) {
     case UPDATE_PRODUCT:
       return {
         ...state,
-        infoUser: action.payload
       }
     case CLEAN_PRODUCT_DETAIL:
       return {
