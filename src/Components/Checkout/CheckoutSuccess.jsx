@@ -10,17 +10,13 @@ import { clearCart } from "../../actions";
 
 const CheckoutSuccess = () => {
   const classes = useStyles();
-  const productsCart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.removeItem("itemsCart");
-  }, []);
-
-  useEffect(() => {
     dispatch(clearCart());
     runFireworks();
-  }, [productsCart]);
+  }, [dispatch]);
 
   return (
     <div className={classes.successWrapper}>
