@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import HomeCards from "../../Components/HomeCards/HomeCards";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrders, getAllProducts } from "../../actions";
+import { getAllOrders, getAllProducts, getAllDash} from "../../actions";
 import BasicPagination from "../BasicPagination/Pagination";
 // import LandingPage from "../Landing/Landing";
 import { Box, Hidden } from "@material-ui/core";
@@ -31,6 +31,7 @@ export default function SpacingGrid(order) {
 
   useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(getAllDash())
   }, [dispatch]);
 
 
@@ -100,13 +101,13 @@ export default function SpacingGrid(order) {
           </Grid>
         </Grid>
         
-        <BasicPagination
+        {/* <BasicPagination
           className={classes.centering}
           currentPage={currentPage}
           productsPerPage={productsPerPage}
           totalProducts={products.length}
           onChange={handleChange}
-        />
+        /> */}
 
         <div className="divwsp">
           <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">

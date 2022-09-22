@@ -47,6 +47,8 @@ export const DISABLE_PRODUCT = "DISABLE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const CLEAN_PRODUCT_DETAIL = "CLEAN_PRODUCT_DETAIL";
 export const SET_OFFER = "SET_OFFER";
+export const GET_ALL_DASH = "GET_ALL_DASH";
+
 
 export function getAllProducts() {
   return async function (dispatch) {
@@ -54,6 +56,19 @@ export function getAllProducts() {
       var json = await axios.get("/products");
       return dispatch({
         type: GET_ALL_PRODUCTS,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+export function getAllDash() {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("/products/dashboard");
+      return dispatch({
+        type: GET_ALL_DASH,
         payload: json.data,
       });
     } catch (error) {
