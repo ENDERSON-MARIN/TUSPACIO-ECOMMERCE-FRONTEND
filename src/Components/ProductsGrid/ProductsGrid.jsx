@@ -15,6 +15,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
+import { EventRepeat } from '@mui/icons-material';
 import Offer from './Offer.jsx'
 import ChangeProduct from '../ChangeProduct/ChangeProduct'
 
@@ -28,10 +29,21 @@ export default function ProductsGrid() {
     vista: ""
   })
 
+  const [state, setState] = React.useState({
+    checkedA: 'on',
+    checkedB: 'off',
+  });
+
+  const handleChange = (event) => {
+    event.preventDefault()
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+
   useEffect(() => {
     dispatch(getAllProducts())
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
@@ -99,7 +111,7 @@ export default function ProductsGrid() {
             {/*<Button
               variant="contained"
               className={classes.btnOff}
-              onClick={() => handleDelete(params.row.id, 'off')}>
+              onClick={() => handleDelete(params.row.id, "off")}>
                 Off
             </Button>*/}
           </div>
@@ -236,7 +248,7 @@ export default function ProductsGrid() {
     <div>
       {
         oneProduct.vista === "detail" ?
-        <DetailProduct id={oneProduct.id}/> :
+        <DetailProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
         oneProduct.vista === "change" ?
         <ChangeProduct id={oneProduct.id}/> :
         oneProduct.vista === "offer" ?

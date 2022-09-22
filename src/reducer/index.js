@@ -44,6 +44,7 @@ import {
   GET_REVIEWS_USER,
   DISABLE_PRODUCT,
   UPDATE_PRODUCT,
+  CLEAN_PRODUCT_DETAIL
   SET_OFFER
 } from "../actions";
 
@@ -417,6 +418,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         infoUser: action.payload
+      }
+    case CLEAN_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetail: {}
       }
       case SET_OFFER:
         return {

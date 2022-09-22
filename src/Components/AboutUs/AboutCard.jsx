@@ -8,16 +8,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 
-
 const useStyles = makeStyles({
   root: {
     width: '70%',
     height: 350,
     // border: '1px solid #eceeed',
     borderRadius:'15%',
-    margin: 10,
+    margin: "auto",
     // marginLeft:20,
-    backgroundColor: '257558',
+    backgroundColor: '#257558',
+    marginBottom: "5%"
     
   },
   root2: {
@@ -26,19 +26,19 @@ const useStyles = makeStyles({
     // border: '1px solid #eceeed',
     borderRadius:'15%',
     margin: 20,
-    backgroundColor: '257558',
+    backgroundColor: '#257558',
     
   },
   media: {
     height: '70%',
     width: '100%',
-    // marginLeft: 50,
+    // margin: "auto",
     
   },
   content: {
     minHeight: 100,
     height: 'auto',
-    backgroundColor: 'f4f4f4'
+    backgroundColor: '#f4f4f4'
   },
   iconColors: {
     color: '#257558',
@@ -60,6 +60,10 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  cardBox:{
+    alignContent:'center',
+    justifyContent: "center",
+ },
   cardBox2:{
     marginLeft:2,
   },
@@ -73,7 +77,6 @@ const useStyles = makeStyles({
 
 
 });
-
 
 const us = {
     Adrian:{
@@ -118,8 +121,12 @@ export default function AboutCard() {
 
 
   return (
-    <div className={classes.container}>
-        <Grid container direction='row'>
+   <Box paddingY={4}>
+        <Grid container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
             <Grid item xs={3} className={classes.cardBox}>
                 <Card className={classes.root}>
                     <CardMedia
@@ -277,7 +284,7 @@ export default function AboutCard() {
                 </Card>
             </Grid>
             
-            <Grid item xs={3} >
+            <Grid item xs={3} className={classes.cardBox}>
                 <Card className={classes.root}>
                     <CardMedia
                         className={classes.media}
@@ -395,6 +402,6 @@ export default function AboutCard() {
                 </Card>
             </Grid>
         </Grid>
-    </div>
+    </Box>
   )
 };

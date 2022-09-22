@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, setDashboardItem } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
-    Grow, InputAdornment, InputLabel,makeStyles, Select, Slider, 
+    Grow, IconButton, InputAdornment, InputLabel,makeStyles, Select, Slider, 
     TextField, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
 import { ToastContainer, toast } from 'react-toastify';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -294,8 +294,17 @@ export default function CreateProduct() {
             progress: undefined,
     });
 
+    const handleSelection = (item) => {
+        dispatch(setDashboardItem(item))
+    }
+
     return (
         <form className={classes.root} noValidate autoComplete="off">
+            <IconButton 
+                onClick={() => handleSelection("Products")}
+            >
+                <ArrowBackIcon /> Go Back
+            </IconButton>
             <Box
                 position= 'relative'
                 width= '100%'
@@ -320,7 +329,7 @@ export default function CreateProduct() {
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Load new product </Button>
+                        > Create new product </Button>
                         <ToastContainer />
                     </Grid>
                 </Grid>
