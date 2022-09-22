@@ -17,7 +17,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
 import { EventRepeat } from '@mui/icons-material';
 import Offer from './Offer.jsx'
-import ChangeProduct from '../ChangeProduct/ChangeProduct'
+import ChangeProduct from '../ChangeProduct/LoadProduct.jsx'
 
 export default function ProductsGrid() {
   const classes = useStyles();
