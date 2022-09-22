@@ -52,12 +52,20 @@ export default function ProductsGrid() {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-useEffect(() => {
+// useEffect(() => {
+//     dispatch(getAllProducts())
+//     dispatch(cleanProductDetail())
+//   }, [dispatch, oneProduct.vista])
+
+  useEffect(() => {
     dispatch(getAllDash())
-    dispatch(getAllProducts())
     dispatch(cleanProductDetail())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, tempRole, oneProduct.vista])
+
+  useEffect(() => {
+    dispatch(getAllDash())
+  }, [tempRole])
+
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
