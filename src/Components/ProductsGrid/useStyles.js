@@ -34,6 +34,20 @@ const useStyles = makeStyles((theme) => ({
   btnOff: {
     marginLeft: theme.spacing(1),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  off: {
+    color: 'crimson'
+  },button3: {
+    backgroundColor: '#257558',
+    color: '#fff',
+    },
 }));
 
 export default useStyles;
+

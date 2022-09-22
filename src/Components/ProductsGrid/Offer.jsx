@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDetail, setGlobalEstate } from '../../actions/index'
+import { getDetail, setGlobalEstate, setOffer} from '../../actions/index'
 import { useEffect } from 'react'
 import defaultImage from "../../assets/images/not_found.png"
 import Rating from '@material-ui/lab/Rating';
@@ -13,6 +13,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 export default function RecipeReviewCard({ id }) {
   const classes = useStyles();
@@ -20,6 +25,15 @@ export default function RecipeReviewCard({ id }) {
   const item = useSelector((state) => state.productDetail?.dbInfo)
   const reviews = useSelector((state) => state.productDetail?.reviews)
   const [color, setColor] = useState('')
+  const [discount, setDiscount] = useState(0);
+
+   const handleChangeDiscount = (event) => {
+     event?.preventDefault();
+     
+     
+   };
+
+
 
   const reviewsTotal = reviews?.length + 100
 
@@ -28,10 +42,19 @@ export default function RecipeReviewCard({ id }) {
     dispatch(getDetail(id))
   }, [dispatch])
 
+
+  useEffect(() => {
+    
+  }, [dispatch])
+
   const handleColor = (e) => {
     setColor(e)
   }
 
+
+
+
+  
   return (
     <div>
       {item ?
@@ -55,52 +78,52 @@ export default function RecipeReviewCard({ id }) {
                 <Rating name="read-only" value={item.rating} readOnly precision={0.1} size="large" zIndex={-1} />
               </Box>
               <p>{item.description}</p>
-              <div className='colors'>
-                {item.stock > 0 ? <h3>Colors : </h3> : null}
+              <div className={classes.discount}>
+              <h3>Apply Discount</h3>
+              <div>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Discount</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={discount}
+                onChange={(e)=> {
+                    setDiscount(e.target.value) 
+                }}
+                >
+                   
 
-                {item.stock > 0 ?
-                  item.product_colors?.slice(0, 6).map((color, index) => (
-                    <button key={index} style={{ background: color.hex_value }} onClick={() => handleColor(color.hex_value)}></button>
-                  )) : null}
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={40}>Forthy</MenuItem>
+                <MenuItem value={50}>Fifthy</MenuItem>
+                </Select>
+            </FormControl>
+
+             
+ 
+            </div>
               </div>
             </div>
+            <Button
+            variant="contained"
+            className={classes.button3}
+            size='large'
+            onClick={() => 
+                discount === 0 ? alert("discount 0") : 
+                dispatch(setOffer(item.id, discount))
+                }
+
+           >Apply Discount
+           </Button>
           </div>
         </div>
         : <div className="loading loading--full-height"></div>
       }
-      <Divider variant="middle" component="h1" />
-      {item ?
-        <div className={classes.ratingCont}>
-          <h3>Product Reviews</h3>
-          <h1>{item.rating}</h1>
-          <Box component="fieldset" borderColor="transparent" m={0} p={0} >
-            <Rating name="read-only" value={item.rating} readOnly precision={0.1} size="large" zIndex={-1} />
-          </Box>
-
-
-          <p>{reviewsTotal}</p>
-
-          <List className={classes.reviewsList}>
-
-            {reviews?.map(review =>
-
-              <ListItem>
-                <Button
-                  size="small"
-                >
-                  {review.score < 3 ?
-                    <ThumbDownIcon className={classes.iconRed} /> :
-                    <ThumbUpIcon className={classes.iconGreen} />}
-                </Button>
-                <ListItemText primary={review.title} secondary={review.text} />
-                <Rating name="read-only" value={review.score} readOnly precision={0.1} size="medium" zIndex={-1} />
-                <Divider variant="middle" component="li" />
-              </ListItem>
-
-            )}
-
-          </List>
-        </div> : null}
+      
+        
+       
     </div>
   );
 }

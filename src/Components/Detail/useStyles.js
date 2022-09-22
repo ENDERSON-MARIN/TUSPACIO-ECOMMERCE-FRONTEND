@@ -64,7 +64,13 @@ const useStyles = makeStyles((theme) => ({
   justifyContent: 'center',
   marginBottom: 80,
 
- }
+ },
+ off: {
+  color: 'crimson'
+},
+prices: {
+  display: 'flex',
+}
 
 }));
 

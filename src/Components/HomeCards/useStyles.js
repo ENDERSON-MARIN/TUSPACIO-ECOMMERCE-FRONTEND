@@ -25,9 +25,20 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between'
   },
-  price: {
-    color: 'crimson'
+  red: {
+    color: 'crimson',
+    fontWeight: 600
   },
+ off: {
+  color: 'white',
+    fontWeight: 600,
+    padding: 5
+ },
+ offcontainer: {
+  background: 'red',
+  borderRadius: 5,
+  height: 35
+ }
 
 
 });
