@@ -104,7 +104,7 @@ const LandingCards = (props) => {
                 alignItems="center"
                 fontWeight="fontWeightBold"
                 fontSize={15}>
-                ${Math.ceil(props.products.price)}
+                ${props.products.price}
               </Box>
             </Typography>
           </div>

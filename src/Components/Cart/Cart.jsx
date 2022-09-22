@@ -39,7 +39,7 @@ const Cart = () => {
     dispatch(updateStock(id, stock))
   }
   
-  let mapped= cartProducts?.map(item => item.quantity * Math.ceil(item.price))
+  let mapped= cartProducts?.map(item =>  item.discountPrice ? (item.discountPrice * item.quantity) : (item.quantity * item.price))
   let total = mapped?.map(c => parseFloat(c)).reduce((a, b) => a + b, 0) ;
 
 
@@ -118,7 +118,7 @@ const Cart = () => {
               
               <StyledTableCell align="right" ><a href={`/${row.id}`} id='ref'>{row.name}</a></StyledTableCell>
              
-              <StyledTableCell align="right">$ {Math.ceil(row.price) * row.quantity}</StyledTableCell>
+              <StyledTableCell align="right">$ {row.discountPrice ? (row.discountPrice * row.quantity) : (row.price * row.quantity)}</StyledTableCell>
               <StyledTableCell align="right">
                 <div className='change'>
   
