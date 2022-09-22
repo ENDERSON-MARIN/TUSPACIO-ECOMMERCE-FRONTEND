@@ -7,17 +7,14 @@ import PageviewIcon from '@material-ui/icons/Pageview';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { getAllProducts, setDashboardItem, 
   addNewCategory, updateStock, disableProduct } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
-import Switch from '@material-ui/core/Switch';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
-import ChangeProduct from '../ChangeProduct/ChangeProduct'
+import ChangeProduct from '../ChangeProduct/LoadProduct.jsx'
 
 export default function ProductsGrid() {
   const classes = useStyles();

@@ -493,7 +493,7 @@ export function getOrdersUser(id) {
 
 export function putUserChanges(user) {
   const changeUser = {email: user.email, address: user.address}
-  console.log('entre a la accion, sigue el response')
+  // console.log('entre a la accion, sigue el response')
   return async function (dispatch) {
     try {
       let response = await axios.put(`/users/${user.id}`, changeUser);
