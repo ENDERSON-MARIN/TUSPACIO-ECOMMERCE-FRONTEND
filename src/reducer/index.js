@@ -45,6 +45,7 @@ import {
   DISABLE_PRODUCT,
   UPDATE_PRODUCT,
   CLEAN_PRODUCT_DETAIL
+  SET_OFFER
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -422,7 +423,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         productDetail: {}
-      };
+      }
+      case SET_OFFER:
+        return {
+          ...state,
+        }
     default:
       return state;
   }

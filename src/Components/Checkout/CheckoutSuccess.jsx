@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react';
-import { runFireworks } from './utils';
-import { Link } from 'react-router-dom';
-import LocalMallIcon from '@material-ui/icons/LocalMall';
-import Button from '@material-ui/core/Button';
-import useStyles from './useStyles'
+import React, { useEffect } from "react";
+import { runFireworks } from "./utils";
+import { Link } from "react-router-dom";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
+import Button from "@material-ui/core/Button";
+import useStyles from "./useStyles";
+import { useDispatch, useSelector } from "react-redux";
+
+import { clearCart } from "../../actions";
 
 const CheckoutSuccess = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.clear();
+    localStorage.removeItem("itemsCart");
+    dispatch(clearCart());
     runFireworks();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={classes.successWrapper}>
@@ -20,30 +25,32 @@ const CheckoutSuccess = () => {
           <LocalMallIcon />
         </p>
         <h2 className={classes.title}>Thank you for your order!</h2>
-        <p className={classes.emailMsg} >
+        <p className={classes.emailMsg}>
           Check your email inbox for our confirmation mail.
         </p>
-        <p className={classes.description} >
+        <p className={classes.description}>
           If you have any questions, please email
-          <a 
-          className={classes.email} 
-          style={{color: "#606060"}}
-          href="mailto:tuspaciopg@gmail.com">
+          <a
+            className={classes.email}
+            style={{ color: "#606060" }}
+            href="mailto:tuspaciopg@gmail.com"
+          >
             tuspaciopg@gmail.com
           </a>
         </p>
         <Link to="/home">
-          <Button 
-            variant="contained" 
-            size="large" 
+          <Button
+            variant="contained"
+            size="large"
             color="primary"
-            className={`${classes.margin} ${classes.btn}`}>
-              Continue Shopping!
+            className={`${classes.margin} ${classes.btn}`}
+          >
+            Continue Shopping!
           </Button>
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CheckoutSuccess
+export default CheckoutSuccess;

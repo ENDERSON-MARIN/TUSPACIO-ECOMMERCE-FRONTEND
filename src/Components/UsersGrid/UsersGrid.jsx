@@ -4,8 +4,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from './useStyles';
-//import PersonAddIcon from '@material-ui/icons/PersonAdd';
-//import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
@@ -15,7 +13,6 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 export default function UsersGrid() {
   const classes = useStyles();
-  //const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
   const [tempRole, setTempRole] = useState(1);
@@ -37,25 +34,24 @@ export default function UsersGrid() {
     dispatch(getAllUsers());
   }, [dispatch, tempRole]);
 
-  function handleReset(params) {
-    var options = {
+  function handleReset(email) {
+   var options = {
       method: 'POST',
       url: 'https://dev-iyl61sxr.us.auth0.com/dbconnections/change_password',
       headers: {'content-type': 'application/json'},
       data: {
         client_id: 'iGWV7b28WTEv4RPPPK6IwXXvPnRkwPfP',
-        email: '503689@uane.mx',
+        email: email,
         connection: 'Username-Password-Authentication'
       }
     };
     axios.request(options)
       .then(function (response) {
-        console.log(response.data);
         notifyUserChangePass();
       })
       .catch(function (error) {
         console.error(error);
-      });
+      });   
   }
 
   const columns = [
@@ -115,7 +111,7 @@ export default function UsersGrid() {
               variant="contained"
               className={classes.resetBtn}
               startIcon={<RotateLeftIcon />}
-              onClick={(params) => handleReset(params)}>
+              onClick={() => handleReset(params.row.email)}>
               Reset
             </Button>
             <ToastContainer />

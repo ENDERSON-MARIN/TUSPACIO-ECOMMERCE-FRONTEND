@@ -222,6 +222,7 @@ section .cart {
     margin-top: 100px;
     margin-left: 20px;
     margin-top: 50px;
+    cursor: pointer;
 }
 
 
@@ -365,6 +366,12 @@ section .cart {
 #chat {
     color: white;
     text-decoration: none;
+}
+
+.tachado {
+    text-decoration:line-through;
+    color: #E04300;
+    margin-right: 20px;
 }
 
   /*********** MEDIA QUERIES (MEDIUM DEVICES ************/

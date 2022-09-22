@@ -63,8 +63,16 @@ const useStyles = makeStyles({
   cardBox:{
     alignContent:'center',
     justifyContent: "center",
-    // backgroundColor: "#257558",
-    // border: "solid 2px #ffffff" 
+ },
+  cardBox2:{
+    marginLeft:2,
+  },
+  container: {
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 50,
+    marginBottom: 50
   }
 
 
@@ -77,9 +85,9 @@ const us = {
         linkedIn: 'https://www.linkedin.com/in/radrianquintana/'
     },
     Edinson:{
-        name:'Edinson Marin',
+        name:'Edinson Madrid',
         pic:'https://media-exp1.licdn.com/dms/image/C5603AQGxhyxl6D9bNw/profile-displayphoto-shrink_800_800/0/1629320247409?e=1669248000&v=beta&t=qywMvVizXUF5TD6dsVHwxBQnR9tl9VksseQ_glqFmKo',
-        linkedIn:'https://www.linkedin.com/in/radrianquintana/',
+        linkedIn:'https://www.linkedin.com/in/ingedinsonmadrid/',
     },
     Carolina:{
         name:'Carolina Castillo',
@@ -103,7 +111,7 @@ const us = {
     },
     Diego:{
         name:'Diego Maceda',
-        pic:'https://media-exp1.licdn.com/dms/image/C5603AQFJ7mytNfIK1g/profile-displayphoto-shrink_200_200/0/1647706616888?e=1669248000&v=beta&t=qyTj3qRZTdAHFEuZ4UwIV9p2fVOR4lCrKfUnev1ziQw',
+        pic:'https://i.im.ge/2022/09/22/1hCGwc.IMG-8804-3.jpg',
         linkedIn:'https://www.linkedin.com/in/dmaceda/',
     }
 }
@@ -113,7 +121,7 @@ export default function AboutCard() {
 
 
   return (
-    <Box paddingY={4}>
+   <Box paddingY={4}>
         <Grid container
             direction="row"
             justifyContent="center"
@@ -345,7 +353,7 @@ export default function AboutCard() {
                                 variant="contained"
                                 className={classes.button2}
                                 
-                                href={us.Edinson.linkedIn}
+                                href={us.Diego.linkedIn}
                                 size='small'
                                 >
                                 LinkedIn's Diego
