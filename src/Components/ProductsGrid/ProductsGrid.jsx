@@ -9,7 +9,7 @@ import useStyles from './useStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { getAllProducts, setDashboardItem, 
-  addNewCategory, updateStock, disableProduct } from '../../actions';
+  addNewCategory, updateStock, disableProduct, getAllDash } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
@@ -21,21 +21,40 @@ import ChangeProduct from '../ChangeProduct/ChangeProduct'
 export default function ProductsGrid() {
   const classes = useStyles();
   const dispatch = useDispatch()
-  const products = useSelector(state => state.products);
+  const products = useSelector(state => state.dashboard);
   const [category, setCategory] = useState('');
+  const [tempRole, setTempRole] = useState(1);
+
+  const notifyDisabled= () =>
+  toast.info('Product status changed!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
   const [oneProduct, setOneProduct] = useState({
     id: null,
     vista: ""
   })
 
   useEffect(() => {
-    dispatch(getAllProducts())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    dispatch(getAllDash())
+  }, [dispatch, tempRole])
+
+  useEffect(() => {
+    dispatch(getAllDash())
+  }, [tempRole])
+
+  
+
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
-  { field: 'enabled', headerName: 'Enabled?', width: 80 },
+  //{ field: 'enabled', headerName: 'Enabled?', width: 80 },
   {
     field: 'stock',
     headerName: 'Stock',
@@ -84,16 +103,18 @@ export default function ProductsGrid() {
   {
     field: 'action',
     headerName: 'Product',
-    width: 90,
+    width: 120,
     sortable: false,
     renderCell: (params) => {
-      console.log(params.row)
         return (
           <div className="cellAction">
             <Button
               variant="contained"
               className={params.row.enabled ? classes.btnOn : classes.btnOff}
-              onClick={() => handleDelete(params.row.id, params.row.enabled)}>
+              onClick={() => {
+                setTempRole(tempRole + 1)
+                handleDelete(params.row.id, params.row.enabled)
+                }}>
                 {params.row.enabled ? 'On' : 'Off'}
             </Button>
             {/*<Button
@@ -109,12 +130,16 @@ export default function ProductsGrid() {
   {
     field: 'modify',
     headerName: 'Modify',
-    width: 70,
+    width: 120,
     sortable: false,
     renderCell: (params) => {
         return (
           <div className="cellAction">
-            <IconButton color="inherit" onClick={() => handleChangeProduct(params.row.id)}>
+            <IconButton color="inherit" onClick={() => 
+              
+              handleChangeProduct(params.row.id)
+              
+              }>
                 <EditIcon /> 
             </IconButton>
           </div>
@@ -124,12 +149,16 @@ export default function ProductsGrid() {
   {
     field: 'Offer',
     headerName: 'Offer',
-    width: 70,
+    width: 120,
     sortable: false,
     renderCell: (params) => {
+
         return (
           <div className="cellAction">
-            <IconButton color="inherit" onClick={() => handleOffer(params.row.id)}>
+            <IconButton 
+            disabled={params.row.enabled ? false : true}
+            color="inherit" 
+            onClick={() => handleOffer(params.row.id)}>
                 <LocalOfferIcon /> 
             </IconButton>
           </div>
@@ -221,16 +250,7 @@ export default function ProductsGrid() {
     progress: undefined,
   });
 
-  const notifyDisabled= () =>
-  toast.info('Product status changed!', {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-  });
+ 
     
   return (
     <div>
