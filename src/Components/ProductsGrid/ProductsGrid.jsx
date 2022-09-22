@@ -5,16 +5,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button, IconButton, TextField } from '@material-ui/core';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { useNavigate } from 'react-router-dom';
 import useStyles from './useStyles';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { getAllProducts, setDashboardItem, 
   addNewCategory, updateStock, disableProduct } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import CategoryIcon from '@material-ui/icons/Category';
 import { ToastContainer, toast } from 'react-toastify';
-import Switch from '@material-ui/core/Switch';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
 import ChangeProduct from '../ChangeProduct/ChangeProduct'
@@ -28,15 +24,6 @@ export default function ProductsGrid() {
     id: null,
     vista: ""
   })
-  const [state, setState] = React.useState({
-    checkedA: 'on',
-    checkedB: 'off',
-  });
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
 
   useEffect(() => {
     dispatch(getAllProducts())
@@ -45,6 +32,7 @@ export default function ProductsGrid() {
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
+  { field: 'enabled', headerName: 'Enabled?', width: 80 },
   {
     field: 'stock',
     headerName: 'Stock',
@@ -92,24 +80,25 @@ export default function ProductsGrid() {
   },
   {
     field: 'action',
-    headerName: 'Action',
-    width: 200,
+    headerName: 'Product',
+    width: 90,
     sortable: false,
     renderCell: (params) => {
+      console.log(params.row)
         return (
           <div className="cellAction">
             <Button
               variant="contained"
-              className={classes.btnOn}
-              onClick={() => handleDelete(params.row.id, 'on')}>
-                On
+              className={params.row.enabled ? classes.btnOn : classes.btnOff}
+              onClick={() => handleDelete(params.row.id, params.row.enabled)}>
+                {params.row.enabled ? 'On' : 'Off'}
             </Button>
-            <Button
+            {/*<Button
               variant="contained"
               className={classes.btnOff}
               onClick={() => handleDelete(params.row.id, 'off')}>
                 Off
-            </Button>
+            </Button>*/}
           </div>
         );
     }
@@ -134,14 +123,13 @@ export default function ProductsGrid() {
   const rows = products?.map(product => {
     return {
       id: product.id,
+      enabled: product.status,
       stock: product.stock,
       name: product.name,
       description: product.description || 'No description',
       price: product.price
     }
   });
-
-  const navigate = useNavigate();
 
   const handleView = (id) => {
     setOneProduct({
@@ -151,7 +139,9 @@ export default function ProductsGrid() {
   };
 
   const handleDelete = (id, status) => {
-    dispatch(disableProduct(id, status))
+    status === true ?
+    dispatch(disableProduct(id, 'off')) :
+    dispatch(disableProduct(id, 'on'));
     notifyDisabled()
   }
 

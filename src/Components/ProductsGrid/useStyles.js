@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
   btnOn: {
     marginRight: theme.spacing(1),
+    backgroundColor: "#37af84",
+    color: "#ffffff",
   },
   btnOff: {
     marginLeft: theme.spacing(1),
