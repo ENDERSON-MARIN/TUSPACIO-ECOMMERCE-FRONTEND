@@ -541,7 +541,7 @@ export const disableProduct = (id, status) => {
   console.log({status})
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`/products/${id}`, {status});
+      const json = await axios.delete(`/products/${id}?status=${status}`);
       return dispatch({
         type: DISABLE_PRODUCT,
         payload: json.data,
