@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },button3: {
     backgroundColor: '#257558',
     color: '#fff',
+    margin: 5
     },
 }));
 

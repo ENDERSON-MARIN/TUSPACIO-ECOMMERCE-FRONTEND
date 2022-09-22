@@ -20,6 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function RecipeReviewCard({ id, setOneProduct }) {
@@ -57,7 +58,18 @@ export default function RecipeReviewCard({ id, setOneProduct }) {
   function backToProducts() {
     setOneProduct({id: null, vista: ""})
   }
-  
+
+  const notifyReset= () => 
+    toast.success('Product price was updated!', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+   });
+
   return (
     <div>
       <IconButton 
@@ -118,13 +130,26 @@ export default function RecipeReviewCard({ id, setOneProduct }) {
             variant="contained"
             className={classes.button3}
             size='large'
-            onClick={() => 
+            onClick={() => {
                 discount === 0 ? alert("discount 0") : 
                 dispatch(setOffer(item.id, discount))
-                }
+                notifyReset()
+                }}
 
            >Apply Discount
            </Button>
+           <Button
+            variant="contained"
+            className={classes.button3}
+            size='large'
+            onClick={() => {
+                dispatch(setOffer(item.id, 0))
+                notifyReset()
+                }}
+
+           >Reset Price
+           </Button>
+           <ToastContainer />
           </div>
         </div>
         : <div className="loading loading--full-height"></div>
