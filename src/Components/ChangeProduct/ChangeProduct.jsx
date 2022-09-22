@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, getDetail, putChangeProduct } from '../../actions';
+import { getAllBrands, getCategories, getProductTypes, addNewCategory, getDetail, putChangeProduct, cleanOrderDetail, cleanProductDetail } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
-    Grow, InputAdornment, InputLabel,makeStyles, Select, Slider, 
-    TextField, withStyles } from '@material-ui/core';
+    Grow, IconButton, InputAdornment, InputLabel,makeStyles, Select, Slider, 
+    TextField } from '@material-ui/core';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
 import { ToastContainer, toast } from 'react-toastify';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -58,36 +58,49 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-export default function ChangeProduct({id}) {
+export default function ChangeProduct({product, setOneProduct}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
     const allCategories = useSelector((state) => state.categories);
     const allProductTypes = useSelector((state) => state.producTypes);
     const allBrands = useSelector((state) => state.brands);
-    const product = useSelector((state) => state.productDetail.dbInfo)
     const [errors, setErrors] = useState({});
+    const [ input, setInput ] = useState({
+        brand: product.brand, 
+        name: product.name, 
+        price: product.price, 
+        price_sign: product.price_sing,
+        currency: product.currency, 
+        image_link: product.image_link, 
+        description: product.description, 
+        rating: product.rating, 
+        product_type: product.product_type, 
+        stock: product.stock, 
+        categories: product.cateogories
+    })
     const [newCateg,setNewCateg] = useState({
         add: false,
         value: "",
         selectValue: ""
     })
+    const [categories, setCategories] = useState(product?.categories?.map(c => c.name) || []);
     // console.log(id)
     // const [colors, setColors] = useState({
     //     azul: 0,
     //     rojo: 0,
     //     verde: 0,
     // });
-    const [categories, setCategories] = useState(product?.categories?.map(c => c.name) || []);
     // const [addColors, setAddColors] = useState(product?.products_colors?.map(c => c.hex_value) || []);
     
     useEffect ( () => {
-        dispatch(getDetail(id))
         dispatch(getCategories())
         dispatch(getAllBrands())
         dispatch(getProductTypes())
-    }, [dispatch] )
+        // setCharge(true)
+    }, [] )
+    
+    
 
     // let fColor = `#${parseInt(colors.rojo).toString(16)}${parseInt(colors.verde).toString(16)}${parseInt(colors.azul).toString(16)}`
     
@@ -104,22 +117,7 @@ export default function ChangeProduct({id}) {
     //     setAddColors([...addColors, newColor])
     //     setColors({azul: 0,rojo: 0,verde: 0});
     // } 
-    
-    const [ input, setInput ] = useState({
-        brand: product?.brand || "", 
-        name: product?.name || "", 
-        price: product?.price || null, 
-        price_sign: product?.price_sing || "$",
-        currency: product?.currency || "USD", 
-        image_link: product?.image_link || "", 
-        description: product?.description || "", 
-        rating: product?.rating || null, 
-        product_type: product?.product_type || "", 
-        stock: product?.stock || null, 
-        // product_colors: product?.products_colors || [],
-        categories: product?.cateogories || []
-    });
-    
+        
     function validation(input) {
         let errors = {};
         if(!input.name || typeof input.name !== "string") {   
@@ -144,6 +142,7 @@ export default function ChangeProduct({id}) {
     }
 
     function handleChange(e) {
+        e.preventDefault()
         let valor = e.target.value
         let nombre = e.target.name
         if (nombre === "price" || nombre === "stock") valor = parseInt(valor)
@@ -183,6 +182,7 @@ export default function ChangeProduct({id}) {
     }
 
     let handleCategories = (e) => {
+        e.preventDefault()
         let category = e.target.value.toString()
         setNewCateg({...newCateg, selectValue: category, add: false})
         if (category === "add") return setNewCateg({...newCateg, add: true});
@@ -221,28 +221,13 @@ export default function ChangeProduct({id}) {
             return notifyLessInfo()
         }
         input.categories = categories;
-        // input.product_colors = addColors.map(c => {return {hex_value: c}});
-        dispatch(putChangeProduct(id,input))
-        setCategories([])
-        setInput({
-            brand: "", 
-            name: "", 
-            price: 0, 
-            price_sign: "$", 
-            currency: "USD", 
-            image_link: "", 
-            description: "",
-            rating: 0, 
-            product_type: "", 
-            stock: 0,
-            categories: [] 
-        });
-        // setAddColors([]);
+        dispatch(putChangeProduct(product.id,input))
         return notifyProductCreated()
+        // backToProducts()
     }
 
     const notifyLessInfo= () => 
-        toast.error("Can't create a product. Missing data", {
+        toast.error("Can't update. Missing data", {
             position: "top-center",
             autoClose: 3000,
             hideProgressBar: true,
@@ -253,7 +238,7 @@ export default function ChangeProduct({id}) {
     });
 
     const notifyProductCreated= () => 
-        toast.success("Product created successfully!!", {
+        toast.success("Product update successfully!!", {
             position: "top-center",
             autoClose: 3000,
             hideProgressBar: true,
@@ -263,8 +248,18 @@ export default function ChangeProduct({id}) {
             progress: undefined,
     });
 
+    function backToProducts() {
+        dispatch(cleanProductDetail())
+        setOneProduct({id: null, vista: ""})
+    }
+
     return (
-        <form className={classes.root} noValidate autoComplete="off">
+        <Box className={classes.root}>
+            <IconButton 
+                onClick={() => backToProducts()}
+            >
+                <ArrowBackIcon /> Go Back
+            </IconButton>
             <Box
                 position= 'relative'
                 width= '100%'
@@ -277,7 +272,7 @@ export default function ChangeProduct({id}) {
                 alignItems="flex-start"
                 // bgcolor={"rgba(235, 234, 156, 0.589)"}                
             >
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <Grid
                         container
                         direction="row"
@@ -290,8 +285,22 @@ export default function ChangeProduct({id}) {
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
                         > Load changes </Button>
-                        <ToastContainer />
                     </Grid>
+                    <ToastContainer />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        required
+                        id="outlined-helperText"
+                        name="id"
+                        label="Product ID"
+                        defaultValue={product.id}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        variant="filled"
+                        className={classes.formControl}
+                    />
                 </Grid>
                 <Box
                     position="relative"
@@ -344,7 +353,6 @@ export default function ChangeProduct({id}) {
                             )
                         }
                     </div>
-                    
                     <Box className='typeBox' key='typeBox'>
                         <FormControl variant="filled" className={classes.formControl}>
                             <InputLabel htmlFor="filled-age-native-simple">Select Categories</InputLabel>
@@ -543,7 +551,6 @@ export default function ChangeProduct({id}) {
                     <Box className={classes.rating} key={`divRating`}>
                         <InputLabel htmlFor="filled-age-native-simple">Rating</InputLabel>
                         <Slider
-                            defaultValue={0}
                             aria-labelledby="discrete-slider-small-steps"
                             step={1}
                             marks
@@ -647,15 +654,15 @@ export default function ChangeProduct({id}) {
                                 ? addColors.map(color => {
                                     const ColorButton = withStyles((theme) => ({
                                         root: {
-                                          backgroundColor: `${color}`,
-                                          margin:"8px",
-                                          border:"2px",
-                                          borderColor:"primary",
-                                          width:"10px",
-                                          height:"25px",
-                                          '&:hover': {
+                                        backgroundColor: `${color}`,
+                                        margin:"8px",
+                                        border:"2px",
+                                        borderColor:"primary",
+                                        width:"10px",
+                                        height:"25px",
+                                        '&:hover': {
                                             backgroundColor: `${color}`,
-                                          },
+                                        },
                                         },
                                     }))(Button);
                                     
@@ -673,7 +680,7 @@ export default function ChangeProduct({id}) {
                     </Box> 
                 </Box> */}
             </Box>
-        </form>
+        </Box>
     )
 }
 

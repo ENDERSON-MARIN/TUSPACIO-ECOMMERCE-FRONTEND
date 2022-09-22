@@ -45,7 +45,10 @@ import {
   DISABLE_PRODUCT,
   UPDATE_PRODUCT,
   SET_OFFER,
-  GET_ALL_DASH
+  GET_ALL_DASH,
+  CLEAN_PRODUCT_DETAIL,
+  
+
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -425,6 +428,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         infoUser: action.payload
+      }
+    case CLEAN_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetail: {}
       }
       case SET_OFFER:
         return {
