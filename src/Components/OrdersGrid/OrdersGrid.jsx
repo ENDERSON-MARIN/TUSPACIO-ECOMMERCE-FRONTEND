@@ -18,9 +18,13 @@ export default function OrdersGrid() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [orderDetail, setOrderDetail] = useState({status: false, id: null})
-
+  const [charge, setCharge] = useState(false)
   const orders = originalOrders.filter((order) => order.number !== null)
-
+  
+  function changeState() {
+    setCharge(true)
+  }
+  
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
@@ -156,7 +160,7 @@ export default function OrdersGrid() {
             </div>
             <ToastContainer />
           </Box>
-        : <OrderDetail setOrderDetail={setOrderDetail} id={orderDetail.id}/>
+        : <OrderDetail setOrderDetail={setOrderDetail} id={orderDetail.id} changeState={changeState}/>
     }
   </>
 }

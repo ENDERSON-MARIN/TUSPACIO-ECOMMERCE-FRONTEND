@@ -320,7 +320,7 @@ export default function CreateProduct() {
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Load new product </Button>
+                        > Create new product </Button>
                         <ToastContainer />
                     </Grid>
                 </Grid>

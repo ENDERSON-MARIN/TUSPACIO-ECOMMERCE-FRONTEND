@@ -222,9 +222,9 @@ export default function ProductsGrid() {
     <div>
       {
         oneProduct.vista === "detail" ?
-        <DetailProduct id={oneProduct.id}/> :
+        <DetailProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
         oneProduct.vista === "change" ?
-        <ChangeProduct id={oneProduct.id}/> :
+        <ChangeProduct id={oneProduct.id} setOneProduct={setOneProduct}/> :
         <>
           <h4> Products</h4>
           <div className={classes.controls}>

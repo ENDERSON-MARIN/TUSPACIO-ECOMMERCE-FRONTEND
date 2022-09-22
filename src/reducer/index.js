@@ -43,7 +43,8 @@ import {
   GET_LATEST_ORDERS,
   GET_REVIEWS_USER,
   DISABLE_PRODUCT,
-  UPDATE_PRODUCT
+  UPDATE_PRODUCT,
+  CLEAN_PRODUCT_DETAIL
 } from "../actions";
 
 /* LOCALSTORAGE FAVORITES */
@@ -417,6 +418,11 @@ function rootReducer(state = initialState, action) {
         ...state,
         infoUser: action.payload
       }
+    case CLEAN_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetail: {}
+      };
     default:
       return state;
   }
