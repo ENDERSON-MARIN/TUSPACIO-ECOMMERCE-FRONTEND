@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailProduct from './Detail.jsx'
 import ChangeProduct from '../ChangeProduct/LoadProduct.jsx'
+import { EventRepeat } from '@mui/icons-material';
 
 export default function ProductsGrid() {
   const classes = useStyles();
@@ -31,6 +32,7 @@ export default function ProductsGrid() {
   });
 
   const handleChange = (event) => {
+    event.preventDefault()
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
@@ -38,7 +40,7 @@ export default function ProductsGrid() {
   useEffect(() => {
     dispatch(getAllProducts())
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70,},
@@ -98,13 +100,13 @@ export default function ProductsGrid() {
             <Button
               variant="contained"
               className={classes.btnOn}
-              onClick={() => handleDelete(params.row.id, 'on')}>
+              onClick={() => handleDelete(params.row.id, "on")}>
                 On
             </Button>
             <Button
               variant="contained"
               className={classes.btnOff}
-              onClick={() => handleDelete(params.row.id, 'off')}>
+              onClick={() => handleDelete(params.row.id, "off")}>
                 Off
             </Button>
           </div>

@@ -20,7 +20,7 @@ export default function LoadProduct({id, setOneProduct}) {
     
     useEffect ( () => {
         dispatch(getDetail(id))
-    }, [] )
+    }, [dispatch] )
     
     return (
         <Box className={classes.root}>

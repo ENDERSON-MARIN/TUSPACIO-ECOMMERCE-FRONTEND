@@ -196,6 +196,7 @@ export default function ChangeProduct({product, setOneProduct}) {
     }
 
     let handleCategories = (e) => {
+        e.preventDefault()
         let category = e.target.value.toString()
         setNewCateg({...newCateg, selectValue: category, add: false})
         if (category === "add") return setNewCateg({...newCateg, add: true});
@@ -286,7 +287,7 @@ export default function ChangeProduct({product, setOneProduct}) {
                 alignItems="flex-start"
                 // bgcolor={"rgba(235, 234, 156, 0.589)"}                
             >
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <Grid
                         container
                         direction="row"
@@ -299,8 +300,22 @@ export default function ChangeProduct({product, setOneProduct}) {
                             color="primary" 
                             onClick={() => handleSubmit()}
                         > Load changes </Button>
-                        <ToastContainer />
                     </Grid>
+                    <ToastContainer />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        required
+                        id="outlined-helperText"
+                        name="id"
+                        label="Product ID"
+                        defaultValue={product.id}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        variant="filled"
+                        className={classes.formControl}
+                    />
                 </Grid>
                 <Box
                     position="relative"
