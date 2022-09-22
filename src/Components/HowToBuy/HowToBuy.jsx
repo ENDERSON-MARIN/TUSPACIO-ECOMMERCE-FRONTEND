@@ -44,7 +44,7 @@ export default function HowToBuy() {
         </TimelineSeparator>
         <TimelineContent>
           <Paper elevation={3} className={classes.paper}>
-            <Typography>Selecciona tu producto y agregalos al carrito</Typography>
+            <Typography>Select your product and add them to the cart</Typography>
           </Paper>
         </TimelineContent>
       </TimelineItem>
@@ -62,7 +62,7 @@ export default function HowToBuy() {
         </TimelineSeparator>
         <TimelineContent>
           <Paper elevation={3} className={classes.paper}>
-            <Typography>Agrega todos los items que quieras</Typography>
+            <Typography>Add all the items you want</Typography>
           </Paper>
         </TimelineContent>
       </TimelineItem>
@@ -80,7 +80,7 @@ export default function HowToBuy() {
         </TimelineSeparator>
         <TimelineContent>
           <Paper elevation={3} className={classes.paper}>
-            <Typography>Presiona el botón PAGAR AHORA</Typography>
+            <Typography>Press the <b/>PAY NOW <b/>button</Typography>
           </Paper>
         </TimelineContent>
       </TimelineItem>
@@ -98,8 +98,8 @@ export default function HowToBuy() {
         </TimelineSeparator>
         <TimelineContent>
           <Paper elevation={3} className={classes.paper}>
-            <Typography>Una vez derivado a Stripe seguis los pasos <br />
-            y completa tus datos personales y de envío</Typography>
+            <Typography>Once referred to Stripe, follow the steps and complete your <br />
+            personal and shipping information</Typography>
           </Paper>
         </TimelineContent>
       </TimelineItem>
@@ -117,7 +117,7 @@ export default function HowToBuy() {
         </TimelineSeparator>
         <TimelineContent>
           <Paper elevation={3} className={classes.paper}>
-            <Typography>Por último presiona el botón azul <b>¡PAGAR!</b></Typography>
+            <Typography>Finally press the blue <b>pay button</b></Typography>
           </Paper>
         </TimelineContent>
       </TimelineItem>
@@ -135,7 +135,7 @@ export default function HowToBuy() {
         </TimelineSeparator>
         <TimelineContent>
           <Paper elevation={3} className={classes.paper}>
-            <Typography>te llega un mail con todos el detalle de tu compra y <b>¡Listo!</b>  </Typography>
+            <Typography>You get an email with all the details of your purchase and  <b>that's it!</b>  </Typography>
           </Paper>
         </TimelineContent>
       </TimelineItem>
