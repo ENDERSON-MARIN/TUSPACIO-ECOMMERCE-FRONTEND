@@ -9,6 +9,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    paddingBottom: 20,
+    paddingTop: 15,
     minHeight: '60vh',
   },
   success: {
@@ -28,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: theme.palette.primary.main,
-    scale: 5
+    scale: 5,
+    paddingBottom: 15
   },
   title: {
     color: theme.palette.primary.dark,
