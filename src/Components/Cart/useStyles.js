@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
       
 
     },
+    root:{
+      marginTop: 50
+    },
     button2: {
         margin: theme.spacing(5),
         backgroundColor: '#257558',
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     alert: {
       width: '50%',
-      marginTop: 80,
+      marginTop: 150,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
