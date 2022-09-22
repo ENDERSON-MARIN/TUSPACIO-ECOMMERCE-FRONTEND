@@ -59,9 +59,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ChangeProduct({product, setOneProduct}) {
-    // console.log({id, setOneProduct})
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const classes = useStyles();
     const allCategories = useSelector((state) => state.categories);
     const allProductTypes = useSelector((state) => state.producTypes);
@@ -118,20 +117,7 @@ export default function ChangeProduct({product, setOneProduct}) {
     //     setAddColors([...addColors, newColor])
     //     setColors({azul: 0,rojo: 0,verde: 0});
     // } 
-    // product.hasOwnProperty('dbInfo') && setInput ({
-    //     brand: product.dbInfo.brand, 
-    //     name: product.dbInfo.name, 
-    //     price: product.dbInfo.price, 
-    //     price_sign: product.dbInfo.price_sing,
-    //     currency: product.dbInfo.currency, 
-    //     image_link: product.dbInfo.image_link, 
-    //     description: product.dbInfo.description, 
-    //     rating: product.dbInfo.rating, 
-    //     product_type: product.dbInfo.product_type, 
-    //     stock: product.dbInfo.stock, 
-    //     categories: product.dbInfo.cateogories
-    // });
-    
+        
     function validation(input) {
         let errors = {};
         if(!input.name || typeof input.name !== "string") {   
@@ -224,8 +210,7 @@ export default function ChangeProduct({product, setOneProduct}) {
     //     setAddColors(addColors.filter(c => c!==color))
     // }
     
-    function handleSubmit(){
-        // e.preventDefault();
+    function handleSubmit(e){
         if ( !input.brand || !input.name || !input.price || !input.image_link || !input.description ||
             !input.rating || !input.product_type || !input.stock || !categories.length ) {
             return notifyLessInfo()    
@@ -237,7 +222,7 @@ export default function ChangeProduct({product, setOneProduct}) {
         }
         input.categories = categories;
         dispatch(putChangeProduct(product.id,input))
-        notifyProductCreated()
+        return notifyProductCreated()
         // backToProducts()
     }
 
@@ -298,7 +283,7 @@ export default function ChangeProduct({product, setOneProduct}) {
                         <Button 
                             variant="contained" 
                             color="primary" 
-                            onClick={() => handleSubmit()}
+                            onClick={(e) => handleSubmit(e)}
                         > Load changes </Button>
                     </Grid>
                     <ToastContainer />
