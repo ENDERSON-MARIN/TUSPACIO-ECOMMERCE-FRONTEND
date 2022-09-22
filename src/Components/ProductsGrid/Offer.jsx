@@ -18,9 +18,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { IconButton } from '@material-ui/core'
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function RecipeReviewCard({ id }) {
+
+export default function RecipeReviewCard({ id, setOneProduct }) {
   const classes = useStyles();
   const dispatch = useDispatch()
   const item = useSelector((state) => state.productDetail?.dbInfo)
@@ -52,21 +55,28 @@ export default function RecipeReviewCard({ id }) {
     setColor(e)
   }
 
+  function backToProducts() {
+    setOneProduct({id: null, vista: ""})
+  }
+
   const notifyReset= () => 
-  toast.success('Product price was updated!', {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-  });
+    toast.success('Product price was updated!', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+   });
 
-
-  
   return (
     <div>
+      <IconButton 
+          onClick={() => backToProducts()}
+      >
+          <ArrowBackIcon /> Go Back
+      </IconButton>
       {item ?
         <div className='detail' key={item.id}>
           <div className='image-list'>

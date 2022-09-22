@@ -249,7 +249,6 @@ export default function ChangeProduct({product, setOneProduct}) {
     });
 
     function backToProducts() {
-        dispatch(cleanProductDetail())
         setOneProduct({id: null, vista: ""})
     }
 
