@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: theme.palette.primary.main,
-    scale: 5
+    scale: 3
   },
   title: {
     color: theme.palette.primary.dark,

@@ -539,7 +539,7 @@ export const getReviewsUser = (id) => {
 export const disableProduct = (id, status) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`/products/${id}`, status);
+      const json = await axios.delete(`/products/${id}?status=${status}`);
       return dispatch({
         type: DISABLE_PRODUCT,
         payload: json.data,
