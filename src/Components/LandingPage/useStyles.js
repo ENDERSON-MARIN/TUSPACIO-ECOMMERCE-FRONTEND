@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       margin: 'auto',
       height: 'auto',
-      
+      paddingTop: 65
     },
     button2: {
       backgroundColor: '#257558',

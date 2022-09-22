@@ -9,12 +9,15 @@ import { getAllOrders, updateOrderStatus } from '../../actions';
 import Box from '@material-ui/core/Box';
 import useStyles from './useStyles';
 import { ToastContainer, toast } from 'react-toastify';
+import { useState } from 'react';
+import OrderDetail from '../OrderDetail/OrderDetail';
 
 export default function OrdersGrid() {
   const dispatch = useDispatch();
   const originalOrders = useSelector((state) => state.orders);
   const navigate = useNavigate();
   const classes = useStyles();
+  const [orderDetail, setOrderDetail] = useState({status: false, id: null})
 
   const orders = originalOrders.filter((order) => order.number !== null)
 
@@ -119,7 +122,7 @@ export default function OrdersGrid() {
   });
 
   const handleView = (id) => {
-    navigate(`/orders/${id}`);
+    setOrderDetail({status: true, id: id})
   };
 
    const notifyChange= () => 
@@ -133,22 +136,27 @@ export default function OrdersGrid() {
       progress: undefined,
     });
 
-  return (
-    <Box>
-      <h4>Orders</h4>
-      <div style={{ display: 'flex', height: 650, width: '100%', marginLeft: '0', backgroundColor: '#fff'}}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[5]}
-          disableSelectionOnClick
-          onCellEditCommit={(params) => {
-            dispatch(updateOrderStatus(params.id, params.value));
-            notifyChange();
-          }}/>
-      </div>
-      <ToastContainer />
-    </Box>
-  );
+  return <>
+    {
+      !orderDetail.status 
+        ? <Box>
+            <h4>Orders</h4>
+            <div style={{ display: 'flex', height: 650, width: '100%', marginLeft: '0', backgroundColor: '#fff'}}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[5]}
+                disableSelectionOnClick
+                onCellEditCommit={(params) => {
+                  dispatch(updateOrderStatus(params.id, params.value));
+                  notifyChange();
+              }}
+            />
+            </div>
+            <ToastContainer />
+          </Box>
+        : <OrderDetail setOrderDetail={setOrderDetail} id={orderDetail.id}/>
+    }
+  </>
 }

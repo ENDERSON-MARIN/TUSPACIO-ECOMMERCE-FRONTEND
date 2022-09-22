@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core";
 // import { padding } from "@mui/system";
 import { putUserChanges } from "../../actions";
 import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 // import {Formik, Form, Field, ErrorMessage} from 'formik';
@@ -76,11 +77,22 @@ export default function FormProfile({user, setOpenPopup}) {
     }
 
     function changeValues() {
-        console.log('entre a la funcion del boton')
+        // console.log('entre a la funcion del boton')
         dispatch(putUserChanges(values))
         setOpenPopup(false)
+        notifyChangeUser()
     }
 
+    const notifyChangeUser= () => 
+    toast.success("Updated data! Thanks you", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+    });
     // const handleSubmit = e => {
     //   e.preventDefault()
     //   if(validate())
@@ -155,6 +167,7 @@ export default function FormProfile({user, setOpenPopup}) {
                                 className={classes.buttonPop}
                                 onClick={() => resetValues()} 
                             >Reset</Button>
+                            <ToastContainer />
                         </div>
                     </Grid>
                 </Grid>

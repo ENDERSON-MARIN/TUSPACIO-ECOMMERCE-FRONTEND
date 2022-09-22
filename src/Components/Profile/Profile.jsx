@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { Paper, Box, Avatar, Button, Typography } from '@material-ui/core';
+import { Paper, Box, Avatar } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import CustomizedTables from './Tabs'
 import Table from '@material-ui/core/Table';
-// import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import Login from '../Login/Login';
-// import TableRow from '@material-ui/core/TableRow';
 import PopUp from './PopUp'
 import { IconButton } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAuth0 } from '@auth0/auth0-react';
-import { postUser } from '../../actions';
-import logo from '../../assets/images/img_logo.png'
-import font from '../../assets/images/font_logo.png'
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import LoginFirst from '../LoginFirst/LoginFirst';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -75,30 +66,11 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'left',
         paddingLeft: 100,
     },
-    login: {
-        paddingTop: 45,
-        paddingBottom: 40 
-    },
-    logo: {
-        paddingTop: 20, 
-    },
-    font: {
-        paddingBottom: 20, 
-    },
-    msj: {
-        paddingTop: 10,
-        paddingBottom: 20 
-    },
 }));
-
-
-// ---- Hardcodeo del objeto de Auth0 -- > User & isAthenticate, para la renderización de la primer parte---- //
-
 
 
 export default function Profile() {
     // const dispatch = useDispatch()
-    const navigate = useNavigate()
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const user = useSelector(state => state.infoUser);
@@ -179,8 +151,7 @@ export default function Profile() {
                         </Grid>
                         <Grid item xs={12}>
                             <Box className={classes.box}>
-                                <CustomizedTables id={"google-oauth2|107435403474491105660"}/>  
-                                {/* user.sid es el valor que va en id -- solo se esta probando*/}
+                                <CustomizedTables />  
                             </Box>
                         </Grid>
                         <PopUp
@@ -190,40 +161,7 @@ export default function Profile() {
                             user={user}
                         />
                     </Grid>
-                :   <Box className={classes.login}>
-                        <Grid 
-                            container
-                            direction="column"
-                            justifyContent="center"
-                            alignItems="center"
-                        >
-                            <Grid xs={3}>
-                                <Typography variant="h3" gutterBottom>Welcome</Typography>
-                            </Grid>
-                            <Grid xs={6}>
-                                <Box className={classes.logo}>
-                                    <img src={logo} alt="logo" width="100px"/>
-                                </Box>
-                            </Grid>
-                            <Grid xs={6}>
-                                <Box className={classes.font}>
-                                    <img src={font} alt="font" width="200px" height="50px"/>  
-                                </Box>
-                            </Grid>
-                            <Grid xs={6}>
-                                <Box className={classes.msj}>
-                                    <Typography variant="h4" gutterBottom>
-                                        Please login first, to see your profile
-                                    </Typography>
-                                </Box>
-                            </Grid>
-                            <Grid xs={6}>
-                                <Button variant="outlined" color="primary" onClick={Login()}>
-                                    LOGIN
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
+                :   <LoginFirst />
             }
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory } from '../../actions';
+import { getAllBrands, getCategories, postNewProduct, getProductTypes, addNewCategory, getDetail, putChangeProduct } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LogoIMG from '../../assets/images/img_logo.png';
 import { Box, Button, Chip, Fab, FormControl, FormHelperText, Grid, 
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         position: "relative",
-        width: "150px",
+        height: "100px",
         margin: "20px"
     },
     textField: {
@@ -59,81 +59,67 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function CreateProduct() {
+export default function ChangeProduct({id}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
     const allCategories = useSelector((state) => state.categories);
     const allProductTypes = useSelector((state) => state.producTypes);
     const allBrands = useSelector((state) => state.brands);
+    const product = useSelector((state) => state.productDetail.dbInfo)
     const [errors, setErrors] = useState({});
     const [newCateg,setNewCateg] = useState({
         add: false,
         value: "",
         selectValue: ""
     })
-    const [colors, setColors] = useState({
-        azul: 0,
-        rojo: 0,
-        verde: 0,
-    });
-    const [categories, setCategories] = useState([]);
-    const [addColors, setAddColors] = useState([]);
+    // console.log(id)
+    // const [colors, setColors] = useState({
+    //     azul: 0,
+    //     rojo: 0,
+    //     verde: 0,
+    // });
+    const [categories, setCategories] = useState(product?.categories?.map(c => c.name) || []);
+    // const [addColors, setAddColors] = useState(product?.products_colors?.map(c => c.hex_value) || []);
     
     useEffect ( () => {
+        dispatch(getDetail(id))
         dispatch(getCategories())
         dispatch(getAllBrands())
         dispatch(getProductTypes())
     }, [dispatch] )
 
-    let fColor = `#${parseInt(colors.rojo).toString(16)}${parseInt(colors.verde).toString(16)}${parseInt(colors.azul).toString(16)}`
+    // let fColor = `#${parseInt(colors.rojo).toString(16)}${parseInt(colors.verde).toString(16)}${parseInt(colors.azul).toString(16)}`
     
-    function handlerColors(colors) {
-        if (parseInt(colors.azul) >= 256 || parseInt(colors.verde) >= 256 || parseInt(colors.rojo) >= 256 ||
-            parseInt(colors.azul) < 0 || parseInt(colors.verde) < 0 || parseInt(colors.rojo) < 0 ) { 
-            return alert("The value of the colors must be a number between 0 and 255");
-        }
-        let hexAzul = parseInt(colors.azul).toString(16);
-        let hexRojo = parseInt(colors.rojo).toString(16);
-        let hexVerde = parseInt(colors.verde).toString(16);
-        let newColor = `#${hexRojo}${hexVerde}${hexAzul}`
-        if (addColors.includes(newColor)) return alert("Color already added");
-        setAddColors([...addColors, newColor])
-        setColors({azul: 0,rojo: 0,verde: 0});
-    } 
+    // function handlerColors(colors) {
+    //     if (parseInt(colors.azul) >= 256 || parseInt(colors.verde) >= 256 || parseInt(colors.rojo) >= 256 ||
+    //         parseInt(colors.azul) < 0 || parseInt(colors.verde) < 0 || parseInt(colors.rojo) < 0 ) { 
+    //         return alert("The value of the colors must be a number between 0 and 255");
+    //     }
+    //     let hexAzul = parseInt(colors.azul).toString(16);
+    //     let hexRojo = parseInt(colors.rojo).toString(16);
+    //     let hexVerde = parseInt(colors.verde).toString(16);
+    //     let newColor = `#${hexRojo}${hexVerde}${hexAzul}`
+    //     if (addColors.includes(newColor)) return alert("Color already added");
+    //     setAddColors([...addColors, newColor])
+    //     setColors({azul: 0,rojo: 0,verde: 0});
+    // } 
     
-    const [open, setOpen] = React.useState(false);
-
-    // const handleClick = () => {
-    //     setOpen(true);
-    // };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') { return; }
-        // console.log('entre aqui?')
-        setOpen(false);
-    };
-
     const [ input, setInput ] = useState({
-        brand: "", //*
-        name: "", //*
-        price: 0, //*
-        price_sign: "$", //*
-        currency: "USD", //*
-        image_link: "", //*
-        description: "", //*
-        rating: 0, //*
-        product_type: "", //*
-        stock: 0, //* no puede ser 0
-        product_colors: [],
-        categories: [] //*
+        brand: product?.brand || "", 
+        name: product?.name || "", 
+        price: product?.price || null, 
+        price_sign: product?.price_sing || "$",
+        currency: product?.currency || "USD", 
+        image_link: product?.image_link || "", 
+        description: product?.description || "", 
+        rating: product?.rating || null, 
+        product_type: product?.product_type || "", 
+        stock: product?.stock || null, 
+        // product_colors: product?.products_colors || [],
+        categories: product?.cateogories || []
     });
     
-    function handleClick() { 
-        setOpen(true);
-        console.log(`entre y cambie open a ${open}`)
-    };
-
     function validation(input) {
         let errors = {};
         if(!input.name || typeof input.name !== "string") {   
@@ -144,10 +130,6 @@ export default function CreateProduct() {
             errors.description = "Please insert the description of your product"; }
         if(!input.product_type || typeof input.product_type !== "string") {   
             errors.product_type = "Please insert the type of your product"; }
-        // if(!input.price_sign || typeof input.price_sign !== "string") {   
-        //     errors.price_sign = "Please insert the price sign of your product"; }
-        // if(!input.currency || typeof input.currency !== "string" || input.currency.length > 3) {   
-        //     errors.currency = "Please insert the currency of your product, just 3 letters of the country"; }
         if (!input.categories.length) {
             errors.categories = "Please select at least one category"; }
         if (!input.price || input.price < 0 ) {
@@ -175,18 +157,6 @@ export default function CreateProduct() {
             categories: categories
         }))
     }
-
-    // const handleChangePrice = (event, newValue) => {
-    //     setInput({
-    //         ...input,
-    //         price : newValue
-    //     })
-    //     setErrors(validation({
-    //         ...input,
-    //         price : newValue,
-    //         categories: categories
-    //     }))
-    // };
 
     const handleChangeRating = (event, newValue) => {
         setInput({
@@ -236,9 +206,9 @@ export default function CreateProduct() {
         // console.log(categories) 
     }
 
-    function handlerDeleteColor(color) {
-        setAddColors(addColors.filter(c => c!==color))
-    }
+    // function handlerDeleteColor(color) {
+    //     setAddColors(addColors.filter(c => c!==color))
+    // }
     
     function handleSubmit(e){
         if ( !input.brand || !input.name || !input.price || !input.image_link || !input.description ||
@@ -251,8 +221,8 @@ export default function CreateProduct() {
             return notifyLessInfo()
         }
         input.categories = categories;
-        input.product_colors = addColors.map(c => {return {hex_value: c}});
-        dispatch(postNewProduct(input))
+        // input.product_colors = addColors.map(c => {return {hex_value: c}});
+        dispatch(putChangeProduct(id,input))
         setCategories([])
         setInput({
             brand: "", 
@@ -265,10 +235,9 @@ export default function CreateProduct() {
             rating: 0, 
             product_type: "", 
             stock: 0,
-            product_colors: [],
             categories: [] 
         });
-        setAddColors([]);
+        // setAddColors([]);
         return notifyProductCreated()
     }
 
@@ -320,7 +289,7 @@ export default function CreateProduct() {
                             variant="contained" 
                             color="primary" 
                             onClick={(e) => handleSubmit(e)}
-                        > Load new product </Button>
+                        > Load changes </Button>
                         <ToastContainer />
                     </Grid>
                 </Grid>
@@ -587,7 +556,7 @@ export default function CreateProduct() {
                         /> 
                     </Box>
                 </Box>
-                <Box
+                {/* <Box
                     display="flex"
                     flexWrap="wrap"
                     alignContent="center"
@@ -701,8 +670,8 @@ export default function CreateProduct() {
                                     )
                                 : <FormHelperText>No color added yet</FormHelperText>
                         }
-                    </Box>
-                </Box>
+                    </Box> 
+                </Box> */}
             </Box>
         </form>
     )

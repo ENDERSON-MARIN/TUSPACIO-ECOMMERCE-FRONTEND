@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Hidden } from '@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import { getAllProducts, postUser } from '../../actions';
 import { useDispatch } from 'react-redux'
@@ -48,6 +48,8 @@ export default function Navbar() {
 
   const { user, isAuthenticated } = useAuth0();
 
+  console.log(user)
+
   //useEffect para evitaar doble post de creacion de usuario
   useEffect(() => {
     if(isAuthenticated){
@@ -60,6 +62,7 @@ export default function Navbar() {
   const cart = useSelector((state) => state.cart);
   const mapped= cart?.map(item => item.quantity)
   const total = mapped?.map(c => parseFloat(c)).reduce((a, b) => a + b, 0) ;
+  const userState = useSelector((state) => state.infoUser);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,28 +91,14 @@ export default function Navbar() {
       {
         isAuthenticated
           ? <div>
-              <MenuItem>{user.name}</MenuItem>
-              <MenuItem onClick={ () => 
-                user.sub === "auth0|63194dd4a66d06a2351daf15" 
-                   ? navigate('/home') 
-                   : navigate('/profile') } >
-                { user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                  "User shop" : "Profile" }
-              </MenuItem>
-              <MenuItem onClick={ () => 
-                user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                navigate('/dashboard') : navigate('/home') }>
-                { user.sub === "auth0|63194dd4a66d06a2351daf15" ? 
-                "Dashboard" : null }
-              </MenuItem>
-              <MenuItem onClick={Logout()}>Sing out</MenuItem>
-              {
-                user.name === 'TuSpacio' && <div>
-                    <MenuItem onClick={() => navigate('/create')}>Create Product</MenuItem>
-                    <MenuItem onClick={() => navigate('/createUser')}>Users</MenuItem>
-                    <MenuItem onClick={() => navigate('/orders/1')}>Orders</MenuItem>
-                  </div>
+              <MenuItem>{userState.name?userState.name:"Cargando..."}</MenuItem>
+              <MenuItem onClick={ () => navigate('/profile') } > Profile </MenuItem>
+              { 
+                userState.rol_id && userState.rol_id===2 
+                ? <MenuItem onClick={ () => navigate('/dashboard')} > Dashboard </MenuItem>
+                : null
               }
+              <MenuItem onClick={Logout()}>Sing out</MenuItem>
             </div>
           : <MenuItem onClick={Login()}>Sing in</MenuItem>
       }
@@ -156,7 +145,9 @@ export default function Navbar() {
             </IconButton>
             {/* Searchbar */}
             <div className={classes.search}>
-              <SearchBar placeholder="Search product..." data={data} />
+              <Hidden xsDown>
+                <SearchBar placeholder="Search product..." data={data} />
+              </Hidden>
             </div>
             {/* Iconos de lado derecho */}
             <div className={classes.sectionDesktop}>
@@ -181,13 +172,13 @@ export default function Navbar() {
                 color='primary'>
                 {
                   isAuthenticated
-                    ? <Avatar alt={user.name} src={`${user.picture}`} />
+                    ? <Avatar alt={userState.name} src={`${userState.picture}`} />
                     : <AccountCircle className={classes.iconColors}/>
                 }
               </IconButton>
             </div>
             {/* Icono de tres puntos para mobile */}
-            <div className={classes.sectionMobile}>
+            {/* <div className={classes.sectionMobile}>
               <IconButton
                 aria-label="show more"
                 aria-haspopup="true"
@@ -195,7 +186,7 @@ export default function Navbar() {
               >
                 <MoreIcon />
               </IconButton>
-            </div>
+            </div> */}
           </Toolbar>
         </AppBar>
         {renderMenu}

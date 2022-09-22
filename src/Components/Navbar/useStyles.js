@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     display: 'flex',
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('sm')]: { 
       display: 'none',
     },
   },
@@ -75,14 +75,14 @@ const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
     display: 'none',
     marginLeft: 'auto',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('xs')]: {
       display: 'flex',
     },
   },
   sectionMobile: {
     display: 'flex',
     marginLeft: 'auto',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('xs')]: {
       display: 'none',
     },
   },

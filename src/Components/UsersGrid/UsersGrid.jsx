@@ -33,6 +33,10 @@ export default function UsersGrid() {
     dispatch(getAllUsers());
   }, [dispatch, tempDelete]);
 
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch, tempRole]);
+
   function handleReset(params) {
     var options = {
       method: 'POST',
@@ -134,6 +138,7 @@ export default function UsersGrid() {
               onClick={() => { 
                 setTempRole(tempRole + 1);
                 dispatch(makeAdmin(params.row.id, params.row.role)) 
+                notifyRoleChange()
               }}>
                 {params.row.role === 'User' ? 'Make' : 'Cancel'}
             </Button>
@@ -179,16 +184,20 @@ export default function UsersGrid() {
     progress: undefined,
   });
 
+  const notifyRoleChange = () => 
+  toast.info('User role was changed', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
+
   return (
     <div>
       <h4>Users</h4>
-      {/*<Button
-          variant="contained"
-          className={classes.btnAdd}
-          startIcon={<PersonAddIcon />}
-          onClick={() => navigate('/createUser')}>
-            Add New User
-        </Button>*/}
       <div style={{ height: 631, width: '100%', backgroundColor: '#fff'}}>
         <DataGrid
           rows={rows}

@@ -1,0 +1,39 @@
+.background{
+    
+    display: flex;
+    flex-flow: column wrap;
+    justify-content:space-between;
+    display: flex;
+    align-items: center;
+    background-image: url(https://i.makeagif.com/media/2-02-2018/U1FXOQ.gif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: .75;
+}
+
+.background2 {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content:space-between;
+    display: flex;
+    align-items: left;
+    /* background-image: url(https://i.makeagif.com/media/2-02-2018/U1FXOQ.gif);
+    background-size: cover;
+    background-repeat: no-repeat; */
+    background-color: rgb(33, 109, 89);
+    opacity: .9;
+}
+
+.background3 {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content:space-around;
+    display: flex;
+    align-items: right;
+    /* background-image: url(https://i.makeagif.com/media/2-02-2018/U1FXOQ.gif);
+    background-size: cover;
+    background-repeat: no-repeat; */
+    background-color: rgb(194, 202, 200);
+    opacity: .9;
+    
+}

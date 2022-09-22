@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllOrders, getAllProducts } from "../../actions";
 import BasicPagination from "../BasicPagination/Pagination";
 // import LandingPage from "../Landing/Landing";
-import { Box } from "@material-ui/core";
+import { Box, Hidden } from "@material-ui/core";
 import useStyles from "./useStyles";
 import img from '../../assets/images/noProduct.png'
 
@@ -56,7 +56,17 @@ export default function SpacingGrid(order) {
           {order && <LandingPage />}
         </Grid>
       </Grid> */}
-      <Box mt={17}>
+      <Box mt={17} mb={5}>
+        
+        <Hidden mdDown>
+          <BasicPagination
+            className={classes.centering}
+            currentPage={currentPage}
+            productsPerPage={productsPerPage}
+            totalProducts={products.length}
+            onChange={handleChange}
+          />
+        </Hidden>        
         <Grid
           container
           direction="row"
@@ -89,26 +99,14 @@ export default function SpacingGrid(order) {
             </Grid>
           </Grid>
         </Grid>
-          <BasicPagination
+        
+        <BasicPagination
           className={classes.centering}
           currentPage={currentPage}
           productsPerPage={productsPerPage}
           totalProducts={products.length}
           onChange={handleChange}
         />
-
-        
-
-
-      {/* <BasicPagination
-        className={classes.centering}
-        currentPage={currentPage}
-        productsPerPage={productsPerPage}
-        totalProducts={products.length}
-        onChange={handleChange}
-      /> */}
-
-
 
         <div className="divwsp">
           <a href="https://wa.me/+573027729480" target="_blank" rel="noreferrer">

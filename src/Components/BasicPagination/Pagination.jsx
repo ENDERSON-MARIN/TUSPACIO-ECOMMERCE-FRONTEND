@@ -8,9 +8,9 @@ import Box from '@material-ui/core/Box';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      marginTop: 0,
+      marginTop: 10,
       marginLeft: "auto",
-      marginBottom: 50,
+      marginBottom: 10,
 
     },
   },
@@ -50,8 +50,10 @@ export default function BasicPagination(
         color="primary"
         onChange = {(event,page)=>handlePageClick(page)}
         hideNextButton={false}
-        hidePrevButton={false} />
-        </Box>
+        hidePrevButton={false} 
+      />
+
+      </Box>
     </div>
 
   );
