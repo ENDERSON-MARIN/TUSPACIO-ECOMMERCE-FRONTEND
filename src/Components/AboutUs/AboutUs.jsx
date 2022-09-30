@@ -93,13 +93,13 @@ useEffect(() => {
                    <Box className="background">
                     <Box className={classes.paper}>
                         <AvatarGroup max={7}>
-                            <Avatar alt="Adrian Quintana" src="https://media-exp1.licdn.com/dms/image/C5603AQEyrmKp2px32A/profile-displayphoto-shrink_800_800/0/1517484866026?e=1669248000&v=beta&t=LvQw4lehjNasX0GkCXPKxDsC0W4X5DXTpk-sbd_d-wk" />
-                            <Avatar alt="Edinson Madrid" src='https://media-exp1.licdn.com/dms/image/C5603AQGxhyxl6D9bNw/profile-displayphoto-shrink_800_800/0/1629320247409?e=1669248000&v=beta&t=qywMvVizXUF5TD6dsVHwxBQnR9tl9VksseQ_glqFmKo' />
-                            <Avatar alt="Carolina Castillo" src="https://media-exp1.licdn.com/dms/image/C4D03AQGB-i9_BQ5ngQ/profile-displayphoto-shrink_200_200/0/1650381870262?e=1669248000&v=beta&t=yCpqaThVc7o2AEUruEuLKgygIdkNmh7wOeCaX-BDVnk" />
-                            <Avatar alt="Santiago Pereyra" src="https://media-exp1.licdn.com/dms/image/C4E03AQGBEPMREeAB8w/profile-displayphoto-shrink_800_800/0/1638533828557?e=1669248000&v=beta&t=-NXb8JCaEnhFNtTybrp96HyFxeHKRWa-ipg7uFw_-Xs" />
-                            <Avatar alt="Enderson Marin" src="https://media-exp1.licdn.com/dms/image/C5635AQEI4xDnMaL3Xw/profile-framedphoto-shrink_800_800/0/1597844138726?e=1664312400&v=beta&t=LGc7cnqVNQKeKRJ1sMHe1Va6nvze_ljGtJAuC6qS10A" />
+                            <Avatar alt="Adrian Quintana" src="https://i.im.ge/2022/09/30/1crDh8.Adri.png" />
+                            <Avatar alt="Edinson Madrid" src='https://i.im.ge/2022/09/30/1co8ih.Edi.png' />
+                            <Avatar alt="Carolina Castillo" src="https://i.im.ge/2022/09/30/1cOjw6.caro.jpg" />
+                            <Avatar alt="Santiago Pereyra" src="https://i.im.ge/2022/09/30/1clRsD.Santi.png" />
+                            <Avatar alt="Enderson Marin" src="https://i.im.ge/2022/09/30/1clkWP.Ender2.png" />
                             <Avatar alt="Diego Maceda" src="https://i.im.ge/2022/09/22/1hCGwc.IMG-8804-3.jpg" />
-                            <Avatar alt="Juan Gearardo" src="https://media-exp1.licdn.com/dms/image/D5635AQG_i-fbnBf7eg/profile-framedphoto-shrink_800_800/0/1657843701499?e=1664316000&v=beta&t=tLQ5JXL9ErSV1gttb9VDwIdlwNEVXTw6U5nQa5QMJSU" />
+                            <Avatar alt="Juan Gearardo" src="https://i.im.ge/2022/09/30/1cXLrX.Juan.png" />
                         </AvatarGroup>
                     </Box>
                 </Box>
