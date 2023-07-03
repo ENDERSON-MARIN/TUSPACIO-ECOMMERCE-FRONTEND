@@ -18,8 +18,8 @@ axios.defaults.baseURL =
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-iyl61sxr.us.auth0.com" // "radrianquinana.us.auth0.com"  || dev-ddcy-xps.us.auth0.com
-      clientId="iGWV7b28WTEv4RPPPK6IwXXvPnRkwPfP" // "AkuBbPJy68IUxJWGDCp9OpsbbDqEsEro" || QgAGJfwmL7ocKzutCAIib9ZkJY6kjz9w
+      domain="dev-omsx3sa0gk1zhiuw.us.auth0.com" 
+      clientId="EAxmFFFmDFJcfAx1wFzUW7AwUKB3xHaO" 
       redirectUri={window.location.origin}
     >
       <Provider store={store}>
